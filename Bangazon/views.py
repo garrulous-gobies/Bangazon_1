@@ -20,7 +20,7 @@ def computers(request):
   context = {'computer_list': computer_list}
   return render(request, 'Bangazon/computers.html', context)
 
-def training_courses(request):
-  training_courses_list = TrainingCourse.objects.all()
-  context = {'training_courses_list': training_courses_list}
-  return render(request, 'Bangazon/training_courses.html', context)
+def training_programs(request):
+  training_program_list = TrainingProgram.objects.all()
+  context = {'training_program_list': training_program_list}
+  return render(request, 'Bangazon/training_program.html', context)

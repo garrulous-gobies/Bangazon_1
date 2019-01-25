@@ -8,6 +8,6 @@ urlpatterns = [
   path('employees', views.employees, name='employees'),
   path('departments', views.departments, name='departments'),
   path('computers', views.computers, name='computers'),
-  path('training_courses', views.training_courses, name='training_courses')
+  path('training_programs', views.training_courses, name='training_programs')
 
 ]
