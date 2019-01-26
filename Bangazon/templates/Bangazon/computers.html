@@ -1,0 +1,21 @@
+<!-- Basic block for computers -->
+{% extends "Bangazon/index.html" %}
+
+{% block content %}
+
+  <div id="main_container">
+    <h1 class="main_title">Bangazon Computers</h1>
+    {% if computer_list %}
+      <ul class="bangazon_list">
+        {% for computer in computer_list %}
+        <li class="bangazon_list_item">
+          <p>{{computer.model}}</p>
+        </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="no_items_found">No computers in system.</p>
+    {% endif %}
+  </div>
+
+{% endblock content %}

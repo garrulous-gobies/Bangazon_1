@@ -1,0 +1,48 @@
+@import url("nav.css");
+@import url("training.css");
+
+
+
+* {
+  margin: 0px;
+  padding: 0px;
+}
+
+:root {
+  --background-color: black;
+  --main-text: white;
+  --navbar-text: white;
+  --navbar-text-hover: blue;
+  --list-error: red;
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--main-text);
+}
+
+#main_container {
+
+}
+
+.main_title {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 25px;
+}
+
+.bangazon_list {
+  width: 90vw;
+  margin-left: 5vw;
+}
+
+.bangazon_list_item {
+
+}
+
+.no_items_found {
+  color: var(--list-error);
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+}

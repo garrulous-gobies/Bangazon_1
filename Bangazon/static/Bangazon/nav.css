@@ -1,0 +1,25 @@
+.navbar {
+  height: 80px;
+}
+
+.nav_title {
+  text-align: center;
+  font-size: 35px;
+}
+
+.navbar_links {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.nav_button {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: var(--navbar-text);
+  cursor: pointer;
+}
+
+.nav_button:hover {
+  color: var(--navbar-text-hover);
+}

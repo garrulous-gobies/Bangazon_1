@@ -1,0 +1,22 @@
+<!-- Generic html template -->
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <link rel="stylesheet" type="text/css" href="{% static 'Bangazon/index.css' %}">
+
+  </head>
+
+  <body>
+    {% block nav %}
+      {% include "Bangazon/nav.html" %}
+    {% endblock nav %}
+
+    {% block content %}
+    {% endblock content %}
+
+  </body>
+
+</html>
