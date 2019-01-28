@@ -42,7 +42,7 @@ class Command(BaseCommand):
       'endDate': lambda x: seeder.faker.date_time_between(start_date='-3y', end_date='now')
     })
 
-    # seeder.add_entity(Employee_Computer, 10)
+    seeder.add_entity(Employee_Computer, 10)
 
     seeder.add_entity(EmployeeTrainingProgram, 10)
 

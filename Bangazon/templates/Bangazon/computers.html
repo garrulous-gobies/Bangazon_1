@@ -12,7 +12,7 @@
         <li class="bangazon_list_item d-flex">
           <a href="{% url 'Bangazon:computer_details' computer.id %}">{{computer.model}}</a>
           {% for employee in computer.employee_set.all %}
-            <p> {{employee.firstName}}</p>
+            <p>Assigned To: {{employee.firstName}} {{employee.lastName}}</p>
           {% endfor %}
         </li>
         {% endfor %}
