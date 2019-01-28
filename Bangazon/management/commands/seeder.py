@@ -17,11 +17,6 @@ class Command(BaseCommand):
     "Ecommerce", "Marketing", "Finance", "Accounting", "Sanitation", "IT", "Training"])
     })
 
-    # add employees
-    seeder.add_entity(Employee, 15, {
-      'isSupervisor': lambda x: random.randint(0, 1)
-    })
-
     # add computers
     # we can toy with the purchase/decomm dates
     seeder.add_entity(Computer, 20, {
@@ -30,6 +25,12 @@ class Command(BaseCommand):
       'manufacturer': lambda x: seeder.faker.word(ext_word_list=["Dell", "Lenovo", "HP", "Apple", "Gateway", "Compaq", "Micron"]),
       'model': lambda x: seeder.faker.word(ext_word_list=["Slow", "Fast", "Chunk", "Boat Anchor", "Speedy", "Nimble"])
     })
+
+    # add employees
+    seeder.add_entity(Employee, 15, {
+      'isSupervisor': lambda x: random.randint(0, 1)
+    })
+
 
   # add training programs
     seeder.add_entity(TrainingProgram, 10, {
@@ -42,7 +43,7 @@ class Command(BaseCommand):
       'endDate': lambda x: seeder.faker.date_time_between(start_date='-3y', end_date='now')
     })
 
-    # seeder.add_entity(Employee_Computer, 10)
+    seeder.add_entity(Employee_Computer, 10)
 
     seeder.add_entity(EmployeeTrainingProgram, 10)
 

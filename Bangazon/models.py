@@ -38,10 +38,11 @@ class Employee(models.Model):
       MinValueValidator(0)
     ]
   )
-  computer = models.ManyToManyField(Computer)
+  computer = models.ManyToManyField(Computer, through="Employee_Computer")
   departmentId = models.ForeignKey(Department, on_delete=models.CASCADE)
   def __str__(self):
-    return self
+    return self.firstName
+
 
 
 # Create Training Course table
@@ -60,11 +61,14 @@ class TrainingProgram(models.Model):
   def __str__(self):
     return self
 
+class Employee_Computer(models.Model):
+    employee=models.ForeignKey('Employee', on_delete=models.CASCADE)
+    computer=models.ForeignKey('Computer', on_delete=models.CASCADE)
 
 # Create Training Enrollment join table
 class EmployeeTrainingProgram(models.Model):
-  employeeId = models.ForeignKey(Employee, on_delete=models.CASCADE)
-  trainingProgramId = models.ForeignKey(TrainingProgram, on_delete=models.CASCADE)
+  employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
+  trainingProgram = models.ForeignKey(TrainingProgram, on_delete=models.CASCADE)
   status = models.CharField(max_length = 50)
   def __str__(self):
     return self

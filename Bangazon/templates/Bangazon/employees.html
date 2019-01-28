@@ -9,7 +9,8 @@
       <ul class="bangazon_list">
         {% for employee in employee_list %}
         <li class="bangazon_list_item">
-          <p>{{employee.firstName}} {{employee.lastName}}</p>
+          <a href="{% url 'Bangazon:employee_details' employee.id %}">{{employee.firstName}} {{employee.lastName}}, {{employee.departmentId.name}}
+          </a>
         </li>
         {% endfor %}
       </ul>

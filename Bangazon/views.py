@@ -10,6 +10,11 @@ def employees(request):
   context = {'employee_list': employee_list}
   return render(request, 'Bangazon/employees.html', context)
 
+def employee_details(request, employee_id):
+    employee_details = Employee.objects.get(pk=employee_id)
+    context = {'employee_details': employee_details}
+    return render(request, 'Bangazon/employee_details.html', context)
+
 # ========================DEPARTMENTS================
 def departments(request):
   department_list = Department.objects.all()
@@ -31,9 +36,14 @@ def save_department(request):
 
 # ==========================COMPUTERS=================================
 def computers(request):
-  computer_list = Computer.objects.all()
-  context = {'computer_list': computer_list}
-  return render(request, 'Bangazon/computers.html', context)
+    computer_list = Computer.objects.all()
+    context = {'computer_list': computer_list}
+
+    for computer in computer_list:
+        print("Computer Employee",computer.employee_set.all())
+
+
+    return render(request, 'Bangazon/computers.html', context)
 
 def computer_details(request, computer_id):
   computer = get_object_or_404(Computer, pk=computer_id)
@@ -52,7 +62,7 @@ def computer_new(request):
     employee = Employee.objects.get(pk=request.POST['assignment'])
     computer.employee_set.add(employee)
 
-    return HttpResponseRedirect(reverse('Bangazon:computer_details', args=(computer.id,)))
+    return HttpResponseRedirect(reverse('Bangazon:computers'))
 
 
 
@@ -60,14 +70,12 @@ def computer_new(request):
 
 def training_programs(request):
   now = timezone.now()
-  print("Date: ", now)
   training_program_list = TrainingProgram.objects.filter(startDate__gte=now)
   context = {'training_program_list': training_program_list}
   return render(request, 'Bangazon/training_program.html', context)
 
 def past_training_programs(request):
   now = timezone.now()
-  print("Date: ", now)
   training_program_list = TrainingProgram.objects.filter(startDate__lte=now)
   context = {'training_program_list': training_program_list}
   return render(request, 'Bangazon/past_training_programs.html', context)
@@ -88,7 +96,6 @@ def save_program(request):
 
 def training_details(request, pk):
   training_program_details = get_object_or_404(TrainingProgram, id = pk)
-  # print("PK:", training_program_details)
   training_attendees = EmployeeTrainingProgram.objects.filter(trainingProgramId_id = pk)
   all_attendees = []
   for user in training_attendees:
