@@ -13,7 +13,7 @@
             <p>{{department.name}} - Budget: ${{department.budget}} - Number of Employees: 
               {% for employee in department.employee_set.all %}
              
-              {{  {{forloop.counter}} }} {% endfor %}</p>
+              {{forloop.counter}} {% endfor %}</p>
               
         </li>
         {% endfor %}
