@@ -39,7 +39,7 @@ def computer_new(request):
     employee = Employee.objects.get(pk=request.POST['assignment'])
     computer.employee_set.add(employee)
 
-    return HttpResponseRedirect(reverse('Bangazon:computer_details', args=(computer.id,)))
+    return HttpResponseRedirect(reverse('Bangazon:computers'))
 
 
 
