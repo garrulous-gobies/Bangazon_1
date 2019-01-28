@@ -20,7 +20,7 @@ class Department(models.Model):
 # Create Computer table
 class Computer(models.Model):
   purchaseDate = models.DateTimeField()
-  decommissionDate = models.DateTimeField()
+  decommissionDate = models.DateTimeField(null=True)
   manufacturer = models.CharField(max_length = 50)
   model = models.CharField(max_length = 50)
   def __str__(self):
@@ -38,11 +38,11 @@ class Employee(models.Model):
       MinValueValidator(0)
     ]
   )
-  department = models.ForeignKey(Department, on_delete=models.CASCADE)
-
-
+  computer = models.ManyToManyField(Computer)
+  departmentId = models.ForeignKey(Department, on_delete=models.CASCADE)
   def __str__(self):
     return self
+
 
 
 # Create Training Course table
@@ -61,7 +61,6 @@ class TrainingProgram(models.Model):
   def __str__(self):
     return self
 
-# Create computerEmployee table
 
 # Create Training Enrollment join table
 class EmployeeTrainingProgram(models.Model):
