@@ -10,12 +10,10 @@ def employees(request):
   context = {'employee_list': employee_list}
   return render(request, 'Bangazon/employees.html', context)
 
-# 
+
 def departments(request):
-  # department_list = get_list_or_404(Department, )
   department_list = Department.objects.all()
-  employee_list = Employee.objects.all()
-  context = {'department_list': department_list, 'employee_list': employee_list}
+  context = {'department_list': department_list}
   return render(request, 'Bangazon/departments.html', context)
 
 def computers(request):
