@@ -1,11 +1,13 @@
 from django.urls import path
-
 from . import views
 
 app_name = 'Bangazon'
 urlpatterns = [
     path('Bangazon/Employees', views.employees, name='employees'),
-    path('Bangazon/Departments', views.departments, name='departments'),
+
+    path('Bangazon/Departments/', views.departments, name='departments'),
+    path('Bangazon/Departments/NewDepartment', views.new_department, name='new_department'),
+    path('Bangazon/Departments/SaveDepartment', views.save_department, name='save_department'),
 
     path('Bangazon/Computers', views.computers, name='computers'),
     path('Bangazon/Computers/<int:computer_id>', views.computer_details, name='computer_details'),
