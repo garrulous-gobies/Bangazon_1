@@ -18,9 +18,14 @@ def departments(request):
 
 # ==========================COMPUTERS=================================
 def computers(request):
-  computer_list = Computer.objects.all()
-  context = {'computer_list': computer_list}
-  return render(request, 'Bangazon/computers.html', context)
+    computer_list = Computer.objects.all()
+    context = {'computer_list': computer_list}
+
+    for computer in computer_list:
+        print("Computer Employee",computer.employee_set.all())
+
+
+    return render(request, 'Bangazon/computers.html', context)
 
 def computer_details(request, computer_id):
   computer = get_object_or_404(Computer, pk=computer_id)

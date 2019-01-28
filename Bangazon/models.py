@@ -41,7 +41,7 @@ class Employee(models.Model):
   computer = models.ManyToManyField(Computer)
   departmentId = models.ForeignKey(Department, on_delete=models.CASCADE)
   def __str__(self):
-    return self
+    return self.firstName
 
 
 # Create Training Course table
