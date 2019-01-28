@@ -1,0 +1,15 @@
+<!-- Basic block for computers -->
+{% extends "Bangazon/index.html" %}
+
+{% block content %}
+
+  <div id="main_container">
+    <h1 class="main_title">{{computer.model}}</h1>
+    <ul>
+      <li>
+        {{computer.manufacturer}}
+      </li>
+    </ul>
+  </div>
+
+{% endblock content %}

@@ -9,7 +9,7 @@
       <ul class="bangazon_list">
         {% for computer in computer_list %}
         <li class="bangazon_list_item">
-          <p>{{computer.model}}</p>
+          <a href="{% url 'Bangazon:computer_details' computer.id %}">{{computer.model}}</a>
         </li>
         {% endfor %}
       </ul>
