@@ -36,6 +36,9 @@ def computer_form(request):
 def computer_new(request):
     computer = Computer(purchaseDate = request.POST['purchase'], model= request.POST['model'], manufacturer = request.POST['manufacturer'])
     computer.save()
+    employee = Employee.objects.get(pk=request.POST['assignment'])
+    computer.employee_set.add(employee)
+
     return HttpResponseRedirect(reverse('Bangazon:computer_details', args=(computer.id,)))
 
 

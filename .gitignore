@@ -86,8 +86,10 @@ target/
 __pycache__/
 local_settings.py
 
+*/**/__pycache__
+Bangazon1/__pycache__
+
 .env
 db.sqlite3
 
-*/**/__pycashe__
-Bangazon1/__pycache__
+.vscode/
