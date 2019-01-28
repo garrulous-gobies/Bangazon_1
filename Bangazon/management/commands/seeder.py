@@ -8,7 +8,7 @@ class Command(BaseCommand):
 
   # this is where the magic happens
   def handle(self, *args, **options):
-    
+
     # add departments
     # TODO - currently department names can duplicate, fix this so they only occur once?
     seeder.add_entity(Department, 6, {
@@ -23,7 +23,7 @@ class Command(BaseCommand):
     })
 
     # add computers
-    # we can toy with the purchase/decomm dates 
+    # we can toy with the purchase/decomm dates
     seeder.add_entity(Computer, 20, {
       'purchaseDate': lambda x: seeder.faker.date_time_between(start_date='-10y', end_date='now'),
       'decommissionDate': lambda x: seeder.faker.date_time_between(start_date='-5y', end_date='now'),
@@ -33,8 +33,8 @@ class Command(BaseCommand):
 
   # add training programs
     seeder.add_entity(TrainingProgram, 10, {
-      'name': lambda x: seeder.faker.word(ext_word_list=["How to Be a Baller", "Dealing with Bryan", "Broccoli", "Safety", 
-      "Wordpress for Dummies", "What is HTML?", "Saving Lives with LifeSavers", "Running With Scissors", 
+      'name': lambda x: seeder.faker.word(ext_word_list=["How to Be a Baller", "Dealing with Bryan", "Broccoli", "Safety",
+      "Wordpress for Dummies", "What is HTML?", "Saving Lives with LifeSavers", "Running With Scissors",
       "Spanish 101", "John Talk"]),
       'description': lambda x: seeder.faker.sentence(nb_words=7, variable_nb_words=True),
       'maxEnrollment': lambda x: random.randint(5, 50),
@@ -42,7 +42,7 @@ class Command(BaseCommand):
       'endDate': lambda x: seeder.faker.date_time_between(start_date='-3y', end_date='now')
     })
 
-    seeder.add_entity(ComputerEmployee, 10)
+    seeder.add_entity(Employee_Computer, 10)
 
     seeder.add_entity(EmployeeTrainingProgram, 10)
 

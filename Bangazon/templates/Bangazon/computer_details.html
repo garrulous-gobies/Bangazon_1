@@ -1,0 +1,31 @@
+<!-- Basic block for computers -->
+{% extends "Bangazon/index.html" %}
+
+{% block content %}
+
+  <div id="main_container">
+    <h1 class="main_title">{{computer.model}}</h1>
+    <ul>
+      <li>
+        Manufacturer: {{computer.manufacturer}}
+      </li>
+      <li>
+        Model: {{computer.model}}
+      </li>
+      <li>
+        Purchase Date: {{computer.purchaseDate}}
+      </li>
+      <li>
+        Decommission Date{{computer.decommissionDate}}
+      </li>
+      {% if computer.employee_set.all|length > 0 %}
+        {% for employee in computer.employee_set.all %}
+        <li>
+            Assigned To: {{employee.firstName}} {{employee.lastName}}
+        </li>
+        {% endfor %}
+      {% endif %}
+    </ul>
+  </div>
+
+{% endblock content %}

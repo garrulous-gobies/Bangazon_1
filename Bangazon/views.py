@@ -16,10 +16,39 @@ def departments(request):
   context = {'department_list': department_list}
   return render(request, 'Bangazon/departments.html', context)
 
+# ==========================COMPUTERS=================================
 def computers(request):
-  computer_list = Computer.objects.all()
-  context = {'computer_list': computer_list}
-  return render(request, 'Bangazon/computers.html', context)
+    computer_list = Computer.objects.all()
+    context = {'computer_list': computer_list}
+
+    for computer in computer_list:
+        print("Computer Employee",computer.employee_set.all())
+
+
+    return render(request, 'Bangazon/computers.html', context)
+
+def computer_details(request, computer_id):
+  computer = get_object_or_404(Computer, pk=computer_id)
+  # print("id", computer)
+  context = {'computer': computer}
+  return render(request, 'Bangazon/computer_details.html', context)
+
+def computer_form(request):
+    employees = Employee.objects.all
+    context = {"employees": employees}
+    return render(request, "Bangazon/computer_form.html", context)
+
+def computer_new(request):
+    computer = Computer(purchaseDate = request.POST['purchase'], model= request.POST['model'], manufacturer = request.POST['manufacturer'])
+    computer.save()
+    employee = Employee.objects.get(pk=request.POST['assignment'])
+    computer.employee_set.add(employee)
+
+    return HttpResponseRedirect(reverse('Bangazon:computers'))
+
+
+
+# =====================================================================
 
 def training_programs(request):
   now = timezone.now()

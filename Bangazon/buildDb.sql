@@ -11,3 +11,7 @@ INSERT into Bangazon_employeetrainingprogram values ( null, "Pending", 1 , 2 )
 
 -- Add department to database
 INSERT into Bangazon_department values ( null, 1000000, "Information Technology" )
+
+-- Add computers
+INSERT into Bangazon_computer values ( null, "2016-01-20 08:00:00", "2018-02-20 08:00:00" , "Dell", "XPS15");
+INSERT into Bangazon_computer values ( null, "2017-04-20 08:00:00", "2019-01-20 08:00:00" , "Dell", "XPS15");
