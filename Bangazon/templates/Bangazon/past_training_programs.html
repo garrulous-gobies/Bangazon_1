@@ -5,6 +5,11 @@
 
   <div id="main_container">
     <h1 class="main_title">Past Training Programs</h1>
+    <section class="training_nav_button">
+      <a class="past_link" href="../Bangazon/Training">
+          <p class="past_program_btn">Upcoming Training Classes</p>
+      </a>
+    </section>
     {% if training_program_list %}
       <ul class="bangazon_list">
         {% for program in training_program_list %}
@@ -15,11 +20,8 @@
         </li>
         {% endfor %}
       </ul>
-      <a class="past_link" href="../Bangazon/Training">
-          <p class="past_program_btn">See Upcoming Training Classes</p>
-      </a>
     {% else %}
-      <p class="no_items_found">No training programs in system.</p>
+      <p class="no_items_found">No training programs from the past are in system.</p>
     {% endif %}
   </div>
 
