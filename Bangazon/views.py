@@ -34,7 +34,7 @@ def computer_form(request):
 def computer_new(request):
     computer = Computer(purchaseDate = request.POST['purchase'], model= request.POST['model'], manufacturer = request.POST['manufacturer'])
     computer.save()
-    return HttpResponseRedirect(reverse('Bangazon/computer_details.html', args=(computer.id,)))
+    return HttpResponseRedirect(reverse('Bangazon:computer_details', args=(computer.id,)))
 
 
 
