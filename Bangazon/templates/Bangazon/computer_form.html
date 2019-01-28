@@ -17,6 +17,13 @@
     <label for="computer_new_purchase">Purchase Date</label>
     <input type="datetime-local" name="purchase" id="computer_new_purchase">
 
+    <label for="computer_new_assignment">Assign Employee</label>
+    <select name="assignment" id="computer_new_assignment">
+        <option value=null>Select</option>
+        {% for employee in employees %}
+            <option value={{employee.id}}>{{employee.firstName}}{{employee.lastName}}</option>
+        {% endfor %}
+    </select>
     <input type="submit" value="Submit">
 
     </form>

@@ -29,7 +29,9 @@ def computer_details(request, computer_id):
   return render(request, 'Bangazon/computer_details.html', context)
 
 def computer_form(request):
-    return render(request, "Bangazon/computer_form.html")
+    employees = Employee.objects.all
+    context = {"employees": employees}
+    return render(request, "Bangazon/computer_form.html", context)
 
 def computer_new(request):
     computer = Computer(purchaseDate = request.POST['purchase'], model= request.POST['model'], manufacturer = request.POST['manufacturer'])
