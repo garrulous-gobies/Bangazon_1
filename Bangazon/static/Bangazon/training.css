@@ -41,15 +41,10 @@
 
 .past_link {
   text-decoration: none;
-  display: flex;
-  margin: auto;
-  width: 50vw;
 }
 
 .past_program_btn {
   background-color: var(--background-color);
-  width: 50vw;
-  margin: auto;
   text-align: center;
   color: var(--main-text);
   font-weight: bold;
@@ -59,4 +54,45 @@
 
 .past_program_btn:hover {
   color:var(--navbar-text-hover);
+}
+
+.training_nav_buttons {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.add_training {
+  margin: 20px;
+}
+
+.input_section {
+  margin-bottom: 10px;
+}
+
+.input_label {
+  width: 20%;
+  display: inline-block;
+}
+
+.input_field {
+  width: 75%
+}
+
+.form_button {
+  background-color: var(--main-text);
+  width: 20%;
+  display: flex;
+  margin: auto;
+  margin-top: 40px;
+  font-size: 20px;
+  font-weight: bold;
+  justify-content: center;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.form_button:hover {
+  background-color: var(--navbar-text-hover);
 }
