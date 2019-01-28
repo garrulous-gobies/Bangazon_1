@@ -88,3 +88,6 @@ local_settings.py
 
 .env
 db.sqlite3
+
+*/**/__pycashe__
+Bangazon1/__pycache__
