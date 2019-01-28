@@ -17,7 +17,7 @@
                 {% endif %}
 
                 {% for computer in employee_details.computer.all  %}
-                    <li>Computer: {{computer.manufacturer}} {{computer.model}} , ID#: {{computer.id}}</li>
+                    <a href={% url 'Bangazon:computer_details' computer.id %}><li>Computer: {{computer.manufacturer}} {{computer.model}} , ID#: {{computer.id}}</li></a>
                 {% endfor %}
             </ul>
             {% if employee_details.departmentId %}
