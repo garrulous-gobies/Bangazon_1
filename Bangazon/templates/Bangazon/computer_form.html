@@ -21,7 +21,7 @@
     <select name="assignment" id="computer_new_assignment">
         <option value=null>Select</option>
         {% for employee in employees %}
-            <option value={{employee.id}}>{{employee.firstName}}{{employee.lastName}}</option>
+            <option value={{employee.id}}>{{employee.firstName}} {{employee.lastName}}</option>
         {% endfor %}
     </select>
     <input type="submit" value="Submit">
