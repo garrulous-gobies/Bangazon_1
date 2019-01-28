@@ -13,13 +13,9 @@
           <p class="training_end">End Date: {{training_program_details.endDate}}</p>
           <p class="training_max">Max Enrollment: {{training_program_details.maxEnrollment}}</p>
           <p class="training_max">Attendees: </p>
-        {% if all_attendees %}
           {% for person in all_attendees %}
             <p class="indiv_trainee">{{person.firstName}} {{person.lastName}}</p>
           {% endfor %}
-        {% else %}
-        <p class="indiv_no_trainee">No attendees scheduled for this program in system.</p>
-        {% endif %}
       </section>
     {% endif %}
   </div>
