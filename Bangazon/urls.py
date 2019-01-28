@@ -5,6 +5,7 @@ from . import views
 app_name = 'Bangazon'
 urlpatterns = [
     path('Bangazon/Employees', views.employees, name='employees'),
+    path('Bangazon/Employees/<int:employee_id>', views.employee_details, name='employee_details'),
     path('Bangazon/Departments', views.departments, name='departments'),
 
     path('Bangazon/Computers', views.computers, name='computers'),
@@ -19,3 +20,4 @@ urlpatterns = [
     path('Bangazon/NewTrainingClass', views.new_training_program_form, name='new_training_program_form'),
     path('Bangazon/SaveProgram', views.save_program, name='save_program'),
 ]
+

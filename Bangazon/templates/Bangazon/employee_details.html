@@ -1,0 +1,30 @@
+{% extends "Bangazon/index.html" %}
+
+{% block content %}
+
+  <div id="main_container">
+    <h1 class="main_title">Employee Details</h1>
+    {% if employee_details %}
+      <ul class="bangazon_list">
+        <h3>{{employee_details.firstName}} {{employee_details.lastName}}</p>
+        <h5>{% if employee_details.isSupervisor == 1 %}--Department Supervisor{% endif %}</h5>
+            <ul>
+                <li>Hire Date: {{employee_details.startDate}}</li>
+                <li>Department:{{employee_details.departmentId.name}}</li>
+
+                {% if employee_details.computer.all|length == 0 %}
+                    <li>Computer: No computer assigned.
+                {% endif %}
+
+                {% for computer in employee_details.computer.all  %}
+                    <a href={% url 'Bangazon:computer_details' computer.id %}><li>Computer: {{computer.manufacturer}} {{computer.model}} , ID#: {{computer.id}}</li></a>
+                {% endfor %}
+            </ul>
+            {% if employee_details.departmentId %}
+            {% endif %}
+    {% else %}
+      <p class="no_items_found">No employees in system.</p>
+    {% endif %}
+  </div>
+
+{% endblock content %}

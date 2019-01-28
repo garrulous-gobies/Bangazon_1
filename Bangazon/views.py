@@ -10,6 +10,10 @@ def employees(request):
   context = {'employee_list': employee_list}
   return render(request, 'Bangazon/employees.html', context)
 
+def employee_details(request, employee_id):
+    employee_details = Employee.objects.get(pk=employee_id)
+    context = {'employee_details': employee_details}
+    return render(request, 'Bangazon/employee_details.html', context)
 
 def departments(request):
   department_list = Department.objects.all()
