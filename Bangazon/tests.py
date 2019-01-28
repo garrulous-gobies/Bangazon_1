@@ -1,7 +1,13 @@
 from django.test import TestCase
 from .models import *
+from django.urls import reverse
+import unittest
 
 # Create your tests here.
+# What we should test
+# context: what we send the template
+# content: the rendered html
+# resonse_codes
 
 class EmployeeDetailsTests(TestCase):
 
@@ -14,13 +20,10 @@ class EmployeeDetailsTests(TestCase):
         self.assertEqual(response.firstName, employee.firstName)
         self.assertEqual(response.lastName, employee.lastName)
         self.assertEqual(response.departmentId_id , department.id) #TODO: departmentId is changing in models
-import unittest
 
-# Create your tests here.
-# What we should test
-# context: what we send the template
-# content: the rendered html
-# resonse_codes
+    def test_emp_detail_template(self):
+
+
 
 class DepartmentListTest(TestCase):
 
