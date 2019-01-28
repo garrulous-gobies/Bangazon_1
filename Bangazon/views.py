@@ -23,14 +23,12 @@ def computers(request):
 
 def training_programs(request):
   now = timezone.now()
-  print("Date: ", now)
   training_program_list = TrainingProgram.objects.filter(startDate__gte=now)
   context = {'training_program_list': training_program_list}
   return render(request, 'Bangazon/training_program.html', context)
 
 def past_training_programs(request):
   now = timezone.now()
-  print("Date: ", now)
   training_program_list = TrainingProgram.objects.filter(startDate__lte=now)
   context = {'training_program_list': training_program_list}
   return render(request, 'Bangazon/past_training_programs.html', context)
@@ -51,7 +49,6 @@ def save_program(request):
 
 def training_details(request, pk):
   training_program_details = get_object_or_404(TrainingProgram, id = pk)
-  # print("PK:", training_program_details)
   training_attendees = EmployeeTrainingProgram.objects.filter(trainingProgramId_id = pk)
   all_attendees = []
   for user in training_attendees:
