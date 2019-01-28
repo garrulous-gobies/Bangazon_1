@@ -84,7 +84,10 @@ target/
 *.pot
 *.pyc
 __pycache__/
+*/**/__pycache__
+Bangazon1/__pycache__
 local_settings.py
 
 .env
+.ENV
 db.sqlite3
