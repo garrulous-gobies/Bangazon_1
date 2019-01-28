@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,  get_object_or_404, get_list_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from .models import *
@@ -24,3 +24,8 @@ def training_programs(request):
   training_program_list = TrainingProgram.objects.all()
   context = {'training_program_list': training_program_list}
   return render(request, 'Bangazon/training_program.html', context)
+
+def training_details(request, pk):
+  training_program_details = get_object_or_404(TrainingProgram, id = pk)
+  context = {'training_program_details': training_program_details}
+  return render(request, 'Bangazon/indiv_training_program.html', context)

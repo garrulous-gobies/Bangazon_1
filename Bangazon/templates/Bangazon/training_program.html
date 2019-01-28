@@ -4,16 +4,14 @@
 {% block content %}
 
   <div id="main_container">
-    <h1 class="main_title">Bangazon Training Programs</h1>
+    <h1 class="main_title">Training Programs</h1>
     {% if training_program_list %}
       <ul class="bangazon_list">
         {% for program in training_program_list %}
         <li class="bangazon_list_item">
-          <p class="training_title">Training Title: {{program.name}}</p>
-          <p class="training_description">Description: {{program.description}}</p>
-          <p class="training_start">Start Date: {{program.startDate}}</p>
-          <p class="training_end">End Date: {{program.endDate}}</p>
-          <p class="training_max">Max Enrollment: {{program.maxEnrollment}}</p>
+          <a class="training_name_list" href="{% url 'Bangazon:training_details' program.id %}">
+            <p class="program_name">{{ program.name }}</p>
+          </a>
         </li>
         {% endfor %}
       </ul>

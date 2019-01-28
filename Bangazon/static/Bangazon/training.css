@@ -1,5 +1,7 @@
 .training_title {
   margin-bottom: 5px;
+  font-weight: bolder;
+  font-size: 20px;
 }
 
 .training_description {
@@ -16,4 +18,13 @@
 
 .training_max {
   margin-bottom: 15px;
+}
+
+.program_name{
+  color: var(--main-text);
+  font-size: 20px;
+}
+
+.training_name_list {
+  text-decoration: none;
 }

@@ -35,7 +35,7 @@ class Employee(models.Model):
 
 # Create Computer table
 class Computer(models.Model):
-  purchaseDate = models.CharField(max_length = 50)
+  purchaseDate = models.DateTimeField()
   decommissionDate = models.DateTimeField()
   manufacturer = models.CharField(max_length = 50)
   model = models.CharField(max_length = 50)
