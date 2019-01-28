@@ -1,0 +1,24 @@
+{% extends "Bangazon/index.html" %}
+
+{% block content %}
+
+  <div id="main_container">
+    <h1 class="main_title">Employee Details</h1>
+    {% if employee_details %}
+      <ul class="bangazon_list">
+        <h3>{{employee_details.firstName}} {{employee_details.lastName}}</p>
+            <ul>
+                <li>Hire Date: {{employee_details.startDate}}</li>
+                <li>Department: {{employee_details.departmentId.name}}</li>
+                {% if employee_details.isSupervisor == 1 %}
+                    <li>Supervisor</li>
+                {% endif %}
+            </ul>
+            {% if employee_details.departmentId %}
+            {% endif %}
+    {% else %}
+      <p class="no_items_found">No employees in system.</p>
+    {% endif %}
+  </div>
+
+{% endblock content %}
