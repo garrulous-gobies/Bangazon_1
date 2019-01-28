@@ -20,11 +20,6 @@ def departments(request):
 def computers(request):
     computer_list = Computer.objects.all()
     context = {'computer_list': computer_list}
-
-    for computer in computer_list:
-        print("Computer Employee",computer.employee_set.all())
-
-
     return render(request, 'Bangazon/computers.html', context)
 
 def computer_details(request, computer_id):
@@ -46,6 +41,9 @@ def computer_new(request):
 
     return HttpResponseRedirect(reverse('Bangazon:computers'))
 
+def computer_delete_confirm(request):
+
+    return render(request, "Bangazon/computer_delete_confirm.html")
 
 
 # =====================================================================
