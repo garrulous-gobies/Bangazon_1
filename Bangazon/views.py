@@ -37,5 +37,12 @@ def past_training_programs(request):
 
 def training_details(request, pk):
   training_program_details = get_object_or_404(TrainingProgram, id = pk)
-  context = {'training_program_details': training_program_details}
+  # print("PK:", training_program_details)
+  training_attendees = EmployeeTrainingProgram.objects.filter(trainingProgramId_id = pk)
+  all_attendees = []
+  for user in training_attendees:
+    print(user.employeeId_id)
+    employee_trained = get_object_or_404(Employee, id = user.employeeId_id)
+    all_attendees.append(employee_trained)
+  context = {'training_program_details': training_program_details, 'all_attendees': all_attendees}
   return render(request, 'Bangazon/indiv_training_program.html', context)
