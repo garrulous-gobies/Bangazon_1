@@ -11,10 +11,7 @@
         {% for department in department_list %}
         <li class="bangazon_list_item">
             <p>{{department.name}} - Budget: ${{department.budget}} - Number of Employees: 
-              {% for employee in department.employee_set.all %}
-             
-              {{forloop.counter}} {% endfor %}</p>
-              
+              {{ department.employee_set.all|length}} </p>
         </li>
         {% endfor %}
       </ul>

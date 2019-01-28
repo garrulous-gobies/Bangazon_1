@@ -88,6 +88,11 @@ __pycache__/
 Bangazon1/__pycache__
 local_settings.py
 
+*/**/__pycache__
+Bangazon1/__pycache__
+
 .env
 .ENV
 db.sqlite3
+
+.vscode/
