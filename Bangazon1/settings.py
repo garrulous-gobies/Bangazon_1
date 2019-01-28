@@ -25,19 +25,19 @@ SECRET_KEY = '+-d!%3ez-da*4wln2a2eoo%-tnrpq_=$5suy^0l^x5vx*=*07u'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['0.0.0.0']
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    'Bangazon.apps.BangazonConfig'
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'Bangazon'
 ]
 
 MIDDLEWARE = [

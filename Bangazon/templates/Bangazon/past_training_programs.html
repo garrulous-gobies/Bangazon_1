@@ -1,0 +1,26 @@
+<!-- Basic block for training -->
+{% extends "Bangazon/index.html" %}
+
+{% block content %}
+
+  <div id="main_container">
+    <h1 class="main_title">Past Training Programs</h1>
+    {% if training_program_list %}
+      <ul class="bangazon_list">
+        {% for program in training_program_list %}
+        <li class="bangazon_list_item">
+          <a class="training_name_list" href="{% url 'Bangazon:training_details' program.id %}">
+            <p class="program_name">{{ program.name }}</p>
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+      <a class="past_link" href="../Bangazon/Training">
+          <p class="past_program_btn">See Upcoming Training Classes</p>
+      </a>
+    {% else %}
+      <p class="no_items_found">No training programs in system.</p>
+    {% endif %}
+  </div>
+
+{% endblock content %}

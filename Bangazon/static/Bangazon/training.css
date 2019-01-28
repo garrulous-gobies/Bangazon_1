@@ -1,0 +1,49 @@
+.training_title {
+  margin-bottom: 5px;
+  font-weight: bolder;
+  font-size: 20px;
+}
+
+.training_description {
+  margin-bottom: 5px;
+}
+
+.training_start {
+  margin-bottom: 5px;
+}
+
+.training_end {
+  margin-bottom: 5px;
+}
+
+.training_max {
+  margin-bottom: 15px;
+}
+
+.program_name{
+  color: var(--main-text);
+  font-size: 20px;
+}
+
+.training_name_list {
+  text-decoration: none;
+}
+
+.past_link {
+  text-decoration: none;
+}
+
+.past_program_btn {
+  background-color: var(--background-color);
+  width: 40vw;
+  margin: auto;
+  text-align: center;
+  color: var(--main-text);
+  font-weight: bold;
+  font-size: 20px;
+  border-radius: 10px;
+}
+
+.past_program_btn:hover {
+  color:var(--navbar-text-hover);
+}

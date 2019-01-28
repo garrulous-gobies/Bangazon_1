@@ -2,12 +2,12 @@ from django.urls import path
 
 from . import views
 
-app_name="Bangazon"
-
+app_name = 'Bangazon'
 urlpatterns = [
-  path('employees', views.employees, name='employees'),
-  path('departments', views.departments, name='departments'),
-  path('computers', views.computers, name='computers'),
-  path('training_programs', views.training_courses, name='training_programs')
-
+    path('Bangazon/Employees', views.employees, name='employees'),
+    path('Bangazon/Departments', views.departments, name='departments'),
+    path('Bangazon/Computers', views.computers, name='computers'),
+    path('Bangazon/Training', views.training_programs, name='training_programs'),
+    path('Training<int:pk>/', views.training_details, name='training_details'),
+    path('Bangazon/PastTraining', views.past_training_programs, name='past_training_programs'),
 ]
