@@ -19,10 +19,6 @@
                 {% for computer in employee_details.computer.all  %}
                     <li>Computer: {{computer.manufacturer}} {{computer.model}} , ID#: {{computer.id}}</li>
                 {% endfor %}
-
-                {% if employee_details.isSupervisor == 1 %}
-                    <li>Supervisor</li>
-                {% endif %}
             </ul>
             {% if employee_details.departmentId %}
             {% endif %}
