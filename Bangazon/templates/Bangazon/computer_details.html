@@ -26,7 +26,10 @@
         {% endfor %}
       {% endif %}
     </ul>
-    <a href="{% url 'Bangazon:computer_delete_confirm' %}">Delete<a>
+    <form action="{% url 'Bangazon:computer_delete_confirm' %}">
+    <input type="hidden" value="{{computer.id}}" name="computer_id">
+    <input type="submit" value="Delete">
+    </form>
   </div>
 
 {% endblock content %}

@@ -42,8 +42,9 @@ def computer_new(request):
     return HttpResponseRedirect(reverse('Bangazon:computers'))
 
 def computer_delete_confirm(request):
-
-    return render(request, "Bangazon/computer_delete_confirm.html")
+    computer= Computer.objects.get(pk=request.POST['computer_id'])
+    context = {'computer': computer}
+    return render(request, "Bangazon/computer_delete_confirm.html", context)
 
 
 # =====================================================================
