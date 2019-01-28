@@ -1,0 +1,11 @@
+{% if computer_list %}
+<ul>
+  {% for computer in computer_list %}
+  <li>{{ computer.Model}}</li>
+  {% endfor %}
+</ul>
+{% else %}
+<p>No computers</p>
+{% endif %}
+
+

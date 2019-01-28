@@ -1,0 +1,11 @@
+{% if employee_list %}
+<ul>
+  {% for employee in employee_list %}
+  <li>{{ employee.firstName}} {{employee.lastName}}</li>
+  {% endfor %}
+</ul>
+{% else %}
+<p>No employees</p>
+{% endif %}
+
+
