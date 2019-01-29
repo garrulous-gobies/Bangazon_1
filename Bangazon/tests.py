@@ -62,29 +62,6 @@ class DepartmentListTest(TestCase):
       for emp in response.employee_set.all():
         self.assertEqual(employee.firstName, emp.firstName)
 
-
-
-class DepartmentListTest(TestCase):
-
-    def test_department(self):
-
-        def test_list_departments(self):
-
-            department = Department.objects.create(name="Sales", budget=1999)
-            employee = Employee.objects.create(firstName="Joe", lastName="Shep", startDate="1776-07-04", isSupervisor=1, department=department)
-            response = Department.objects.get(pk=1)
-
-            self.assertEqual(department.name, response.name)
-            self.assertEqual(department.budget, response.budget)
-
-            self.assertEqual(len(response.context['department']), 1)
-            self.assertIn(department.name.encode(), response.content)
-
-            for emp in response.employee_set.all():
-                self.assertEqual(employee.firstName, emp.firstName)
-
-
-
 class TrainingListTest(TestCase):
 
     def test_list_trainings(self):
@@ -155,8 +132,9 @@ class ComputerTests(TestCase):
 
     def test_comp_detail(self):
         computer = Computer(purchaseDate = "2016-01-20 08:00:00", decommissionDate= "2016-01-20 08:00:00", manufacturer="dell", model="xps15")
+        computer.save()
         response = self.client.get(reverse('Bangazon:computer_details', args=(1,)))
-        self.assertEqual(response.context["computer_details"].model, computer.model)
+        self.assertEqual(response.context["computer"], computer)
 
 class AddingEmployeeTest(TestCase):
 
