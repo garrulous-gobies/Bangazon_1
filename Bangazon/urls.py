@@ -23,6 +23,7 @@ urlpatterns = [
     path('Bangazon/PastTraining', views.past_training_programs, name='past_training_programs'),
     path('Bangazon/NewTrainingClass', views.new_training_program_form, name='new_training_program_form'),
     path('Bangazon/SaveProgram', views.save_program, name='save_program'),
-    path('Bangazon/EditTraining', views.edit_training_details, name='edit_training_details'),
+    path('Bangazon/EditTraining<int:pk>/', views.edit_training_details, name='edit_training_details'),
+    path('Bangazon/UpdateProgram', views.update_program, name='update_program'),
 ]
 

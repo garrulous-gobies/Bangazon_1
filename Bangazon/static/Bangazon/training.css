@@ -80,6 +80,20 @@
   width: 75%
 }
 
+.edit_input_section {
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.edit_input_label {
+    width: 90%;
+}
+
+.edit_input_field {
+    width: 90%
+}
+
 .form_button {
   background-color: var(--main-text);
   width: 20%;
