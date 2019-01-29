@@ -10,11 +10,41 @@ def employees(request):
   context = {'employee_list': employee_list}
   return render(request, 'Bangazon/employees.html', context)
 
+def employee_details(request, employee_id):
+    now = timezone.now()
+    employee_details = Employee.objects.get(pk=employee_id)
+    past_training_programs = list()
+    upcoming_training_programs = list()
+    for program in employee_details.trainingprogram_set.all():
+        if (program.startDate < now):
+            past_training_programs.append(program)
+        elif (program.startDate > now):
+            upcoming_training_programs.append(program)
+    context = {
+        'employee_details': employee_details,
+        'past_training_programs':past_training_programs,
+        'upcoming_training_programs': upcoming_training_programs
+        }
+    return render(request, 'Bangazon/employee_details.html', context)
 
+# ========================DEPARTMENTS================
 def departments(request):
-  department_list = Department.objects.all()
-  context = {'department_list': department_list}
-  return render(request, 'Bangazon/departments.html', context)
+    department_list = Department.objects.all()
+    context = {'department_list': department_list}
+    return render(request, 'Bangazon/departments.html', context)
+
+def new_department(request):
+    department_list = Department.objects.all()
+    context = {'department_list': department_list}
+    return render(request, 'Bangazon/new_department_form.html', context)
+
+def save_department(request):
+    name = request.POST['department_name']
+    budget = request.POST['department_budget']
+    dep = Department(name=name, budget=budget)
+    dep.save()
+    response = redirect('./')
+    return response
 
 # ==========================COMPUTERS=================================
 def computers(request):
@@ -83,11 +113,10 @@ def save_program(request):
 
 def training_details(request, pk):
   training_program_details = get_object_or_404(TrainingProgram, id = pk)
-  training_attendees = EmployeeTrainingProgram.objects.filter(trainingProgramId_id = pk)
+  training_attendees = EmployeeTrainingProgram.objects.filter(trainingProgram_id = pk)
   all_attendees = []
   for user in training_attendees:
-    print(user.employeeId_id)
-    employee_trained = get_object_or_404(Employee, id = user.employeeId_id)
+    employee_trained = get_object_or_404(Employee, id = user.employee_id)
     all_attendees.append(employee_trained)
   context = {'training_program_details': training_program_details, 'all_attendees': all_attendees}
   return render(request, 'Bangazon/indiv_training_program.html', context)
