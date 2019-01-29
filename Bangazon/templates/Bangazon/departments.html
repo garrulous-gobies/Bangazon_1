@@ -9,8 +9,8 @@
         <ul class="bangazon_list">
             <p>{{department_list.employee_set}}</p>
             {% for department in department_list %}
-            <li class="bangazon_list_item">
-                <p>{{department.name}} </p>
+            <li class="bangazon_list_item">            
+                <p><a  href="{% url 'Bangazon:department_details' department.id %}">{{department.name}} </a> </p>
                 <p>Budget: ${{department.budget}} </p>
                 <p> Number of Employees:
                     {{ department.employee_set.all|length}} </p>
