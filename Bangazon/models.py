@@ -39,7 +39,7 @@ class Employee(models.Model):
     ]
   )
   computer = models.ManyToManyField(Computer, through="Employee_Computer")
-  departmentId = models.ForeignKey(Department, on_delete=models.CASCADE)
+  department = models.ForeignKey(Department, on_delete=models.CASCADE)
   def __str__(self):
     return self.firstName
 
