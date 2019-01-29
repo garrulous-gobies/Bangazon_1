@@ -1,0 +1,20 @@
+.new_department_form{
+    margin: 20px 25%;
+    width: 50%;
+    text-align: center;
+}
+
+.department_list {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.department_list div {
+    width: 50%;
+}
+
+.add_department a {
+    margin: 40%;
+    margin-top: 25%;
+    border: 1px solid white;
+}
