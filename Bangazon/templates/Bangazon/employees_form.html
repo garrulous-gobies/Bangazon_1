@@ -5,17 +5,17 @@
 
   <div id="main_container">
     <h1 class="main_title">Add Employee</h1>
-    <form method="post" action="{% url 'Bangazon:employee_new' %}">
+    <form method="post" action="{% url 'Bangazon:employee_new' %}" required=True>
     {% csrf_token %}
 
     <label for="employee_new_first_name">First Name</label>
-    <input type="text" name="firstName" id="employee_new_first_name">
+    <input type="text" name="firstName" id="employee_new_first_name" required=True>
 
     <label for="employee_new_last_name">Last Name</label>
-    <input type="text" name="lastName" id="employee_new_last_name">
+    <input type="text" name="lastName" id="employee_new_last_name" required=True>
 
     <label for="employee_new_start_date">Start Date</label>
-    <input type="datetime-local" name="startDate" id="employee_new_start_date">
+    <input type="datetime-local" name="startDate" id="employee_new_start_date" required=True>
 
     <label for="employee_new_supervisor">Supervisor?</label>
     <select name="supervisor" id="employee_new_supervisor"> 
@@ -24,8 +24,7 @@
     </select>
 
     <label for="employee_new_department">Department</label>
-    <select name="department" id="employee_new_department">
-        <option value=null>Select</option>
+    <select name="department" id="employee_new_department" required=True>
         {% for department in departments %}
             <option value={{department.id}}>{{department.name}}</option>
         {% endfor %}

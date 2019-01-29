@@ -159,19 +159,19 @@ class EmployeeFormTest(TestCase):
     def test_employee_form(self):
         response = self.client.get(reverse('Bangazon:employee_form'))
         self.assertIn(
-            '<input type="text" name="firstName" id="employee_new_first_name">'.encode(), response.content
+            '<input type="text" name="firstName" id="employee_new_first_name" required=True>'.encode(), response.content
         )
         self.assertIn(
-            '<input type="text" name="lastName" id="employee_new_last_name">'.encode(), response.content
+            '<input type="text" name="lastName" id="employee_new_last_name" required=True>'.encode(), response.content
         )
         self.assertIn(
-            '<input type="datetime-local" name="startDate" id="employee_new_start_date">'.encode(), response.content
+            '<input type="datetime-local" name="startDate" id="employee_new_start_date" required=True>'.encode(), response.content
         )
         self.assertIn(
             '<select name="supervisor" id="employee_new_supervisor">'.encode(), response.content
         )
         self.assertIn(
-            '<select name="department" id="employee_new_department">'.encode(), response.content
+            '<select name="department" id="employee_new_department" required=True>'.encode(), response.content
         )
 
 class EmployeeListTest(TestCase):
