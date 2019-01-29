@@ -124,11 +124,7 @@ class SaveTrainingProgramTest(TestCase):
 
     def test_new_training_save(self):
 
-        response = self.client.post(reverse('Bangazon:save_program'), {"training_name": "Test Name",
-                                                                       "training_description": "Class description",
-                                                                       "training_startDate": "2010-01-01 12:00:00",
-                                                                       "training_endDate": "2011-01-01 12:00:00",
-                                                                       "training_maxEnrollment": 5})
+        response = self.client.post(reverse('Bangazon:save_program'), {"training_name": "Test Name", "training_description": "Class description", "training_startDate": "2010-01-01 12:00:00", "training_endDate": "2011-01-01 12:00:00", "training_maxEnrollment": 5})
 
         self.assertEqual(response.status_code, 302)
 
