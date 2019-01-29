@@ -15,6 +15,18 @@ def employee_details(request, employee_id):
     context = {'employee_details': employee_details}
     return render(request, 'Bangazon/employee_details.html', context)
 
+def employee_form(request):
+    departments = Department.objects.all()
+    context = {"departments": departments}
+    return render(request, "Bangazon/employees_form.html", context)
+
+def employee_new(request):
+    department = Department.objects.get(pk=request.POST['department'])
+    employee = Employee(firstName = request.POST['firstName'], lastName = request.POST['lastName'], startDate = request.POST['startDate'], isSupervisor = request.POST['supervisor'], departmentId = department)
+    
+    employee.save()
+    return HttpResponseRedirect(reverse('Bangazon:employees'))
+
 def departments(request):
   department_list = Department.objects.all()
   context = {'department_list': department_list}

@@ -6,6 +6,9 @@ app_name = 'Bangazon'
 urlpatterns = [
     path('Bangazon/Employees', views.employees, name='employees'),
     path('Bangazon/Employees/<int:employee_id>', views.employee_details, name='employee_details'),
+    path('Bangazon/Employees/form', views.employee_form, name='employee_form'),
+    path('Bangazon/Employees/new', views.employee_new, name='employee_new'),
+
     path('Bangazon/Departments', views.departments, name='departments'),
 
     path('Bangazon/Computers', views.computers, name='computers'),
