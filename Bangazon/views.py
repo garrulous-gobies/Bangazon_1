@@ -2,7 +2,7 @@ from django.shortcuts import render,  get_object_or_404, get_list_or_404, redire
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.utils import timezone
-from django import forms
+from .forms import *
 from .models import *
 # Create your views here.
 
@@ -106,7 +106,14 @@ def past_training_programs(request):
 
 
 def new_training_program_form(request):
-    return render(request, 'Bangazon/new_training_program_form.html')
+    if request.method == 'POST':
+        form = NewTrainingForm(request.POST)
+        if form.is_valid():
+            return HttpResponseRedirect('./Training')
+    else:
+        form = NewTrainingForm()
+
+    return render(request, 'Bangazon/new_training_program_form.html', {'form': form})
 
 
 def save_program(request):
@@ -137,20 +144,9 @@ def training_details(request, pk):
 
 def edit_training_details(request, pk):
     training_program_details = get_object_or_404(TrainingProgram, id=pk)
-    training_program_details.name = forms.CharField(widget=forms.TextInput(
-        attrs={'placeholder': training_program_details.name}))
-    password = forms.CharField(widget=forms.PasswordInput())
-    address_1 = forms.CharField(
-        label='Address',
-        widget=forms.TextInput(attrs={'placeholder': '1234 Main St'})
-    )
-    address_2 = forms.CharField(
-        widget=forms.TextInput(
-            attrs={'placeholder': 'Apartment, studio, or floor'})
-    )
-    context = {'program_details': training_program_details}
-    print("PK", pk)
-    return render(request, 'Bangazon/edit_training.html', context)
+    print(training_program_details.name)
+    form = EditTrainingForm(initial={'training_name': training_program_details.name, 'training_description': training_program_details.description, 'training_startDate': training_program_details.startDate, 'training_endDate': training_program_details.endDate, 'training_maxEnrollment': training_program_details.maxEnrollment})
+    return render(request, 'Bangazon/edit_training.html', {'form': form})
 
 
 def update_program(request):
