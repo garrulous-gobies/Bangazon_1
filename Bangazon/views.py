@@ -62,16 +62,11 @@ def save_department(request):
 def computers(request):
     computer_list = Computer.objects.all()
     context = {'computer_list': computer_list}
-
-    for computer in computer_list:
-        print("Computer Employee",computer.employee_set.all())
-
-
     return render(request, 'Bangazon/computers.html', context)
 
 def computer_details(request, computer_id):
   computer = get_object_or_404(Computer, pk=computer_id)
-  # print("id", computer)
+  print("id", computer.id)
   context = {'computer': computer}
   return render(request, 'Bangazon/computer_details.html', context)
 
@@ -84,9 +79,26 @@ def computer_new(request):
     computer = Computer(purchaseDate = request.POST['purchase'], model= request.POST['model'], manufacturer = request.POST['manufacturer'])
     computer.save()
     employee = Employee.objects.get(pk=request.POST['assignment'])
-    computer.employee_set.add(employee)
-
+    relationship = Employee_Computer(employee=employee, computer=computer)
+    relationship.save()
     return HttpResponseRedirect(reverse('Bangazon:computers'))
+
+def computer_delete_confirm(request):
+    computer= Computer.objects.get(pk=request.POST['computer_id'])
+    is_assigned=computer.employee_set.all()
+    assigned = False
+    if len(is_assigned) > 0:
+        assigned = True
+    context = {'computer': computer,
+                'assigned': assigned}
+    print("context", context)
+    return render(request, "Bangazon/computer_delete_confirm.html", context)
+
+def computer_delete(request):
+    computer= Computer.objects.get(pk=request.POST['computer_id'])
+    computer.delete()
+    return HttpResponseRedirect(reverse('Bangazon:computers'))
+
 
 
 
