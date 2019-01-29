@@ -53,6 +53,9 @@ class TrainingWithAttendeesTest(TestCase):
         response = EmployeeTrainingProgram.objects.get(pk=1)
         self.assertEqual(training, response)
 
+        response = self.client.get(reverse('Bangazon:past_training_programs'))
+        self.assertEqual(response.status_code, 200)
+
 
 class SaveTrainingProgramTest(TestCase):
 
