@@ -153,3 +153,11 @@ class AddingEmployeeTest(TestCase):
         response = Employee.objects.get(pk=1)
 
         self.assertEqual(employee.firstName, response.firstName)
+
+    def new_employee_status(self):
+        department = Department.objects.create(name="Sadness", budget=5000)
+        employee = Employee.objects.create(firstName="Joel", lastName="Shepdog", startDate="1996-07-01", isSupervisor=0, department=department)
+
+        response = self.client.post(employee)
+
+        self.assertEqual(response.status_code, 302)
