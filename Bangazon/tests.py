@@ -147,13 +147,6 @@ class AddingDepartmentTest(TestCase):
 
 class AddingEmployeeTest(TestCase):
 
-    def test_add_employee(self):
-        department = Department.objects.create(name="Fun", budget=10000)
-        employee = Employee.objects.create(firstName="Joe", lastName="Shep", startDate="1776-07-04", isSupervisor=1, department=department)
-        response = Employee.objects.get(pk=1)
-
-        self.assertEqual(employee.firstName, response.firstName)
-
     def new_employee_status(self):
         department = Department.objects.create(name="Sadness", budget=5000)
         employee = Employee.objects.create(firstName="Joel", lastName="Shepdog", startDate="1996-07-01", isSupervisor=0, department=department)
@@ -180,3 +173,12 @@ class EmployeeFormTest(TestCase):
         self.assertIn(
             '<select name="department" id="employee_new_department">'.encode(), response.content
         )
+
+class EmployeeListTest(TestCase):
+    def test_employee_list(self):
+        department = Department.objects.create(name="Fun", budget=100001)
+        employee = Employee.objects.create(firstName="Joe", lastName="Shep", startDate="1900-01-04", isSupervisor=1, department=department)
+        response = Employee.objects.get(pk=1)
+
+        self.assertEqual(employee.firstName, response.firstName)
+        self.assertEqual(department.name, response.department.name)
