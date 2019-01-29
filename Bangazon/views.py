@@ -46,6 +46,11 @@ def save_department(request):
     response = redirect('./')
     return response
 
+def department_details(request, department_id):
+    department_details = Department.objects.get(pk=department_id)
+    context = {'department_details': department_details}
+    return render(request, 'Bangazon/department_details.html', context)
+
 # ==========================COMPUTERS=================================
 def computers(request):
     computer_list = Computer.objects.all()

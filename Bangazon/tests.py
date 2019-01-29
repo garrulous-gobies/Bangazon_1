@@ -46,21 +46,21 @@ class EmployeeDetailsTests(TestCase):
 
 class DepartmentListTest(TestCase):
 
-  def test_department(self):
-    def test_list_departments(self):
+    def test_department(self):
+        def test_list_departments(self):
 
-      department = Department.objects.create(name="Sales", budget=1999)
-      employee = Employee.objects.create(firstName="Joe", lastName="Shep", startDate="1776-07-04", isSupervisor=1, department=department)
-      response = Department.objects.get(pk=1)
+            department = Department.objects.create(name="Sales", budget=1999)
+            employee = Employee.objects.create(firstName="Joe", lastName="Shep", startDate="1776-07-04", isSupervisor=1, department=department)
+            response = Department.objects.get(pk=1)
 
-      self.assertEqual(department.name, response.name)
-      self.assertEqual(department.budget, response.budget)
+            self.assertEqual(department.name, response.name)
+            self.assertEqual(department.budget, response.budget)
 
-      self.assertEqual(len(response.context['department']), 1)
-      self.assertIn(department.name.encode(), response.content)
+            self.assertEqual(len(response.context['department']), 1)
+            self.assertIn(department.name.encode(), response.content)
 
-      for emp in response.employee_set.all():
-        self.assertEqual(employee.firstName, emp.firstName)
+            for emp in response.employee_set.all():
+                self.assertEqual(employee.firstName, emp.firstName)
 
 
 
