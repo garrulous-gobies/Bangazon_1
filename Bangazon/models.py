@@ -24,7 +24,7 @@ class Computer(models.Model):
   manufacturer = models.CharField(max_length = 50)
   model = models.CharField(max_length = 50)
   def __str__(self):
-    return self
+    return self.model
 
 # Create Employee table
 class Employee(models.Model):
