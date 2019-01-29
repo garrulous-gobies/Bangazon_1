@@ -5,15 +5,14 @@
 {% if program_details %}
     <div id="main_container">
     <h1 class="main_title">Edit "{{ program_details.name }}" Details</h1>
-    <form class="add_training" action="{% url 'Bangazon:update_program' %}" method="POST">
+    <form class="add_training" action="{% url 'Bangazon:update_program' program_details.id %}" method="POST">
         {% csrf_token %}
         {{ form }}
-    <input class="form_button" type="submit" value="Save Training">
         <input class="form_button" type="submit" value="Save Edits">
     </form>
     <section class="training_nav_button">
         <a class="past_link" href="{% url 'Bangazon:training_programs' %}">
-        <p class="past_program_btn">View Upcoming Classes</p>
+        <p class="past_program_btn">Cancel Edit</p>
         </a>
     </section>
   {% endif %}
