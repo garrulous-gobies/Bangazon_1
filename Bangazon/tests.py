@@ -144,3 +144,12 @@ class AddingDepartmentTest(TestCase):
         response = self.client.post(reverse('Bangazon:save_department'), {"department_name":"Broccoli Sales", "department_budget": 100000})
 
         self.assertEqual(response.status_code, 302)
+
+class AddingEmployeeTest(TestCase):
+
+    def test_add_employee(self):
+        department = Department.objects.create(name="Fun", budget=10000)
+        employee = Employee.objects.create(firstName="Joe", lastName="Shep", startDate="1776-07-04", isSupervisor=1, department=department)
+        response = Employee.objects.get(pk=1)
+
+        self.assertEqual(employee.firstName, response.firstName)
