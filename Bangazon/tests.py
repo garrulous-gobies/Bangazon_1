@@ -161,3 +161,22 @@ class AddingEmployeeTest(TestCase):
         response = self.client.post(employee)
 
         self.assertEqual(response.status_code, 302)
+
+class EmployeeFormTest(TestCase):
+    def test_employee_form(self):
+        response = self.client.get(reverse('Bangazon:employee_form'))
+        self.assertIn(
+            '<input type="text" name="firstName" id="employee_new_first_name">'.encode(), response.content
+        )
+        self.assertIn(
+            '<input type="text" name="lastName" id="employee_new_last_name">'.encode(), response.content
+        )
+        self.assertIn(
+            '<input type="datetime-local" name="startDate" id="employee_new_start_date">'.encode(), response.content
+        )
+        self.assertIn(
+            '<select name="supervisor" id="employee_new_supervisor">'.encode(), response.content
+        )
+        self.assertIn(
+            '<select name="department" id="employee_new_department">'.encode(), response.content
+        )
