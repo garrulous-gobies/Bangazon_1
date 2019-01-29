@@ -3,8 +3,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.utils import timezone
 from .models import *
-# Create your views here.
 
+# ======================== EMPLOYEES ================
 def employees(request):
   employee_list = Employee.objects.all()
   context = {'employee_list': employee_list}
@@ -27,10 +27,24 @@ def employee_new(request):
     employee.save()
     return HttpResponseRedirect(reverse('Bangazon:employees'))
 
+# ========================DEPARTMENTS================
 def departments(request):
-  department_list = Department.objects.all()
-  context = {'department_list': department_list}
-  return render(request, 'Bangazon/departments.html', context)
+    department_list = Department.objects.all()
+    context = {'department_list': department_list}
+    return render(request, 'Bangazon/departments.html', context)
+
+def new_department(request):
+    department_list = Department.objects.all()
+    context = {'department_list': department_list}
+    return render(request, 'Bangazon/new_department_form.html', context)
+
+def save_department(request):
+    name = request.POST['department_name']
+    budget = request.POST['department_budget']
+    dep = Department(name=name, budget=budget)
+    dep.save()
+    response = redirect('./')
+    return response
 
 # ==========================COMPUTERS=================================
 def computers(request):
@@ -94,11 +108,10 @@ def save_program(request):
 
 def training_details(request, pk):
   training_program_details = get_object_or_404(TrainingProgram, id = pk)
-  training_attendees = EmployeeTrainingProgram.objects.filter(trainingProgramId_id = pk)
+  training_attendees = EmployeeTrainingProgram.objects.filter(trainingProgram_id = pk)
   all_attendees = []
   for user in training_attendees:
-    print(user.employeeId_id)
-    employee_trained = get_object_or_404(Employee, id = user.employeeId_id)
+    employee_trained = get_object_or_404(Employee, id = user.employee_id)
     all_attendees.append(employee_trained)
   context = {'training_program_details': training_program_details, 'all_attendees': all_attendees}
   return render(request, 'Bangazon/indiv_training_program.html', context)
