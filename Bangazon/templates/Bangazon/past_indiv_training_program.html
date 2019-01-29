@@ -1,0 +1,28 @@
+<!-- Basic block for  individual training program-->
+{% extends "Bangazon/index.html" %}
+
+{% block content %}
+
+<div id="main_container">
+    <h1 class="main_title">Training Programs</h1>
+    {% if training_program_details %}
+    <section class="training_nav_buttons">
+            <a class="past_link" href="{% url 'Bangazon:past_training_programs' %}">
+              <p class="past_program_btn">Past Training Classes</p>
+            </a>
+          </section>
+    <section class="bangazon_list_item">
+        <p class="training_title">{{training_program_details.name}}</p>
+        <p class="training_description">Description: {{training_program_details.description}}</p>
+        <p class="training_start">Start Date: {{training_program_details.startDate}}</p>
+        <p class="training_end">End Date: {{training_program_details.endDate}}</p>
+        <p class="training_max">Max Enrollment: {{training_program_details.maxEnrollment}}</p>
+        <p class="training_max">Attendees: </p>
+        {% for person in all_attendees %}
+        <p class="indiv_trainee">{{person.firstName}} {{person.lastName}}</p>
+        {% endfor %}
+    </section>
+    {% endif %}
+</div>
+
+{% endblock content %}

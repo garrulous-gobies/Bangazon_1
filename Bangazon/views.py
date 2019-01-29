@@ -4,6 +4,12 @@ from django.urls import reverse
 from django.utils import timezone
 from .forms import *
 from .models import *
+import datetime
+import pytz
+
+
+
+
 
 # ======================== EMPLOYEES ================
 def employees(request):
@@ -174,3 +180,15 @@ def update_program(request, pk):
     TrainingProgram.objects.filter(id=pk).update(name = request.POST['training_name'], description = request.POST['training_description'], startDate = request.POST['training_startDate'], endDate = request.POST['training_endDate'], maxEnrollment = request.POST['training_maxEnrollment'])
     response = redirect('../Training')
     return response
+
+def past_training_details(request, pk):
+    training_program_details = get_object_or_404(TrainingProgram, id=pk)
+    training_attendees = EmployeeTrainingProgram.objects.filter(
+        trainingProgram_id=pk)
+    all_attendees = []
+    for user in training_attendees:
+        employee_trained = get_object_or_404(Employee, id=user.employee_id)
+        all_attendees.append(employee_trained)
+    context = {'training_program_details': training_program_details,
+               'all_attendees': all_attendees}
+    return render(request, 'Bangazon/past_indiv_training_program.html', context)
