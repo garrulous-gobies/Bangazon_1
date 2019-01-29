@@ -10,11 +10,29 @@ def employees(request):
   context = {'employee_list': employee_list}
   return render(request, 'Bangazon/employees.html', context)
 
+def employee_details(request, employee_id):
+    employee_details = Employee.objects.get(pk=employee_id)
+    context = {'employee_details': employee_details}
+    return render(request, 'Bangazon/employee_details.html', context)
 
+# ========================DEPARTMENTS================
 def departments(request):
-  department_list = Department.objects.all()
-  context = {'department_list': department_list}
-  return render(request, 'Bangazon/departments.html', context)
+    department_list = Department.objects.all()
+    context = {'department_list': department_list}
+    return render(request, 'Bangazon/departments.html', context)
+
+def new_department(request):
+    department_list = Department.objects.all()
+    context = {'department_list': department_list}
+    return render(request, 'Bangazon/new_department_form.html', context)
+
+def save_department(request):
+    name = request.POST['department_name']
+    budget = request.POST['department_budget']
+    dep = Department(name=name, budget=budget)
+    dep.save()
+    response = redirect('./')
+    return response
 
 # ==========================COMPUTERS=================================
 def computers(request):
