@@ -17,9 +17,9 @@ def employee_details(request, employee_id):
 
 # ========================DEPARTMENTS================
 def departments(request):
-  department_list = Department.objects.all()
-  context = {'department_list': department_list}
-  return render(request, 'Bangazon/departments.html', context)
+    department_list = Department.objects.all()
+    context = {'department_list': department_list}
+    return render(request, 'Bangazon/departments.html', context)
 
 def new_department(request):
     department_list = Department.objects.all()
