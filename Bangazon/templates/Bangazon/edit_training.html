@@ -2,10 +2,9 @@
 {% extends "Bangazon/index.html" %}
 
 {% block content %}
-{% if program_details %}
     <div id="main_container">
-    <h1 class="main_title">Edit "{{ program_details.name }}" Details</h1>
-    <form class="add_training" action="{% url 'Bangazon:update_program' program_details.id %}" method="POST">
+    <h1 class="main_title">Edit Details</h1>
+    <form class="add_training" action="{% url 'Bangazon:update_program' id %}" method="POST">
         {% csrf_token %}
         {{ form }}
         <input class="form_button" type="submit" value="Save Edits">
@@ -15,7 +14,6 @@
         <p class="past_program_btn">Cancel Edit</p>
         </a>
     </section>
-  {% endif %}
 </div>
 
 {% endblock content %}

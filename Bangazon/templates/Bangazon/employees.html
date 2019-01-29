@@ -5,6 +5,7 @@
 
   <div id="main_container">
     <h1 class="main_title">Employees</h1>
+    <a href = "{% url 'Bangazon:employee_form' %}">New Employee</a>
     {% if employee_list %}
       <ul class="bangazon_list">
         {% for employee in employee_list %}

@@ -4,9 +4,8 @@ from django.urls import reverse
 from django.utils import timezone
 from .forms import *
 from .models import *
-# Create your views here.
 
-
+# ======================== EMPLOYEES ================
 def employees(request):
     employee_list = Employee.objects.all()
     context = {'employee_list': employee_list}
@@ -29,6 +28,18 @@ def employee_details(request, employee_id):
         'upcoming_training_programs': upcoming_training_programs
     }
     return render(request, 'Bangazon/employee_details.html', context)
+
+def employee_form(request):
+    departments = Department.objects.all()
+    context = {"departments": departments}
+    return render(request, "Bangazon/employees_form.html", context)
+
+def employee_new(request):
+    department = Department.objects.get(pk=request.POST['department'])
+    employee = Employee(firstName = request.POST['firstName'], lastName = request.POST['lastName'], startDate = request.POST['startDate'], isSupervisor = request.POST['supervisor'], department = department)
+
+    employee.save()
+    return HttpResponseRedirect(reverse('Bangazon:employees'))
 
 # ========================DEPARTMENTS================
 
@@ -59,19 +70,14 @@ def save_department(request):
 def computers(request):
     computer_list = Computer.objects.all()
     context = {'computer_list': computer_list}
-
-    for computer in computer_list:
-        print("Computer Employee", computer.employee_set.all())
-
     return render(request, 'Bangazon/computers.html', context)
 
 
 def computer_details(request, computer_id):
-    computer = get_object_or_404(Computer, pk=computer_id)
-    # print("id", computer)
-    context = {'computer': computer}
-    return render(request, 'Bangazon/computer_details.html', context)
-
+  computer = get_object_or_404(Computer, pk=computer_id)
+  print("id", computer.id)
+  context = {'computer': computer}
+  return render(request, 'Bangazon/computer_details.html', context)
 
 def computer_form(request):
     employees = Employee.objects.all
@@ -84,8 +90,24 @@ def computer_new(request):
         purchaseDate=request.POST['purchase'], model=request.POST['model'], manufacturer=request.POST['manufacturer'])
     computer.save()
     employee = Employee.objects.get(pk=request.POST['assignment'])
-    computer.employee_set.add(employee)
+    relationship = Employee_Computer(employee=employee, computer=computer)
+    relationship.save()
+    return HttpResponseRedirect(reverse('Bangazon:computers'))
 
+def computer_delete_confirm(request):
+    computer= Computer.objects.get(pk=request.POST['computer_id'])
+    is_assigned=computer.employee_set.all()
+    assigned = False
+    if len(is_assigned) > 0:
+        assigned = True
+    context = {'computer': computer,
+                'assigned': assigned}
+    print("context", context)
+    return render(request, "Bangazon/computer_delete_confirm.html", context)
+
+def computer_delete(request):
+    computer= Computer.objects.get(pk=request.POST['computer_id'])
+    computer.delete()
     return HttpResponseRedirect(reverse('Bangazon:computers'))
 
 
@@ -144,18 +166,11 @@ def training_details(request, pk):
 
 def edit_training_details(request, pk):
     training_program_details = get_object_or_404(TrainingProgram, id=pk)
-    print(training_program_details.name)
     form = NewTrainingForm(initial={'training_name': training_program_details.name, 'training_description': training_program_details.description, 'training_startDate': training_program_details.startDate, 'training_endDate': training_program_details.endDate, 'training_maxEnrollment': training_program_details.maxEnrollment})
-    return render(request, 'Bangazon/new_training_program_form.html', {'form': form})
+    return render(request, 'Bangazon/edit_training.html', {'form': form, "id": pk})
 
 
-def update_program(request):
-    name = request.POST['training_name']
-    description = request.POST['training_description']
-    startDate = request.POST['training_startDate']
-    endDate = request.POST['training_endDate']
-    maxEnrollment = request.POST['training_maxEnrollment']
-    t = TrainingProgram(name=name, description=description, startDate=startDate, endDate=endDate, maxEnrollment=maxEnrollment)
-    print(t.name)
-    response = redirect('./Training')
+def update_program(request, pk):
+    TrainingProgram.objects.filter(id=pk).update(name = request.POST['training_name'], description = request.POST['training_description'], startDate = request.POST['training_startDate'], endDate = request.POST['training_endDate'], maxEnrollment = request.POST['training_maxEnrollment'])
+    response = redirect('../Training')
     return response

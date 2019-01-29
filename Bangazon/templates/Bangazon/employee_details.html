@@ -10,7 +10,7 @@
         <h4>{% if employee_details.isSupervisor == 1 %}--Department Supervisor{% endif %}</h4>
         <ul>
             <li class="bangazon_list_item">Hire Date: {{employee_details.startDate}}</li>
-            <li class="bangazon_list_item">Department:{{employee_details.departmentId.name}}</li>
+            <li class="bangazon_list_item">Department:{{employee_details.department.name}}</li>
 
             {% if employee_details.computer.all|length == 0 %}
                 <li class="bangazon_list_item">Computer: No computer assigned.
