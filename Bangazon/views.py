@@ -3,6 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.utils import timezone
 from .models import *
+from .forms import *
 
 # ======================== EMPLOYEES ================
 def employees(request):
@@ -38,6 +39,13 @@ def employee_new(request):
     
     employee.save()
     return HttpResponseRedirect(reverse('Bangazon:employees'))
+
+
+def employee_edit(request, pk):
+  employee = get_object_or_404(Employee, id=pk)
+  # departments = Department.objects.all()
+  form = EmployeeEditForm(initial={'firstName': employee.firstName, 'lastName': employee.lastName, 'Start Date': employee.startDate, 'isSupervisor': employee.isSupervisor})
+  return render(request, 'Bangazon/employee_edit.html', {'form': form, 'employee': employee})
 
 # ========================DEPARTMENTS================
 def departments(request):
