@@ -11,6 +11,7 @@ urlpatterns = [
     path('Bangazon/Departments', views.departments, name='departments'),
     path('Bangazon/Departments/NewDepartment', views.new_department, name='new_department'),
     path('Bangazon/Departments/SaveDepartment', views.save_department, name='save_department'),
+    path('Bangazon/Departments/<int:department_id>', views.department_details, name='department_details'),
 
 # ==================Computers==================================================
     path('Bangazon/Computers', views.computers, name='computers'),
