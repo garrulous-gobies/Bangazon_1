@@ -28,8 +28,8 @@ class EmployeeDetailsTests(TestCase):
         future_program = TrainingProgram.objects.create(name="Excel", description="Test description.", startDate="2020-03-28 14:30:00", endDate="2019-01-28 15:30:00", maxEnrollment=1)
         department = Department.objects.create(budget=1, name="IT")
         employee = Employee.objects.create(firstName="Brad", lastName="Davis", startDate="2019-01-01 08:00", isSupervisor=0, department= department)
-        training = EmployeeTrainingProgram.objects.create(status="Pending", employee=employee, trainingProgram= past_program)
-        training = EmployeeTrainingProgram.objects.create(status="Pending", employee=employee, trainingProgram= future_program)
+        training_past = EmployeeTrainingProgram.objects.create(status="Pending", employee=employee, trainingProgram= past_program)
+        training_future = EmployeeTrainingProgram.objects.create(status="Pending", employee=employee, trainingProgram= future_program)
         computer = Computer.objects.create(purchaseDate='2018-12-25 01:50:04', decommissionDate='2017-04-03 17:01:33', manufacturer='Micron', model='Chunk')
         employee_computer = Employee_Computer.objects.create(computer=computer, employee=employee)
 
@@ -144,3 +144,10 @@ class AddingDepartmentTest(TestCase):
         response = self.client.post(reverse('Bangazon:save_department'), {"department_name":"Broccoli Sales", "department_budget": 100000})
 
         self.assertEqual(response.status_code, 302)
+
+    def test_add_department_form(self):
+        response = self.client.get(reverse('Bangazon:new_department'))
+        self.assertIn(  
+          '<input name="department_name" type="text" placeholder="Department Name">'.encode(), response.content)
+        self.assertIn(  
+          '<input name="department_budget" type="number" placeholder="Department Budget">'.encode(), response.content)
