@@ -26,7 +26,8 @@
         {% endfor %}
       {% endif %}
     </ul>
-    <form action="{% url 'Bangazon:computer_delete_confirm' %}">
+    <form method="post" action="{% url 'Bangazon:computer_delete_confirm' %}">
+    {% csrf_token %}
     <input type="hidden" value="{{computer.id}}" name="computer_id">
     <input type="submit" value="Delete">
     </form>

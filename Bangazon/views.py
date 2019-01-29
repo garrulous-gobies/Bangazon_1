@@ -24,7 +24,7 @@ def computers(request):
 
 def computer_details(request, computer_id):
   computer = get_object_or_404(Computer, pk=computer_id)
-  # print("id", computer)
+  print("id", computer.id)
   context = {'computer': computer}
   return render(request, 'Bangazon/computer_details.html', context)
 
