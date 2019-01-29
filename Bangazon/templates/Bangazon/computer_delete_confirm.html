@@ -5,10 +5,20 @@
 
   <div id="main_container">
     <h1 class="main_title">Delete Computer</h1>
-    {% if {{assigned}} == True %}
+    {% if assigned == True %}
         <p>Computer is assigned to an employee and cannot be deleted.<p>
+        <a href="{% url 'Bangazon:computer_details' computer.id %}">Back</a>
+
+    {% else %}
+        <p>Are you sure you want to delete {{computer.model}}?</p>
+        <form method="post" action="{% url 'Bangazon:computer_delete'%}">
+            {% csrf_token %}
+            <input type="hidden" value="{{computer.id}}" name="computer_id">
+            <a href="{% url 'Bangazon:computer_details' computer.id %}">No</a>
+            <input type="submit" value="Delete">
+        </from>
     {% endif %}
-    <p>{{computer.id}}</p>
+
   </div>
 
 {% endblock content %}

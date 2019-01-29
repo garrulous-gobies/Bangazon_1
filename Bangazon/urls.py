@@ -11,12 +11,14 @@ urlpatterns = [
     path('Bangazon/Departments/NewDepartment', views.new_department, name='new_department'),
     path('Bangazon/Departments/SaveDepartment', views.save_department, name='save_department'),
 
-
+# ==================Computers==================================================
     path('Bangazon/Computers', views.computers, name='computers'),
     path('Bangazon/Computers/<int:computer_id>', views.computer_details, name='computer_details'),
     path('Bangazon/Computers/new', views.computer_new, name='computer_new'),
     path('Bangazon/Computers/form', views.computer_form, name='computer_form'),
     path('Bangazon/Computers/delete_confirm', views.computer_delete_confirm, name='computer_delete_confirm'),
+    path('Bangazon/Computers/delete', views.computer_delete, name='computer_delete'),
+# ===============================================================================================
 
 
 

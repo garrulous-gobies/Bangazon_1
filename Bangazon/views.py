@@ -68,7 +68,6 @@ def computer_new(request):
     computer.save()
     employee = Employee.objects.get(pk=request.POST['assignment'])
     computer.employee_set.add(employee)
-
     return HttpResponseRedirect(reverse('Bangazon:computers'))
 
 def computer_delete_confirm(request):
@@ -79,8 +78,15 @@ def computer_delete_confirm(request):
         assigned = True
     context = {'computer': computer,
                 'assigned': assigned}
-    print("context", assigned)
+    print("context", context)
     return render(request, "Bangazon/computer_delete_confirm.html", context)
+
+def computer_delete(request):
+    computer= Computer.objects.get(pk=request.POST['computer_id'])
+    computer.delete()
+    return HttpResponseRedirect(reverse('Bangazon:computers'))
+
+
 
 
 # =====================================================================
