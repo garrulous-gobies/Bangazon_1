@@ -11,8 +11,20 @@ def employees(request):
   return render(request, 'Bangazon/employees.html', context)
 
 def employee_details(request, employee_id):
+    now = timezone.now()
     employee_details = Employee.objects.get(pk=employee_id)
-    context = {'employee_details': employee_details}
+    past_training_programs = list()
+    upcoming_training_programs = list()
+    for program in employee_details.trainingprogram_set.all():
+        if (program.startDate < now):
+            past_training_programs.append(program)
+        elif (program.startDate > now):
+            upcoming_training_programs.append(program)
+    context = {
+        'employee_details': employee_details,
+        'past_training_programs':past_training_programs,
+        'upcoming_training_programs': upcoming_training_programs
+        }
     return render(request, 'Bangazon/employee_details.html', context)
 
 # ========================DEPARTMENTS================
