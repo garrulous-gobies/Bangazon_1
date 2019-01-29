@@ -62,7 +62,7 @@ class TrainingWithAttendeesTest(TestCase):
 
         program = TrainingProgram.objects.create(name="Excel", description="Test description.", startDate="2019-01-28 14:30:00", endDate="2019-01-28 15:30:00", maxEnrollment=1)
         department = Department.objects.create(budget=1, name="IT")
-        employee = Employee.objects.create(firstName="Brad", lastName="Davis", startDate="2019-01-01 08:00", isSupervisor=0, departmentId_id=1)
+        employee = Employee.objects.create(firstName="Brad", lastName="Davis", startDate="2019-01-01 08:00", isSupervisor=0, department_id=1)
         training = EmployeeTrainingProgram.objects.create(status="Pending", employee_id= 1, trainingProgram_id= 1)
 
         training_attendees = EmployeeTrainingProgram.objects.filter(trainingProgram_id = 1)
