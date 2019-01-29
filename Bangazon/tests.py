@@ -147,3 +147,14 @@ class AddingDepartmentTest(TestCase):
 
 class ComputerTests(TestCase):
 
+    def test_comp_model(self):
+        computer = Computer(purchaseDate = "2016-01-20 08:00:00", decommissionDate= "2016-01-20 08:00:00", manufacturer="dell", model="xps15")
+        computer.save()
+        response = Computer.objects.get(pk=1)
+        self.assertEqual(response, computer)
+
+    def test_comp_detail(self):
+        computer = Computer(purchaseDate = "2016-01-20 08:00:00", decommissionDate= "2016-01-20 08:00:00", manufacturer="dell", model="xps15")
+        response = self.client.get(reverse('Bangazon:computer_details', args=(1,)))
+        self.assertEqual(response.context["computer_details"].model, computer.model)
+
