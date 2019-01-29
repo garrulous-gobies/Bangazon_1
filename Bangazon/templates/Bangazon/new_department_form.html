@@ -1,12 +1,15 @@
 {% extends "Bangazon/index.html" %}
 
 {% block content %}
-<h2> Add A department</h2>
-<form class="add_department" action="{% url 'Bangazon:save_department' %}" method="POST">
-    {% csrf_token %}
-    <input name="department_name" type="text" placeholder="Department Name">
-    <input name="department_budget" type="number" placeholder="Department Budget">
-    <input type="submit">
-</form>
+
+<div class="new_department_form">
+    <h2> Add A Department</h2>
+    <form class="add_department" action="{% url 'Bangazon:save_department' %}" method="POST">
+        {% csrf_token %}
+        <input name="department_name" type="text" placeholder="Department Name">
+        <input name="department_budget" type="number" placeholder="Department Budget">
+        <input type="submit">
+    </form>
+</div>
 
 {% endblock content%}
