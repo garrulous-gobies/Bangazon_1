@@ -22,6 +22,11 @@
         <p class="indiv_trainee">{{person.firstName}} {{person.lastName}}</p>
         {% endfor %}
     </section>
+    <section class="training_nav_button">
+        <a class="past_link" href="{% url 'Bangazon:training_delete' training_program_details.id %}">
+            <p class="past_program_btn">Delete Training</p>
+        </a>
+    </section>
     {% endif %}
 </div>
 

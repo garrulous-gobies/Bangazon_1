@@ -32,5 +32,6 @@ urlpatterns = [
     path('Bangazon/SaveProgram', views.save_program, name='save_program'),
     path('Bangazon/EditTraining<int:pk>/', views.edit_training_details, name='edit_training_details'),
     path('Bangazon/UpdateProgram<int:pk>/', views.update_program, name='update_program'),
+    path('Bangazon/DeleteProgram/<int:pk>', views.training_delete, name='training_delete'),
 ]
 
