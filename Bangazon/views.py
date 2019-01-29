@@ -55,8 +55,7 @@ def save_department(request):
     budget = request.POST['department_budget']
     dep = Department(name=name, budget=budget)
     dep.save()
-    response = redirect('./')
-    return response
+    return HttpResponseRedirect(reverse('Bangazon:departments'))
 
 def department_details(request, department_id):
     department_details = Department.objects.get(pk=department_id)
