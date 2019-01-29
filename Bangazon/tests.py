@@ -144,3 +144,6 @@ class AddingDepartmentTest(TestCase):
         response = self.client.post(reverse('Bangazon:save_department'), {"department_name":"Broccoli Sales", "department_budget": 100000})
 
         self.assertEqual(response.status_code, 302)
+
+class ComputerTests(TestCase):
+
