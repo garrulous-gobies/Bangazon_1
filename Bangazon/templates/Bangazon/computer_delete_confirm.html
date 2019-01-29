@@ -5,6 +5,9 @@
 
   <div id="main_container">
     <h1 class="main_title">Delete Computer</h1>
+    {% if {{assigned}} == True %}
+        <p>Computer is assigned to an employee and cannot be deleted.<p>
+    {% endif %}
     <p>{{computer.id}}</p>
   </div>
 

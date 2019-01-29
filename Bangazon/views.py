@@ -43,12 +43,13 @@ def computer_new(request):
 
 def computer_delete_confirm(request):
     computer= Computer.objects.get(pk=request.POST['computer_id'])
-    is_assigned=computer.employee_set()
+    is_assigned=computer.employee_set.all()
     assigned = False
     if len(is_assigned) > 0:
         assigned = True
     context = {'computer': computer,
                 'assigned': assigned}
+    print("context", assigned)
     return render(request, "Bangazon/computer_delete_confirm.html", context)
 
 
