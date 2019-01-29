@@ -1,0 +1,39 @@
+<!-- Basic block for  individual training program-->
+{% extends "Bangazon/index.html" %}
+
+{% block content %}
+
+<div id="main_container">
+  <h1 class="main_title">Edit Training Program</h1>
+  <form class="add_training" action="{% url 'Bangazon:save_program' %}" method="POST">
+    {% csrf_token %}
+    <section class="input_section">
+      <label class="input_label" for="training_name">Name of Training: </label>
+      <input class="input_field" id="training_name" type="text" name="training_name" placeholder="Enter name/title of training.">
+    </section>
+    <section class="input_section">
+      <label class="input_label" for="training_description">Description: </label>
+      <input class="input_field" id="training_description" type="text" name="training_description" placeholder="Enter a description for the training course.">
+    </section>
+    <section class="input_section">
+      <label class="input_label" for="training_startDate">Start Date: </label>
+      <input class="input_field" id="training_startDate" type="datetime-local" name="training_startDate" placeholder="Enter the start date and time.">
+    </section>
+    <section class="input_section">
+      <label class="input_label" for="training_endDate">End Date: </label>
+      <input class="input_field" id="training_endDate" type="datetime-local" name="training_endDate" placeholder="Enter the end date and time.">
+    </section>
+    <section class="input_section">
+      <label class="input_label" for="training_maxEnrollment">Maximum class size: </label>
+      <input class="input_field" id="training_maxEnrollment" type="number" name="training_maxEnrollment" placeholder="Enter the maximum number of attendees.">
+    </section>
+    <input class="form_button" type="submit" value="Save Training">
+  </form>
+  <section class="training_nav_button">
+    <a class="past_link" href="{% url 'Bangazon:training_programs' %}">
+      <p class="past_program_btn">View Upcoming Classes</p>
+    </a>
+  </section>
+</div>
+
+{% endblock content %}

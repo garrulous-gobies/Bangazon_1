@@ -66,7 +66,7 @@ def computer_new(request):
 
 
 
-# =====================================================================
+# ===========================TRAINING================================
 
 def training_programs(request):
   now = timezone.now()
@@ -103,3 +103,10 @@ def training_details(request, pk):
     all_attendees.append(employee_trained)
   context = {'training_program_details': training_program_details, 'all_attendees': all_attendees}
   return render(request, 'Bangazon/indiv_training_program.html', context)
+
+def edit_training_details(request, pk):
+  training_program_details = get_object_or_404(TrainingProgram, id = pk)
+  context = {"program_details": training_program_details}
+  print("context:", context)
+  print("PK", pk)
+  return render(request, 'Bangazon/edit_training.html', context)
