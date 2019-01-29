@@ -58,6 +58,7 @@ class TrainingProgram(models.Model):
       MinValueValidator(0)
     ]
   )
+  employee = models.ManyToManyField(Employee, through="EmployeeTrainingProgram")
   def __str__(self):
     return self
 
