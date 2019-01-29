@@ -132,25 +132,6 @@ class AddingDepartmentTest(TestCase):
         self.assertIn(
           '<input name="department_budget" type="number" placeholder="Department Budget" required=True>'.encode(), response.content)
 
-# ===============================COMPUTERS========================================
-
-class ComputerTests(TestCase):
-
-
-    def test_comp_model(self):
-        computer = Computer(purchaseDate = "2016-01-20 08:00:00", decommissionDate= "2016-01-20 08:00:00", manufacturer="dell", model="xps15")
-        computer.save()
-        response = Computer.objects.get(pk=1)
-        self.assertEqual(response, computer)
-
-    def test_comp_detail(self):
-        computer = Computer(purchaseDate = "2016-01-20 08:00:00", decommissionDate= "2016-01-20 08:00:00", manufacturer="dell", model="xps15")
-        computer.save()
-        response = self.client.get(reverse('Bangazon:computer_details', args=(1,)))
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.context["computer"], computer)
-
-# =======================================================================================
 
 class AddingEmployeeTest(TestCase):
 
@@ -206,3 +187,64 @@ class DepartmentDetails(TestCase):
             self.assertEqual(emp.lastName, employee.lastName)
             self.assertEqual(emp.department, employee.department)
 
+# ===============================COMPUTERS========================================
+
+class ComputerDetailsTests(TestCase):
+
+
+    def test_comp_model(self):
+        computer = Computer(purchaseDate = "2016-01-20 08:00:00", decommissionDate= "2016-01-20 08:00:00", manufacturer="dell", model="xps15")
+        computer.save()
+        response = Computer.objects.get(pk=1)
+        self.assertEqual(response, computer)
+
+    def test_comp_detail(self):
+        computer = Computer(purchaseDate = "2016-01-20 08:00:00", decommissionDate= "2016-01-20 08:00:00", manufacturer="dell", model="xps15")
+        computer.save()
+        response = self.client.get(reverse('Bangazon:computer_details', args=(1,)))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context["computer"], computer)
+
+class ComputerAddForm(TestCase):
+    def test_comp_form(self):
+        response= self.client.get(reverse('Bangazon:computer_form'))
+        self.assertIn(
+            '<input type="text" name="model" id="computer_new_model">'.encode(), response.content
+        )
+        self.assertIn(
+            '<input type="text" name="manufacturer" id="computer_new_manufacturer">'.encode(), response.content
+        )
+        self.assertIn(
+            '<input type="datetime-local" name="purchase" id="computer_new_purchase">'.encode(), response.content
+        )
+        self.assertIn(
+            '<input type="datetime-local" name="purchase" id="computer_new_purchase">'.encode(), response.content
+        )
+
+    def test_comp_add(self):
+        department = Department.objects.create(name="HR", budget=10)
+        Employee.objects.create(firstName="Fred", lastName="Frederickson", startDate="1991-02-13", isSupervisor=0, department=department)
+        response = self.client.post(reverse('Bangazon:computer_new'),
+        {
+        "purchase": "2010-01-01 12:00:00",
+        "model": "XPS15",
+        "manufacturer": "Dell",
+        "assignment": 1})
+
+        self.assertEqual(response.status_code, 302)
+
+class ComputerDelete(TestCase):
+    def test_comp_delete(self):
+        computer = Computer(purchaseDate = "2016-01-20 08:00:00", decommissionDate= "2016-01-20 08:00:00", manufacturer="dell", model="xps15")
+        computer.save()
+        response = Computer.objects.get(pk=1)
+        responseLength= Computer.objects.all()
+        self.assertEqual(computer,response)
+        delete = response = self.client.post(reverse('Bangazon:computer_delete'),
+        {
+        'computer_id':1})
+        self.assertEqual(delete.status_code, 302)
+        response2 = Computer.objects.all()
+        self.assertNotEqual(responseLength, response2)
+
+# =======================================================================================
