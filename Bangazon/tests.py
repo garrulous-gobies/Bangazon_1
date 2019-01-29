@@ -158,3 +158,40 @@ class ComputerTests(TestCase):
         response = self.client.get(reverse('Bangazon:computer_details', args=(1,)))
         self.assertEqual(response.context["computer_details"].model, computer.model)
 
+class AddingEmployeeTest(TestCase):
+
+    def new_employee_status(self):
+        department = Department.objects.create(name="Sadness", budget=5000)
+        employee = Employee.objects.create(firstName="Joel", lastName="Shepdog", startDate="1996-07-01", isSupervisor=0, department=department)
+
+        response = self.client.post(employee)
+
+        self.assertEqual(response.status_code, 302)
+
+class EmployeeFormTest(TestCase):
+    def test_employee_form(self):
+        response = self.client.get(reverse('Bangazon:employee_form'))
+        self.assertIn(
+            '<input type="text" name="firstName" id="employee_new_first_name" required=True>'.encode(), response.content
+        )
+        self.assertIn(
+            '<input type="text" name="lastName" id="employee_new_last_name" required=True>'.encode(), response.content
+        )
+        self.assertIn(
+            '<input type="datetime-local" name="startDate" id="employee_new_start_date" required=True>'.encode(), response.content
+        )
+        self.assertIn(
+            '<select name="supervisor" id="employee_new_supervisor">'.encode(), response.content
+        )
+        self.assertIn(
+            '<select name="department" id="employee_new_department" required=True>'.encode(), response.content
+        )
+
+class EmployeeListTest(TestCase):
+    def test_employee_list(self):
+        department = Department.objects.create(name="Fun", budget=100001)
+        employee = Employee.objects.create(firstName="Joe", lastName="Shep", startDate="1900-01-04", isSupervisor=1, department=department)
+        response = Employee.objects.get(pk=1)
+
+        self.assertEqual(employee.firstName, response.firstName)
+        self.assertEqual(department.name, response.department.name)
