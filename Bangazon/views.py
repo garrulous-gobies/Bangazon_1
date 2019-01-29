@@ -67,7 +67,8 @@ def computer_new(request):
     computer = Computer(purchaseDate = request.POST['purchase'], model= request.POST['model'], manufacturer = request.POST['manufacturer'])
     computer.save()
     employee = Employee.objects.get(pk=request.POST['assignment'])
-    computer.employee_set.add(employee)
+    relationship = Employee_Computer(employee=employee, computer=computer)
+    relationship.save()
     return HttpResponseRedirect(reverse('Bangazon:computers'))
 
 def computer_delete_confirm(request):
