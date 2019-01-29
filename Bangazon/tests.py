@@ -28,8 +28,8 @@ class EmployeeDetailsTests(TestCase):
         future_program = TrainingProgram.objects.create(name="Excel", description="Test description.", startDate="2020-03-28 14:30:00", endDate="2019-01-28 15:30:00", maxEnrollment=1)
         department = Department.objects.create(budget=1, name="IT")
         employee = Employee.objects.create(firstName="Brad", lastName="Davis", startDate="2019-01-01 08:00", isSupervisor=0, department= department)
-        training = EmployeeTrainingProgram.objects.create(status="Pending", employee=employee, trainingProgram= past_program)
-        training = EmployeeTrainingProgram.objects.create(status="Pending", employee=employee, trainingProgram= future_program)
+        training_past = EmployeeTrainingProgram.objects.create(status="Pending", employee=employee, trainingProgram= past_program)
+        training_future = EmployeeTrainingProgram.objects.create(status="Pending", employee=employee, trainingProgram= future_program)
         computer = Computer.objects.create(purchaseDate='2018-12-25 01:50:04', decommissionDate='2017-04-03 17:01:33', manufacturer='Micron', model='Chunk')
         employee_computer = Employee_Computer.objects.create(computer=computer, employee=employee)
 
@@ -46,28 +46,7 @@ class EmployeeDetailsTests(TestCase):
 
 class DepartmentListTest(TestCase):
 
-  def test_department(self):
-    def test_list_departments(self):
-
-      department = Department.objects.create(name="Sales", budget=1999)
-      employee = Employee.objects.create(firstName="Joe", lastName="Shep", startDate="1776-07-04", isSupervisor=1, department=department)
-      response = Department.objects.get(pk=1)
-
-      self.assertEqual(department.name, response.name)
-      self.assertEqual(department.budget, response.budget)
-
-      self.assertEqual(len(response.context['department']), 1)
-      self.assertIn(department.name.encode(), response.content)
-
-      for emp in response.employee_set.all():
-        self.assertEqual(employee.firstName, emp.firstName)
-
-
-
-class DepartmentListTest(TestCase):
-
     def test_department(self):
-
         def test_list_departments(self):
 
             department = Department.objects.create(name="Sales", budget=1999)
@@ -82,6 +61,7 @@ class DepartmentListTest(TestCase):
 
             for emp in response.employee_set.all():
                 self.assertEqual(employee.firstName, emp.firstName)
+
 
 
 
@@ -145,6 +125,13 @@ class AddingDepartmentTest(TestCase):
 
         self.assertEqual(response.status_code, 302)
 
+    def test_add_department_form(self):
+        response = self.client.get(reverse('Bangazon:new_department'))
+        self.assertIn(  
+          '<input name="department_name" type="text" placeholder="Department Name" required=True>'.encode(), response.content)
+        self.assertIn(  
+          '<input name="department_budget" type="number" placeholder="Department Budget" required=True>'.encode(), response.content)
+
 class AddingEmployeeTest(TestCase):
 
     def new_employee_status(self):
@@ -182,3 +169,20 @@ class EmployeeListTest(TestCase):
 
         self.assertEqual(employee.firstName, response.firstName)
         self.assertEqual(department.name, response.department.name)
+
+
+class DepartmentDetails(TestCase):
+    def test_department_details(self):
+     
+        department = Department.objects.create(name="Heavy Metals", budget=2)
+        employee = Employee.objects.create(firstName="Bryan", lastName="Nilsen", startDate="1971-01-02", isSupervisor=1, department=department)
+
+        response = self.client.get(reverse('Bangazon:department_details', args=(1,)))
+        self.assertEqual(response.context['department_details'].name, department.name)
+        self.assertEqual(response.context['department_details'].budget, department.budget)
+        
+        for emp in response.context['department_details'].employee_set.all():
+            self.assertEqual(emp.firstName, employee.firstName)
+            self.assertEqual(emp.lastName, employee.lastName)
+            self.assertEqual(emp.department, employee.department)
+
