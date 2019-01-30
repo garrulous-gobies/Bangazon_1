@@ -225,9 +225,6 @@ class DepartmentDetails(TestCase):
         self.assertEqual(
             response.context['department_details'].budget, department.budget)
 
-        response = self.client.get(reverse('Bangazon:department_details', args=(1,)))
-        self.assertEqual(response.context['department_details'].name, department.name)
-        self.assertEqual(response.context['department_details'].budget, department.budget)
 
         for emp in response.context['department_details'].employee_set.all():
             self.assertEqual(emp.firstName, employee.firstName)
@@ -294,4 +291,3 @@ class ComputerDelete(TestCase):
         response2 = Computer.objects.all()
         self.assertNotEqual(responseLength, response2)
 
-# =======================================================================================
