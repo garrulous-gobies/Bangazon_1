@@ -9,13 +9,13 @@
     {% csrf_token %}
 
     <label for="computer_new_model">Model</label>
-    <input type="text" name="model" id="computer_new_model">
+    <input type="text" name="model" id="computer_new_model" required>
 
     <label for="computer_new_manufacturer">Manufacturer</label>
-    <input type="text" name="manufacturer" id="computer_new_manufacturer">
+    <input type="text" name="manufacturer" id="computer_new_manufacturer"required >
 
     <label for="computer_new_purchase">Purchase Date</label>
-    <input type="datetime-local" name="purchase" id="computer_new_purchase">
+    <input type="datetime-local" name="purchase" id="computer_new_purchase" required>
 
     <label for="computer_new_assignment">Assign Employee</label>
     <select name="assignment" id="computer_new_assignment">
