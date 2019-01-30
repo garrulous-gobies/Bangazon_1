@@ -6,7 +6,7 @@
   <div id="main_container">
     <h1 class="main_title">Past Training Programs</h1>
     <section class="training_nav_button">
-      <a class="past_link" href="../Bangazon/Training">
+      <a class="past_link" href="../Training">
           <p class="past_program_btn">Upcoming Training Classes</p>
       </a>
     </section>
@@ -14,7 +14,7 @@
       <ul class="bangazon_list">
         {% for program in training_program_list %}
         <li class="bangazon_list_item">
-          <a class="training_name_list" href="{% url 'Bangazon:training_details' program.id %}">
+          <a class="training_name_list" href="{% url 'Bangazon:past_training_details' program.id %}">
             <p class="program_name">{{ program.name }}</p>
           </a>
         </li>

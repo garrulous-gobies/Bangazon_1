@@ -3,14 +3,22 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.utils import timezone
 from .models import *
-import datetime
 import math
+from .forms import *
+import datetime
+import pytz
+from django.db.models import Q
+
+
+
+
 
 # ======================== EMPLOYEES ================
 def employees(request):
-  employee_list = Employee.objects.all()
-  context = {'employee_list': employee_list}
-  return render(request, 'Bangazon/employees.html', context)
+    employee_list = Employee.objects.all()
+    context = {'employee_list': employee_list}
+    return render(request, 'Bangazon/employees.html', context)
+
 
 def employee_details(request, employee_id):
     now = timezone.now()
@@ -24,9 +32,9 @@ def employee_details(request, employee_id):
             upcoming_training_programs.append(program)
     context = {
         'employee_details': employee_details,
-        'past_training_programs':past_training_programs,
+        'past_training_programs': past_training_programs,
         'upcoming_training_programs': upcoming_training_programs
-        }
+    }
     return render(request, 'Bangazon/employee_details.html', context)
 
 def employee_form(request):
@@ -41,16 +49,33 @@ def employee_new(request):
     employee.save()
     return HttpResponseRedirect(reverse('Bangazon:employees'))
 
+def employee_update(request, pk):
+    department = Department.objects.get(pk=request.POST['department'])
+    employee_edited = Employee(id=pk, firstName = request.POST['firstName'], lastName = request.POST['lastName'], startDate = request.POST['startDate'], isSupervisor = request.POST['supervisor'], department = department)
+
+    employee_edited.save()
+    return HttpResponseRedirect(reverse('Bangazon:employees'))
+
+def employee_edit(request, pk):
+  employee = get_object_or_404(Employee, id=pk)
+  department = Department.objects.get(employee=pk)
+  form = EmployeeEditForm(initial={'firstName': employee.firstName, 'lastName': employee.lastName, 'Start Date': employee.startDate, 'supervisor': employee.isSupervisor, 'department': department.id})
+  return render(request, 'Bangazon/employee_edit.html', {'form': form, 'employee': employee})
+
 # ========================DEPARTMENTS================
+
+
 def departments(request):
     department_list = Department.objects.all()
     context = {'department_list': department_list}
     return render(request, 'Bangazon/departments.html', context)
 
+
 def new_department(request):
     department_list = Department.objects.all()
     context = {'department_list': department_list}
     return render(request, 'Bangazon/new_department_form.html', context)
+
 
 def save_department(request):
     name = request.POST['department_name']
@@ -65,9 +90,19 @@ def department_details(request, department_id):
     return render(request, 'Bangazon/department_details.html', context)
 
 # ==========================COMPUTERS=================================
+
+
 def computers(request):
-    computer_list = Computer.objects.all()
+    if request.POST:
+        computer_list = Computer.objects.filter(Q(manufacturer__icontains=request.POST['computer_search']) | Q(model__icontains=request.POST['computer_search']))
+        print("IM INSIDE THE IF===========================")
+    else:
+        computer_list = Computer.objects.all()
+        print("IM INSIDE THE ELSE===========================")
+        print(request.POST)
+
     context = {'computer_list': computer_list}
+<<<<<<< HEAD
     return render(request, 'Bangazon/computer1.html', context)
 
 # def computers2(request):
@@ -75,6 +110,11 @@ def computers(request):
 #     # relationships = Employee_Computer
 #     context = {'computer_list': computer_list}
 #     return render(request, 'Bangazon/computers.html', context)
+
+=======
+
+    return render(request, 'Bangazon/computers.html', context)
+>>>>>>> master
 
 
 def computer_details(request, computer_id):
@@ -88,13 +128,21 @@ def computer_form(request):
     context = {"employees": employees}
     return render(request, "Bangazon/computer_form.html", context)
 
+
 def computer_new(request):
-    computer = Computer(purchaseDate = request.POST['purchase'], model= request.POST['model'], manufacturer = request.POST['manufacturer'])
+    computer = Computer(
+        purchaseDate=request.POST['purchase'], model=request.POST['model'], manufacturer=request.POST['manufacturer'])
     computer.save()
+<<<<<<< HEAD
     if request.POST['assignment'] != 'null':
         employee = Employee.objects.get(pk=request.POST['assignment'])
         relationship = Employee_Computer(employee=employee, computer=computer, assignDate=datetime.datetime.now())
         relationship.save()
+=======
+    employee = Employee.objects.all(pk=request.POST['assignment'])
+    relationship = Employee_Computer(employee=employee, computer=computer)
+    relationship.save()
+>>>>>>> master
     return HttpResponseRedirect(reverse('Bangazon:computers'))
 
 def computer_delete_confirm(request):
@@ -113,43 +161,68 @@ def computer_delete(request):
     computer.delete()
     return HttpResponseRedirect(reverse('Bangazon:computers'))
 
+# ===========================TRAINING================================
 
-
-
-# =====================================================================
-
+# Lists all training programs for future classes
 def training_programs(request):
-  now = timezone.now()
-  training_program_list = TrainingProgram.objects.filter(startDate__gte=now)
-  context = {'training_program_list': training_program_list}
-  return render(request, 'Bangazon/training_program.html', context)
+    now = timezone.now()
+    training_program_list = TrainingProgram.objects.filter(startDate__gte=now)
+    context = {'training_program_list': training_program_list}
+    return render(request, 'Bangazon/training_program.html', context)
 
+# List past training programs that have taken place
 def past_training_programs(request):
-  now = timezone.now()
-  training_program_list = TrainingProgram.objects.filter(startDate__lte=now)
-  context = {'training_program_list': training_program_list}
-  return render(request, 'Bangazon/past_training_programs.html', context)
+    now = timezone.now()
+    training_program_list = TrainingProgram.objects.filter(startDate__lte=now)
+    context = {'training_program_list': training_program_list}
+    return render(request, 'Bangazon/past_training_programs.html', context)
 
+# Show specific details for upcoming training classes with options to edit or delete
+def training_details(request, trainingprogram_id):
+    training_program_details = get_object_or_404(TrainingProgram, id=trainingprogram_id)
+    assignees = EmployeeTrainingProgram.objects.filter(trainingProgram_id=training_program_details.id)
+    attendees = []
+    for emp in assignees:
+        person = Employee.objects.get(id=emp.id)
+        attendees.append(person)
+    context = {'training_program_details': training_program_details, 'attendees': attendees}
+    return render(request, 'Bangazon/indiv_training_program.html', context)
+
+# Show specific details for past training classes without the option to alter data
+def past_training_details(request, trainingprogram_id):
+    training_program_details = get_object_or_404(TrainingProgram, id=trainingprogram_id)
+    assignees = EmployeeTrainingProgram.objects.filter(trainingProgram_id=training_program_details.id)
+    attendees = []
+    for emp in assignees:
+        person = Employee.objects.get(id=emp.id)
+        attendees.append(person)
+    context = {'training_program_details': training_program_details, 'attendees': attendees}
+    return render(request, 'Bangazon/past_indiv_training_program.html', context)
+
+# Displays form that creates a new training program
 def new_training_program_form(request):
-  return render(request, 'Bangazon/new_training_program_form.html')
+    form = NewTrainingForm()
+    return render(request, 'Bangazon/new_training_program_form.html', {'form': form})
 
+# Saves new program to database and forwards to training_programs
 def save_program(request):
-  name = request.POST['training_name']
-  description = request.POST['training_description']
-  startDate= request.POST['training_startDate']
-  endDate = request.POST['training_endDate']
-  maxEnrollment = request.POST['training_maxEnrollment']
-  t = TrainingProgram(name = name, description = description, startDate = startDate, endDate = endDate, maxEnrollment = maxEnrollment)
-  t.save()
-  response = redirect('./Training')
-  return response
+    training = TrainingProgram(name=request.POST['training_name'], description=request.POST['training_description'], startDate=request.POST['training_startDate'], endDate=request.POST['training_endDate'], maxEnrollment=request.POST['training_maxEnrollment'])
+    training.save()
+    return HttpResponseRedirect(reverse('Bangazon:training_programs'))
 
-def training_details(request, pk):
-  training_program_details = get_object_or_404(TrainingProgram, id = pk)
-  training_attendees = EmployeeTrainingProgram.objects.filter(trainingProgram_id = pk)
-  all_attendees = []
-  for user in training_attendees:
-    employee_trained = get_object_or_404(Employee, id = user.employee_id)
-    all_attendees.append(employee_trained)
-  context = {'training_program_details': training_program_details, 'all_attendees': all_attendees}
-  return render(request, 'Bangazon/indiv_training_program.html', context)
+# Displays form with existing data prepopulated and allows user to edit details
+def edit_training_details(request, trainingprogram_id):
+    training_program_details = TrainingProgram.objects.get(id=trainingprogram_id)
+    form = NewTrainingForm(initial={'training_name': training_program_details.name, 'training_description': training_program_details.description, 'training_startDate': training_program_details.startDate, 'training_endDate': training_program_details.endDate, 'training_maxEnrollment': training_program_details.maxEnrollment})
+    return render(request, 'Bangazon/edit_training.html', {'form': form, "id": trainingprogram_id})
+
+# Saves updated training details from edit_training_details form
+def update_program(request):
+    TrainingProgram.objects.filter(id=request.POST['trainingprogram_id']).update(name = request.POST['training_name'], description = request.POST['training_description'], startDate = request.POST['training_startDate'], endDate = request.POST['training_endDate'], maxEnrollment = request.POST['training_maxEnrollment'])
+    return HttpResponseRedirect(reverse('Bangazon:training_programs'))
+
+# Deletes upcoming training event
+def training_delete(request):
+    training = TrainingProgram.objects.get(id=request.POST['trainingprogram_id'])
+    training.delete()
+    return HttpResponseRedirect(reverse('Bangazon:training_programs'))

@@ -4,28 +4,30 @@
 {% block content %}
 
 <div id="main_container">
-  <h1 class="main_title">Training Programs</h1>
-  <section class="training_nav_buttons">
-    <a class="past_link" href="{% url 'Bangazon:new_training_program_form' %}">
-      <p class="past_program_btn">Add Training Class</p>
-    </a>
-    <a class="past_link" href="{% url 'Bangazon:past_training_programs' %}">
-      <p class="past_program_btn">Past Training Classes</p>
-    </a>
-  </section>
-  {% if training_program_list %}
-  <ul class="bangazon_list">
-    {% for program in training_program_list %}
-    <li class="bangazon_list_item">
-      <a class="training_name_list" href="{% url 'Bangazon:training_details' program.id %}">
-        <p class="program_name">{{ program.name }}</p>
-      </a>
-    </li>
-    {% endfor %}
-  </ul>
-  {% else %}
-  <p class="no_items_found">No future training programs in system.</p>
-  {% endif %}
+    <h1 class="main_title">Training Programs</h1>
+    <section class="training_nav_buttons">
+        <a class="past_link" href="{% url 'Bangazon:new_training_program_form' %}">
+            <p class="past_program_btn">Add Training Class</p>
+        </a>
+    </section>
+    {% if training_program_list %}
+    <ul class="bangazon_list">
+        {% for program in training_program_list %}
+        <li class="bangazon_list_item">
+            <a class="training_name_list" href="{% url 'Bangazon:training_details' program.id %}">
+                <p class="program_name">{{ program.name }}</p>
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p class="no_items_found">No future training programs in system.</p>
+    {% endif %}
+    <section class="training_nav_buttons">
+        <a class="past_link" href="{% url 'Bangazon:past_training_programs' %}">
+            <p class="past_program_btn">Past Training Classes</p>
+        </a>
+    </section>
 </div>
 
 {% endblock content %}

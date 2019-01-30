@@ -6,6 +6,11 @@
 <div id="main_container">
     <h1 class="main_title">Training Programs</h1>
     {% if training_program_details %}
+    <section class="training_nav_buttons">
+            <a class="past_link" href="{% url 'Bangazon:past_training_programs' %}">
+              <p class="past_program_btn">Past Training Classes</p>
+            </a>
+          </section>
     <section class="bangazon_list_item">
         <p class="training_title">{{training_program_details.name}}</p>
         <p class="training_description">Description: {{training_program_details.description}}</p>
@@ -20,16 +25,6 @@
         {% else %}
         <p class="indiv_no_trainee">No trainees assigned.</p>
         {% endif %}
-    </section>
-    <section class="training_nav_button">
-        <a class="past_link" href="{% url 'Bangazon:edit_training_details' training_program_details.id %}">
-            <p class="past_program_btn">Edit Training Details</p>
-        </a>
-        <form class="past_link" action="{% url 'Bangazon:training_delete' %}" method="POST">
-                {% csrf_token %}
-            <input type="hidden" value="{{training_program_details.id}}" name="trainingprogram_id">
-            <input class="form_button" type="submit" value="Delete Training Class">
-        </form>
     </section>
     {% endif %}
 </div>

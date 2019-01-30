@@ -7,6 +7,9 @@ urlpatterns = [
     path('Bangazon/Employees/<int:employee_id>', views.employee_details, name='employee_details'),
     path('Bangazon/Employees/form', views.employee_form, name='employee_form'),
     path('Bangazon/Employees/new', views.employee_new, name='employee_new'),
+    path('Bangazon/Employees/<int:pk>/edit', views.employee_edit, name='employee_edit'),
+    path('Bangazon/Employees/<int:pk>/update', views.employee_update, name='employee_update'),
+    # path('Bangazon/Employees/update', views.employee_update, name='employee_update'),
 
     path('Bangazon/Departments', views.departments, name='departments'),
     path('Bangazon/Departments/NewDepartment', views.new_department, name='new_department'),
@@ -25,9 +28,13 @@ urlpatterns = [
 
 
     path('Bangazon/Training', views.training_programs, name='training_programs'),
-    path('Bangazon/Training<int:pk>/', views.training_details, name='training_details'),
-    path('Bangazon/PastTraining', views.past_training_programs, name='past_training_programs'),
-    path('Bangazon/NewTrainingClass', views.new_training_program_form, name='new_training_program_form'),
-    path('Bangazon/SaveProgram', views.save_program, name='save_program'),
+    path('Bangazon/Training/<int:trainingprogram_id>/', views.training_details, name='training_details'),
+    path('Bangazon/Training/Past/<int:trainingprogram_id>/', views.past_training_details, name='past_training_details'),
+    path('Bangazon/Training/PastTraining', views.past_training_programs, name='past_training_programs'),
+    path('Bangazon/Training/NewTrainingClass', views.new_training_program_form, name='new_training_program_form'),
+    path('Bangazon/Training/SaveProgram', views.save_program, name='save_program'),
+    path('Bangazon/Training/EditTraining/<int:trainingprogram_id>/', views.edit_training_details, name='edit_training_details'),
+    path('Bangazon/Training/UpdateProgram', views.update_program, name='update_program'),
+    path('Bangazon/Training/DeleteProgram', views.training_delete, name='training_delete'),
 ]
 
