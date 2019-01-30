@@ -149,16 +149,10 @@ def new_training_program_form(request):
 
 
 def save_program(request):
-    name = request.POST['training_name']
-    description = request.POST['training_description']
-    startDate = request.POST['training_startDate']
-    endDate = request.POST['training_endDate']
-    maxEnrollment = request.POST['training_maxEnrollment']
-    t = TrainingProgram(name=name, description=description,
-                        startDate=startDate, endDate=endDate, maxEnrollment=maxEnrollment)
-    t.save()
-    response = redirect('./Training')
-    return response
+    training = TrainingProgram(name=request.POST['training_name'], description=request.POST['training_description'],
+                        startDate=request.POST['training_startDate'], endDate=request.POST['training_endDate'], maxEnrollment=request.POST['training_maxEnrollment'])
+    training.save()
+    return HttpResponseRedirect(reverse('Bangazon:training_programs'))
 
 
 def training_details(request, pk):
