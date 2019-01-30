@@ -186,3 +186,22 @@ class DepartmentDetails(TestCase):
             self.assertEqual(emp.lastName, employee.lastName)
             self.assertEqual(emp.department, employee.department)
 
+class EditEmployeeTest(TestCase):
+    def test_emp_edit(self):
+
+        department = Department.objects.create(name="Chicago", budget=1500000)
+        employee = Employee.objects.create(firstName="Elyse", lastName="Dawson", startDate="1999-04-10", isSupervisor=1, department=department)
+
+        details = Employee.objects.get(pk=1)
+        self.assertEqual(employee, details)
+
+        pk = 1
+
+        response = Employee.objects.filter(id=pk).update(firstName="Big E", lastName="Dawson", startDate="2011-01-10", isSupervisor=1, department=department)
+
+        self.assertEqual(response, 1)
+
+        secondDetails = Employee.objects.get(pk=1)
+        self.assertEqual(secondDetails.firstName, "Big E")
+
+
