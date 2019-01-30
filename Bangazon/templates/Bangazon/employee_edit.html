@@ -5,7 +5,7 @@
 
   <div id="main_container">
     <h1 class="main_title">Edit Employee</h1>
-    <form method="post" action="{% url 'Bangazon:employee_new' %}" required=True>
+    <form method="post" action="{% url 'Bangazon:employee_update' %}" required=True>
     {% csrf_token %}
 
         {{ form }}
