@@ -6,6 +6,7 @@ from .forms import *
 from .models import *
 import datetime
 import pytz
+from django.db.models import Q
 
 
 
@@ -78,8 +79,16 @@ def department_details(request, department_id):
 
 
 def computers(request):
-    computer_list = Computer.objects.all()
+    if request.POST:
+        computer_list = Computer.objects.filter(Q(manufacturer__icontains=request.POST['computer_search']) | Q(model__icontains=request.POST['computer_search']))
+        print("IM INSIDE THE IF===========================")
+    else:
+        computer_list = Computer.objects.all()
+        print("IM INSIDE THE ELSE===========================")
+        print(request.POST)
+
     context = {'computer_list': computer_list}
+
     return render(request, 'Bangazon/computers.html', context)
 
 
@@ -119,7 +128,6 @@ def computer_delete(request):
     computer= Computer.objects.get(pk=request.POST['computer_id'])
     computer.delete()
     return HttpResponseRedirect(reverse('Bangazon:computers'))
-
 
 # ===========================TRAINING================================
 
