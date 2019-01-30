@@ -6,6 +6,11 @@
 <div id="main_container">
     <h1 class="main_title">Training Programs</h1>
     {% if training_program_details %}
+    <section class="training_nav_buttons">
+            <a class="past_link" href="{% url 'Bangazon:past_training_programs' %}">
+              <p class="past_program_btn">Past Training Classes</p>
+            </a>
+          </section>
     <section class="bangazon_list_item">
         <p class="training_title">{{training_program_details.name}}</p>
         <p class="training_description">Description: {{training_program_details.description}}</p>
@@ -16,14 +21,6 @@
         {% for person in all_attendees %}
         <p class="indiv_trainee">{{person.firstName}} {{person.lastName}}</p>
         {% endfor %}
-    </section>
-    <section class="training_nav_button">
-        <a class="past_link" href="{% url 'Bangazon:edit_training_details' training_program_details.id %}">
-            <p class="past_program_btn">Edit Training Details</p>
-        </a>
-        <a class="past_link" href="{% url 'Bangazon:training_delete' training_program_details.id %}">
-                <p class="past_program_btn">Delete Training</p>
-            </a>
     </section>
     {% endif %}
 </div>
