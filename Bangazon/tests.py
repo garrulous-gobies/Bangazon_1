@@ -231,6 +231,53 @@ class DepartmentDetails(TestCase):
             self.assertEqual(emp.lastName, employee.lastName)
             self.assertEqual(emp.department, employee.department)
 
+class EditEmployeeTest(TestCase):
+    def test_emp_edit(self):
+
+        department = Department.objects.create(name="Chicago", budget=1500000)
+        employee = Employee.objects.create(firstName="Elyse", lastName="Dawson", startDate="1999-04-10", isSupervisor=1, department=department)
+
+        details = Employee.objects.get(pk=1)
+        self.assertEqual(employee, details)
+
+        pk = 1
+
+        response = Employee.objects.filter(id=pk).update(firstName="Big E", lastName="Dawson", startDate="2011-01-10", isSupervisor=1, department=department)
+
+        self.assertEqual(response, 1)
+
+        secondDetails = Employee.objects.get(pk=1)
+        self.assertEqual(secondDetails.firstName, "Big E")
+
+    def test_emp_edit_via_form_submit(self):
+
+        department = Department.objects.create(name="Kentucky", budget=5)
+        employee = Employee.objects.create(firstName="Brendan", lastName="McCray", startDate="1999-04-10", isSupervisor=1, department=department)
+
+        dept = Department.objects.get(pk=1)
+
+        self.assertEqual(department, dept)
+
+        response = self.client.post(reverse('Bangazon:employee_update', args=(1,)), {'id':1, 'firstName': 'Brondan', 'lastName': 'McCray', 'startDate': '1999-04-10', 'supervisor': 1, 'department': dept.id})
+
+        self.assertEqual(response.status_code, 302)
+
+
+
+class EmployeeEditFormTest(TestCase):
+    def test_employee_edit_form(self):
+        department = Department.objects.create(name="Hydroflask", budget=1500000)
+        employee = Employee.objects.create(firstName="Daniel", lastName="Combs", startDate="1999-04-10", isSupervisor=1, department=department)
+        
+        response = self.client.get(reverse('Bangazon:employee_edit', args=(1,)))
+        self.assertIn(
+            '<input type="text" name="firstName" value="Daniel" maxlength="35" required id="id_firstName">'.encode(), response.content
+        )
+        self.assertIn(
+            'input type="text" name="lastName" value="Combs" maxlength="35" required id="id_lastName">'.encode(), response.content
+        )
+
+
 # ===============================COMPUTERS========================================
 
 class ComputerDetailsTests(TestCase):

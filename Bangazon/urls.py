@@ -7,6 +7,9 @@ urlpatterns = [
     path('Bangazon/Employees/<int:employee_id>', views.employee_details, name='employee_details'),
     path('Bangazon/Employees/form', views.employee_form, name='employee_form'),
     path('Bangazon/Employees/new', views.employee_new, name='employee_new'),
+    path('Bangazon/Employees/<int:pk>/edit', views.employee_edit, name='employee_edit'),
+    path('Bangazon/Employees/<int:pk>/update', views.employee_update, name='employee_update'),
+    # path('Bangazon/Employees/update', views.employee_update, name='employee_update'),
 
     path('Bangazon/Departments', views.departments, name='departments'),
     path('Bangazon/Departments/NewDepartment', views.new_department, name='new_department'),
