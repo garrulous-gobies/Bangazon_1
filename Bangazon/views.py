@@ -123,18 +123,21 @@ def computer_delete(request):
 
 # ===========================TRAINING================================
 
+# Lists all training programs for future classes
 def training_programs(request):
     now = timezone.now()
     training_program_list = TrainingProgram.objects.filter(startDate__gte=now)
     context = {'training_program_list': training_program_list}
     return render(request, 'Bangazon/training_program.html', context)
 
+# List past training programs that have taken place
 def past_training_programs(request):
     now = timezone.now()
     training_program_list = TrainingProgram.objects.filter(startDate__lte=now)
     context = {'training_program_list': training_program_list}
     return render(request, 'Bangazon/past_training_programs.html', context)
 
+# Show specific details for upcoming training classes with options to edit or delete
 def training_details(request, trainingprogram_id):
     training_program_details = get_object_or_404(TrainingProgram, id=trainingprogram_id)
     assignees = EmployeeTrainingProgram.objects.filter(trainingProgram_id=training_program_details.id)
@@ -145,6 +148,7 @@ def training_details(request, trainingprogram_id):
     context = {'training_program_details': training_program_details, 'attendees': attendees}
     return render(request, 'Bangazon/indiv_training_program.html', context)
 
+# Show specific details for past training classes without the option to alter data
 def past_training_details(request, trainingprogram_id):
     training_program_details = get_object_or_404(TrainingProgram, id=trainingprogram_id)
     assignees = EmployeeTrainingProgram.objects.filter(trainingProgram_id=training_program_details.id)
@@ -155,29 +159,30 @@ def past_training_details(request, trainingprogram_id):
     context = {'training_program_details': training_program_details, 'attendees': attendees}
     return render(request, 'Bangazon/past_indiv_training_program.html', context)
 
+# Displays form that creates a new training program
 def new_training_program_form(request):
     form = NewTrainingForm()
     return render(request, 'Bangazon/new_training_program_form.html', {'form': form})
 
+# Saves new program to database and forwards to training_programs
 def save_program(request):
     training = TrainingProgram(name=request.POST['training_name'], description=request.POST['training_description'], startDate=request.POST['training_startDate'], endDate=request.POST['training_endDate'], maxEnrollment=request.POST['training_maxEnrollment'])
     training.save()
     return HttpResponseRedirect(reverse('Bangazon:training_programs'))
 
-
-
-def edit_training_details(request, pk):
-    training_program_details = get_object_or_404(TrainingProgram, id=pk)
+# Displays form with existing data prepopulated and allows user to edit details
+def edit_training_details(request, trainingprogram_id):
+    training_program_details = TrainingProgram.objects.get(id=trainingprogram_id)
     form = NewTrainingForm(initial={'training_name': training_program_details.name, 'training_description': training_program_details.description, 'training_startDate': training_program_details.startDate, 'training_endDate': training_program_details.endDate, 'training_maxEnrollment': training_program_details.maxEnrollment})
-    return render(request, 'Bangazon/edit_training.html', {'form': form, "id": pk})
+    return render(request, 'Bangazon/edit_training.html', {'form': form, "id": trainingprogram_id})
 
+# Saves updated training details from edit_training_details form
+def update_program(request):
+    TrainingProgram.objects.filter(id=request.POST['trainingprogram_id']).update(name = request.POST['training_name'], description = request.POST['training_description'], startDate = request.POST['training_startDate'], endDate = request.POST['training_endDate'], maxEnrollment = request.POST['training_maxEnrollment'])
+    return HttpResponseRedirect(reverse('Bangazon:training_programs'))
 
-def update_program(request, pk):
-    TrainingProgram.objects.filter(id=pk).update(name = request.POST['training_name'], description = request.POST['training_description'], startDate = request.POST['training_startDate'], endDate = request.POST['training_endDate'], maxEnrollment = request.POST['training_maxEnrollment'])
-    response = redirect('../Training')
-    return response
-
-def training_delete(request, pk):
-    training = TrainingProgram.objects.get(id=pk)
+# Deletes upcoming training event
+def training_delete(request):
+    training = TrainingProgram.objects.get(id=request.POST['trainingprogram_id'])
     training.delete()
     return HttpResponseRedirect(reverse('Bangazon:training_programs'))

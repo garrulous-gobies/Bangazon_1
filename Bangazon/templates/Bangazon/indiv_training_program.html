@@ -25,9 +25,11 @@
         <a class="past_link" href="{% url 'Bangazon:edit_training_details' training_program_details.id %}">
             <p class="past_program_btn">Edit Training Details</p>
         </a>
-        <a class="past_link" href="{% url 'Bangazon:training_delete' training_program_details.id %}">
-                <p class="past_program_btn">Delete Training</p>
-            </a>
+        <form class="past_link" action="{% url 'Bangazon:training_delete' %}" method="POST">
+                {% csrf_token %}
+            <input type="hidden" value="{{training_program_details.id}}" name="trainingprogram_id">
+            <input class="form_button" type="submit" value="Delete Training Class">
+        </form>
     </section>
     {% endif %}
 </div>
