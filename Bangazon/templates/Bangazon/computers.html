@@ -6,11 +6,18 @@
   <div id="main_container">
     <h1 class="main_title">Computers</h1>
     <a href = "{% url 'Bangazon:computer_form' %}">Add Computer</a>
+    <a   href="{% url 'Bangazon:computers' %}">View All Computers</a>
     {% if computer_list %}
+        <form action="{% url 'Bangazon:computers' %}" method="POST">
+            {% csrf_token %}
+            Filter computers by make or manufacturer
+            <input placeholder="make or manufacturer" type="text" name="computer_search" id="computer_search">
+            <input type="submit" value="Search">
+        </form>
       <ul class="bangazon_list">
         {% for computer in computer_list %}
         <li class="bangazon_list_item d-flex">
-          <a href="{% url 'Bangazon:computer_details' computer.id %}">{{computer.model}}</a>
+          <a href="{% url 'Bangazon:computer_details' computer.id %}">Make:{{computer.manufacturer}} --Model: {{computer.model}}</a>
           {% for employee in computer.employee_set.all %}
             <p>Assigned To: {{employee.firstName}} {{employee.lastName}}</p>
           {% endfor %}

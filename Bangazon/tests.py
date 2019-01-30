@@ -268,7 +268,7 @@ class EmployeeEditFormTest(TestCase):
     def test_employee_edit_form(self):
         department = Department.objects.create(name="Hydroflask", budget=1500000)
         employee = Employee.objects.create(firstName="Daniel", lastName="Combs", startDate="1999-04-10", isSupervisor=1, department=department)
-        
+
         response = self.client.get(reverse('Bangazon:employee_edit', args=(1,)))
         self.assertIn(
             '<input type="text" name="firstName" value="Daniel" maxlength="35" required id="id_firstName">'.encode(), response.content
@@ -337,3 +337,37 @@ class ComputerDelete(TestCase):
         response2 = Computer.objects.all()
         self.assertNotEqual(responseLength, response2)
 
+
+class ComputerFilterTest(TestCase):
+    """Tests the behavior of the filter on the computer list view
+
+        Author(s): Austin Zoradi, Nolan Little
+    """
+
+    def test_computer_filter(self):
+        computer  = Computer(purchaseDate = "2016-01-20 08:00:00", decommissionDate= "2016-01-20 08:00:00", manufacturer="Dell", model="xpsBrick")
+        computer2  = Computer(purchaseDate = "2016-01-20 08:00:00", decommissionDate= "2016-01-20 08:00:00", manufacturer="lenovo", model="paper weight")
+        computer3  = Computer(purchaseDate = "2016-01-20 08:00:00", decommissionDate= "2016-01-20 08:00:00", manufacturer="Mac", model="pricebook")
+        computer4  = Computer(purchaseDate = "2016-01-20 08:00:00", decommissionDate= "2016-01-20 08:00:00", manufacturer="HP", model="dusty")
+        computer.save()
+        computer2.save()
+        computer3.save()
+        computer4.save()
+
+        # filter by manufacturer
+        response = self.client.post(reverse('Bangazon:computers'), {
+                                    'computer_search': 'dell'})
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(computer, response.context['computer_list'],)
+        self.assertNotIn(computer2, response.context['computer_list'],)
+        self.assertNotIn(computer3, response.context['computer_list'],)
+
+        # filter by model
+        response = self.client.post(reverse('Bangazon:computers'), {
+                            'computer_search': 'pricebook'})
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(computer3, response.context['computer_list'],)
+        self.assertNotIn(computer2, response.context['computer_list'],)
+        self.assertNotIn(computer4, response.context['computer_list'],)
