@@ -204,4 +204,32 @@ class EditEmployeeTest(TestCase):
         secondDetails = Employee.objects.get(pk=1)
         self.assertEqual(secondDetails.firstName, "Big E")
 
+    # def test_emp_edit_via_form_submit(self):
 
+    #     department = Department.objects.create(name="Kentucky", budget=5)
+    #     employee = Employee.objects.create(firstName="Brendan", lastName="McCray", startDate="1999-04-10", isSupervisor=1, department=department)
+
+    #     response = self.client.post(reverse('Bangazon:employee_update'), employee)
+
+    #     self.assertEqual(response.status_code, 302)
+
+
+
+# class EmployeeEditFormTest(TestCase):
+#     def test_employee_edit_form(self):
+#         response = self.client.get(reverse('Bangazon:employee_edit'))
+#         self.assertIn(
+#             '<input type="text" name="firstName" id="employee_new_first_name" required=True>'.encode(), response.content
+#         )
+#         self.assertIn(
+#             '<input type="text" name="lastName" id="employee_new_last_name" required=True>'.encode(), response.content
+#         )
+#         self.assertIn(
+#             '<input type="datetime-local" name="startDate" id="employee_new_start_date" required=True>'.encode(), response.content
+#         )
+#         self.assertIn(
+#             '<select name="supervisor" id="employee_new_supervisor">'.encode(), response.content
+#         )
+#         self.assertIn(
+#             '<select name="department" id="employee_new_department" required=True>'.encode(), response.content
+#         )
