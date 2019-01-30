@@ -4,6 +4,7 @@ from django.utils import timezone
 from django.core.validators import MaxValueValidator, MinValueValidator
 
 
+
 # Create Department table
 class Department(models.Model):
   budget = models.IntegerField(
@@ -19,29 +20,34 @@ class Department(models.Model):
 
 # Create Computer table
 class Computer(models.Model):
-  purchaseDate = models.DateTimeField()
-  decommissionDate = models.DateTimeField(null=True)
-  manufacturer = models.CharField(max_length = 50)
-  model = models.CharField(max_length = 50)
-  def __str__(self):
-    return self.model
+    purchaseDate = models.DateTimeField()
+    decommissionDate = models.DateTimeField(null=True)
+    manufacturer = models.CharField(max_length = 50)
+    model = models.CharField(max_length = 50)
+    def __str__(self):
+        return self.model
+
+    # @property
+    # def currentComp(self):
+    #     return
 
 # Create Employee table
 class Employee(models.Model):
-  firstName = models.CharField(max_length = 50)
-  lastName = models.CharField(max_length = 50)
-  startDate = models.DateTimeField()
-  isSupervisor = models.IntegerField(
+    firstName = models.CharField(max_length = 50)
+    lastName = models.CharField(max_length = 50)
+    startDate = models.DateTimeField()
+    isSupervisor = models.IntegerField(
     default = 0,
     validators = [
-      MaxValueValidator(1),
-      MinValueValidator(0)
+        MaxValueValidator(1),
+        MinValueValidator(0)
     ]
-  )
-  computer = models.ManyToManyField(Computer, through="Employee_Computer")
-  department = models.ForeignKey(Department, on_delete=models.CASCADE)
-  def __str__(self):
-    return self.firstName
+    )
+    computer = models.ManyToManyField(Computer, through="Employee_Computer")
+    department = models.ForeignKey(Department, on_delete=models.CASCADE)
+    def __str__(self):
+        return self.firstName
+
 
 
 

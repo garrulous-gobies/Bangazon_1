@@ -3,6 +3,8 @@ from django_seed import Seed
 seeder = Seed.seeder()
 import random
 from ...models import *
+from django.utils import timezone
+
 
 class Command(BaseCommand):
 
@@ -43,9 +45,9 @@ class Command(BaseCommand):
       'endDate': lambda x: seeder.faker.date_time_between(start_date='-3y', end_date='now')
     })
 
-    seeder.add_entity(Employee_Computer, 10, {
+    seeder.add_entity(Employee_Computer, 15, {
         'assignDate': lambda x: seeder.faker.date_time_between(start_date='-5y', end_date='now'),
-        'removeDate': lambda x: seeder.faker.date_time_between(start_date='-5y', end_date='now')
+        'removeDate': lambda x: random.choice([timezone.now(), None, None, None, None])
     })
 
 
