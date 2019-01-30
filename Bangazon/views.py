@@ -40,9 +40,9 @@ def employee_new(request):
     employee.save()
     return HttpResponseRedirect(reverse('Bangazon:employees'))
 
-def employee_update(request):
+def employee_update(request, pk):
     department = Department.objects.get(pk=request.POST['department'])
-    employee_edited = Employee(id=request.POST['e_id'], firstName = request.POST['firstName'], lastName = request.POST['lastName'], startDate = request.POST['startDate'], isSupervisor = request.POST['supervisor'], department = department)
+    employee_edited = Employee(id=pk, firstName = request.POST['firstName'], lastName = request.POST['lastName'], startDate = request.POST['startDate'], isSupervisor = request.POST['supervisor'], department = department)
     
     employee_edited.save()
     return HttpResponseRedirect(reverse('Bangazon:employees'))
@@ -50,7 +50,7 @@ def employee_update(request):
 def employee_edit(request, pk):
   employee = get_object_or_404(Employee, id=pk)
   department = Department.objects.get(employee=pk)
-  form = EmployeeEditForm(initial={'e_id': employee.id,'firstName': employee.firstName, 'lastName': employee.lastName, 'Start Date': employee.startDate, 'supervisor': employee.isSupervisor, 'department': department.id})
+  form = EmployeeEditForm(initial={'firstName': employee.firstName, 'lastName': employee.lastName, 'Start Date': employee.startDate, 'supervisor': employee.isSupervisor, 'department': department.id})
   return render(request, 'Bangazon/employee_edit.html', {'form': form, 'employee': employee})
 
 # ========================DEPARTMENTS================
