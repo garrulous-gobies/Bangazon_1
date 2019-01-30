@@ -14,7 +14,9 @@
             {% for employeerel in computer.employee_computer_set.all %}
                 {% if employeerel.removeDate == NULL %}
                  {% for employee in computer.employee_set.all %}
-                    <p>Assigned To: {{employee.firstName}} {{employee.lastName}}</p>
+                    {% if employeerel.employee_id == employee.id %}
+                        <p>Assigned To: {{employee.firstName}} {{employee.lastName}}</p>
+                    {% endif %}
                 {% endfor %}
                 {% endif %}
             {% endfor %}

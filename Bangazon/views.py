@@ -102,7 +102,6 @@ def computers(request):
         print(request.POST)
 
     context = {'computer_list': computer_list}
-<<<<<<< HEAD
     return render(request, 'Bangazon/computer1.html', context)
 
 # def computers2(request):
@@ -111,10 +110,6 @@ def computers(request):
 #     context = {'computer_list': computer_list}
 #     return render(request, 'Bangazon/computers.html', context)
 
-=======
-
-    return render(request, 'Bangazon/computers.html', context)
->>>>>>> master
 
 
 def computer_details(request, computer_id):
@@ -133,16 +128,10 @@ def computer_new(request):
     computer = Computer(
         purchaseDate=request.POST['purchase'], model=request.POST['model'], manufacturer=request.POST['manufacturer'])
     computer.save()
-<<<<<<< HEAD
     if request.POST['assignment'] != 'null':
         employee = Employee.objects.get(pk=request.POST['assignment'])
         relationship = Employee_Computer(employee=employee, computer=computer, assignDate=datetime.datetime.now())
         relationship.save()
-=======
-    employee = Employee.objects.all(pk=request.POST['assignment'])
-    relationship = Employee_Computer(employee=employee, computer=computer)
-    relationship.save()
->>>>>>> master
     return HttpResponseRedirect(reverse('Bangazon:computers'))
 
 def computer_delete_confirm(request):
