@@ -291,4 +291,3 @@ class ComputerDelete(TestCase):
         response2 = Computer.objects.all()
         self.assertNotEqual(responseLength, response2)
 
-

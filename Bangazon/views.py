@@ -196,3 +196,8 @@ def past_training_details(request, pk):
     context = {'training_program_details': training_program_details,
                'all_attendees': all_attendees}
     return render(request, 'Bangazon/past_indiv_training_program.html', context)
+
+def training_delete(request, pk):
+    training = TrainingProgram.objects.get(id=pk)
+    training.delete()
+    return HttpResponseRedirect(reverse('Bangazon:training_programs'))

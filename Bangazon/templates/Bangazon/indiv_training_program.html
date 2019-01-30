@@ -21,6 +21,9 @@
         <a class="past_link" href="{% url 'Bangazon:edit_training_details' training_program_details.id %}">
             <p class="past_program_btn">Edit Training Details</p>
         </a>
+        <a class="past_link" href="{% url 'Bangazon:training_delete' training_program_details.id %}">
+                <p class="past_program_btn">Delete Training</p>
+            </a>
     </section>
     {% endif %}
 </div>
