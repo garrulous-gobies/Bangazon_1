@@ -3,6 +3,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.utils import timezone
 from .models import *
+import datetime
+import math
 
 # ======================== EMPLOYEES ================
 def employees(request):
@@ -82,9 +84,10 @@ def computer_form(request):
 def computer_new(request):
     computer = Computer(purchaseDate = request.POST['purchase'], model= request.POST['model'], manufacturer = request.POST['manufacturer'])
     computer.save()
-    employee = Employee.objects.get(pk=request.POST['assignment'])
-    relationship = Employee_Computer(employee=employee, computer=computer)
-    relationship.save()
+    if request.POST['assignment'] != 'null':
+        employee = Employee.objects.get(pk=request.POST['assignment'])
+        relationship = Employee_Computer(employee=employee, computer=computer, assignDate=datetime.datetime.now())
+        relationship.save()
     return HttpResponseRedirect(reverse('Bangazon:computers'))
 
 def computer_delete_confirm(request):

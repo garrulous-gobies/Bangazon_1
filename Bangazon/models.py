@@ -65,7 +65,7 @@ class TrainingProgram(models.Model):
 class Employee_Computer(models.Model):
     employee=models.ForeignKey('Employee', on_delete=models.CASCADE)
     computer=models.ForeignKey('Computer', on_delete=models.CASCADE)
-    assignDate=models.DateTimeField(null=True)
+    assignDate=models.DateTimeField()
     removeDate=models.DateTimeField(null=True)
 
 # Create Training Enrollment join table
