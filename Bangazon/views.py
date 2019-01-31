@@ -60,32 +60,62 @@ def employee_update(request, pk):
 
 def employee_edit(request, pk):
     employee = get_object_or_404(Employee, id=pk)
-
-    training_program_list = TrainingProgram.objects.filter(startDate__gte=now)
-
-    all_computers = Computers.objects.filter(decommissionDate == 'NULL')
-    # get all relationships, find nulls in remove date. loop through all computers,
-    # if computer.id != computer id in list add to dropdown
+    now = timezone.now()
 
 
-    if len(employee.computer.all) > 0:
-        computer_id = employee.computer.all()[0].id
+
+
+    all_computers = Computer.objects.filter(decommissionDate = None)
+    comp_relationships = Employee_Computer.objects.filter(removeDate= None)
+    comp_list = list()
+    # appends to comp_list only computers that are currently in commission and are not assigned to an employee
+    for unassigned_comp in comp_relationships:
+        for computer in all_computers:
+            if unassigned_comp.id == computer.id:
+                comp_list.append((computer.id, f'{computer.manufacturer} {computer.model}'))
+    # inserts the employees currently assigned employee to the dropdown
+    if len(employee.computer.all()) > 0:
+        current_computer = employee.computer.all()[0]
+        comp_list.insert(0, (current_computer.id, f'{current_computer.manufacturer} {current_computer.model}'))
+        initial_comp_id = current_computer.id
     else:
-        computer_id = 0
+        initial_comp_id = 0
+
+
+    comp_list.insert(0, (0, 'None Assigned'))
+
 
     dept_list = list()
-    comp_list = list()
-    train_list = list()
-
-
     departments = Department.objects.all()
     for department in departments:
         dept = (department.id, department.name)
         dept_list.append(dept)
 
+    train_list = list()
+    training_program_list = TrainingProgram.objects.filter(startDate__gte=now)
+    for program in training_program_list:
+        train_list.append((program.id, f'{program.name}-beginning:{program.startDate}'))
+
+    print(train_list)
+
+    # convert list of choice tuples into a tuple for passing to form class
+    computer_list = tuple(comp_list)
     department_list = tuple(dept_list)
+    training_list = tuple(train_list)
+
     department = Department.objects.get(employee=pk)
-    form = EmployeeEditForm(dept_choices = department_list, initial={'firstName': employee.firstName, 'lastName': employee.lastName, 'Start Date': employee.startDate, 'supervisor': employee.isSupervisor, 'department': department.id})
+    form = EmployeeEditForm(dept_choices = department_list,
+                            comp_choices = computer_list,
+                            train_choices = training_list,
+                            initial={
+                                'firstName': employee.firstName,
+                                'lastName': employee.lastName,
+                                'Start Date': employee.startDate,
+                                'supervisor': employee.isSupervisor,
+                                'department': department.id,
+                                'computer': initial_comp_id
+                                }
+                            )
     return render(request, 'Bangazon/employee_edit.html', {'form': form, 'employee': employee})
 
 # ========================DEPARTMENTS================
