@@ -112,20 +112,15 @@ def computer_details(request, computer_id):
 def computer_form(request):
     employees = Employee.objects.all()
     employee_computer = Employee_Computer.objects.all()
-
     employee_computer_have_computer = list()
     for rel in employee_computer:
-        print("id", rel.removeDate)
         if rel.removeDate == None:
             employee_computer_have_computer.append(rel.employee_id)
-
-    print(employee_computer_have_computer)
-
-
-
-
-
-    context = {"employees": employees}
+    employee_filterd_list = list()
+    for employee in employees:
+        if employee.id not in employee_computer_have_computer:
+            employee_filterd_list.append(employee)
+    context = {"employees": employee_filterd_list}
     return render(request, "Bangazon/computer_form.html", context)
 
 
