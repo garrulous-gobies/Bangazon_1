@@ -111,9 +111,13 @@ def computer_form(request):
     employees = Employee.objects.all()
     employee_computer = Employee_Computer.objects.all()
 
-    employee_computer_filtered = list()
+    employee_computer_have_computer = list()
+    for rel in employee_computer:
+        print("id", rel.removeDate)
+        if rel.removeDate == None:
+            employee_computer_have_computer.append(rel.employee_id)
 
-    print(employee_computer_filtered)
+    print(employee_computer_have_computer)
 
 
 
