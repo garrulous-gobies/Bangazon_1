@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Bangazon',
-    'django_seed'
+    'django_seed',
+    'django.contrib.humanize'
 ]
 
 MIDDLEWARE = [
