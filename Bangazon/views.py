@@ -9,7 +9,9 @@ import pytz
 from django.db.models import Q
 
 
-
+# ======================== Landing Page ================
+def landing_page(request):
+    return render(request, 'Bangazon/main.html')
 
 
 # ======================== EMPLOYEES ================
@@ -51,7 +53,7 @@ def employee_new(request):
 def employee_update(request, pk):
     department = Department.objects.get(pk=request.POST['department'])
     employee_edited = Employee(id=pk, firstName = request.POST['firstName'], lastName = request.POST['lastName'], startDate = request.POST['startDate'], isSupervisor = request.POST['supervisor'], department = department)
-    
+
     employee_edited.save()
     return HttpResponseRedirect(reverse('Bangazon:employees'))
 
