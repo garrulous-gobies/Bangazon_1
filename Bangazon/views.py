@@ -95,31 +95,30 @@ def department_details(request, department_id):
 def computers(request):
     if request.POST:
         computer_list = Computer.objects.filter(Q(manufacturer__icontains=request.POST['computer_search']) | Q(model__icontains=request.POST['computer_search']))
-        print("IM INSIDE THE IF===========================")
     else:
         computer_list = Computer.objects.all()
-        print("IM INSIDE THE ELSE===========================")
-        print(request.POST)
 
     context = {'computer_list': computer_list}
     return render(request, 'Bangazon/computer1.html', context)
 
-# def computers2(request):
-#     computer_list = Computer.objects.all()
-#     # relationships = Employee_Computer
-#     context = {'computer_list': computer_list}
-#     return render(request, 'Bangazon/computers.html', context)
-
-
 
 def computer_details(request, computer_id):
   computer = get_object_or_404(Computer, pk=computer_id)
-  print("id", computer.id)
   context = {'computer': computer}
   return render(request, 'Bangazon/computer_details.html', context)
 
 def computer_form(request):
-    employees = Employee.objects.all
+    employees = Employee.objects.all()
+    employee_computer = Employee_Computer.objects.all()
+
+    employee_computer_filtered = list()
+
+    print(employee_computer_filtered)
+
+
+
+
+
     context = {"employees": employees}
     return render(request, "Bangazon/computer_form.html", context)
 
@@ -142,7 +141,6 @@ def computer_delete_confirm(request):
         assigned = True
     context = {'computer': computer,
                 'assigned': assigned}
-    print("context", context)
     return render(request, "Bangazon/computer_delete_confirm.html", context)
 
 def computer_delete(request):

@@ -21,7 +21,11 @@
     <select name="assignment" id="computer_new_assignment">
         <option value=null>Select</option>
         {% for employee in employees %}
-            <option value={{employee.id}}>{{employee.firstName}} {{employee.lastName}}</option>
+            {% for rel in employee.employee_computer_set.all  %}
+                {% if rel.removeDate != 'NULL' %}
+                <option value={{employee.id}}>{{employee.firstName}} {{employee.lastName}}</option>
+                {% endif %}
+            {% endfor %}
         {% endfor %}
     </select>
     <input type="submit" value="Submit">

@@ -23,7 +23,7 @@ class Command(BaseCommand):
     # we can toy with the purchase/decomm dates
     seeder.add_entity(Computer, 20, {
       'purchaseDate': lambda x: seeder.faker.date_time_between(start_date='-10y', end_date='now'),
-      'decommissionDate': lambda x: seeder.faker.date_time_between(start_date='-5y', end_date='now'),
+      'decommissionDate': lambda x: random.choice([timezone.now(), None]),
       'manufacturer': lambda x: seeder.faker.word(ext_word_list=["Dell", "Lenovo", "HP", "Apple", "Gateway", "Compaq", "Micron"]),
       'model': lambda x: seeder.faker.word(ext_word_list=["Slow", "Fast", "Chunk", "Boat Anchor", "Speedy", "Nimble"])
     })

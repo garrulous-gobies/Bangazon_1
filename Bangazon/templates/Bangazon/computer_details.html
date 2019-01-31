@@ -16,7 +16,7 @@
         Purchase Date: {{computer.purchaseDate}}
       </li>
       <li>
-        Decommission Date{{computer.decommissionDate}}
+        Decommission Date: {{computer.decommissionDate}}
       </li>
       {% if computer.employee_set.all|length > 0 %}
         {% for employee in computer.employee_set.all %}

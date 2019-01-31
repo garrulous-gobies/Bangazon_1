@@ -27,10 +27,6 @@ class Computer(models.Model):
     def __str__(self):
         return self.model
 
-    # @property
-    # def currentComp(self):
-    #     return
-
 # Create Employee table
 class Employee(models.Model):
     firstName = models.CharField(max_length = 50)
