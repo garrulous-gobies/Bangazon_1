@@ -10,7 +10,9 @@ import pytz
 from django.db.models import Q
 
 
-
+# ======================== Landing Page ================
+def landing_page(request):
+    return render(request, 'Bangazon/main.html')
 
 
 # ======================== EMPLOYEES ================

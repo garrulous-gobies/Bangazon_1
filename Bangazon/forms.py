@@ -12,7 +12,6 @@ for department in departments:
 department_list = tuple(dept_list)
 
 class EmployeeEditForm(forms.Form):
-
     firstName = forms.CharField(label='First Name', max_length=35, required=True)
     lastName = forms.CharField(label='Last Name', max_length=35, required=True)
     startDate = forms.DateTimeField(initial=datetime.now(), required=True, label='Start Date')
