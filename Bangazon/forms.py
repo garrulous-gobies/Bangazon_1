@@ -12,7 +12,7 @@ class EmployeeEditForm(forms.Form):
         super(EmployeeEditForm, self).__init__(**kwargs)
         self.fields['department'] = forms.ChoiceField(label='Department', choices=(dept_choices))
         self.fields['computer'] = forms.ChoiceField(label='Computer', choices=(comp_choices))
-        self.fields['training'] = forms.MultipleChoiceField( widget=forms.CheckboxSelectMultiple, choices=(train_choices))
+        self.fields['training'] = forms.MultipleChoiceField( label="Training Enrollment", widget=forms.CheckboxSelectMultiple, choices=(train_choices))
 
 
     firstName = forms.CharField(label='First Name', max_length=35, required=True)
