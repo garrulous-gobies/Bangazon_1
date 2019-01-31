@@ -3,30 +3,30 @@
 
 {% block content %}
 
-  <div id="main_container">
+<div id="main_container">
     <h1 class="main_title">Add Computer</h1>
-    <form method="post" action="{% url 'Bangazon:computer_new' %}">
-    {% csrf_token %}
+    <form class="new_form" method="post" action="{% url 'Bangazon:computer_new' %}">
+        {% csrf_token %}
 
-    <label for="computer_new_model">Model</label>
-    <input type="text" name="model" id="computer_new_model" required>
+        <label for="computer_new_model">Model</label>
+        <input type="text" name="model" id="computer_new_model" required>
 
-    <label for="computer_new_manufacturer">Manufacturer</label>
-    <input type="text" name="manufacturer" id="computer_new_manufacturer"required >
+        <label for="computer_new_manufacturer">Manufacturer</label>
+        <input type="text" name="manufacturer" id="computer_new_manufacturer" required>
 
-    <label for="computer_new_purchase">Purchase Date</label>
-    <input type="datetime-local" name="purchase" id="computer_new_purchase" required>
+        <label for="computer_new_purchase">Purchase Date</label>
+        <input type="datetime-local" name="purchase" id="computer_new_purchase" required>
 
-    <label for="computer_new_assignment">Assign Employee</label>
-    <select name="assignment" id="computer_new_assignment">
-        <option value=null>Select</option>
-        {% for employee in employees %}
-                <option value={{employee.id}}>{{employee.firstName}} {{employee.lastName}}</option>
-        {% endfor %}
-    </select>
-    <input type="submit" value="Submit">
+        <label for="computer_new_assignment">Assign Employee</label>
+        <select name="assignment" id="computer_new_assignment">
+            <option value=null>Select</option>
+            {% for employee in employees %}
+            <option value={{employee.id}}>{{employee.firstName}} {{employee.lastName}}</option>
+            {% endfor %}
+        </select>
+        <input type="submit" value="Submit">
 
     </form>
-  </div>
+</div>
 
 {% endblock content %}

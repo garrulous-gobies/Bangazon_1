@@ -1,17 +1,21 @@
 <!-- Basic block for departments -->
 {% extends "Bangazon/index.html" %}
+{% load humanize %}
 
 {% block content %}
 <h1 class="main_title">Departments</h1>
+<div class="add_department">
+    <button class="btn btn_margin"><a class="no_dec" href="{% url 'Bangazon:new_department' %}">Add a new department</a></button>
+</div>
 <section class="department_list">
     <div>
         {% if department_list %}
-        <ul class="bangazon_list">
+        <ul class="list-group list-group-flush dept_list">
             <p>{{department_list.employee_set}}</p>
             {% for department in department_list %}
-            <li class="bangazon_list_item">            
-                <p><a  href="{% url 'Bangazon:department_details' department.id %}">{{department.name}} </a> </p>
-                <p>Budget: ${{department.budget}} </p>
+            <li class="list-group-item">
+                <p><a href="{% url 'Bangazon:department_details' department.id %}">{{department.name}} </a> </p>
+                <p>Budget: ${{department.budget|intcomma}} </p>
                 <p> Number of Employees:
                     {{ department.employee_set.all|length}} </p>
             </li>
@@ -20,9 +24,6 @@
         {% else %}
         <p class="no_items_found">No departments in system.</p>
         {% endif %}
-    </div>
-    <div class="add_department">
-        <a href="{% url 'Bangazon:new_department' %}">Add a new department</a>
     </div>
 </section>
 

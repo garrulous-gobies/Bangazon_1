@@ -1,31 +1,3 @@
-@import url("nav.css");
-@import url("training.css");
-@import url("departments.css");
-
-
-
-* {
-  margin: 0px;
-  padding: 0px;
-}
-
-:root {
-  --background-color: black;
-  --main-text: white;
-  --navbar-text: white;
-  --navbar-text-hover: blue;
-  --list-error: red;
-  --training-btn: silver;
-}
-
-body {
-  background-color: var(--background-color);
-  color: var(--main-text);
-}
-
-#main_container {
-
-}
 
 .main_title {
   text-align: center;
@@ -33,13 +5,8 @@ body {
   font-size: 25px;
 }
 
-.bangazon_list {
-  width: 90vw;
-  margin-left: 5vw;
-}
-
-.bangazon_list_item {
-  margin: 15px;
+a {
+text-decoration: none;
 }
 
 .no_items_found {
@@ -49,27 +16,48 @@ body {
   font-weight: bold;
 }
 
-.sub_welcome_title {
+.new_form{
+    margin: 20px 25%;
+    width: 50%;
     text-align: center;
-    font-size: 30px;
-    margin-top: 35px;
 }
 
-.main_welcome_title {
+.training_form{
+    margin: 20px 25%;
+    width: 60%;
     text-align: center;
-    font-size: 70px;
 }
 
-.welcome_para {
-    text-align: center;
-    font-size: 20px;
-    margin-top: 20px;
-    width: 80vw;
-    margin-left: 10vw;
+.detail_div{
+    margin: 50px 100px;
+    width: auto;
 }
 
-.error_alert {
-    color: red;
-    text-align: center;
-    font-size: 18px;
+.filter_form {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.btn_margin{
+    margin: 10px;
+}
+
+.computer_btns{
+    display: flex;
+    justify-content: right;
+    align-items: center;
+}
+
+a {
+    color:black;
+}
+
+.delete_div{
+    margin:15px;
+}
+
+.training_title {
+  margin-bottom: 5px;
+  font-weight: bolder;
+  font-size: 20px;
 }
