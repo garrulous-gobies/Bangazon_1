@@ -75,13 +75,12 @@ class DepartmentListTest(TestCase):
                 self.assertEqual(employee.firstName, emp.firstName)
 
 
+# ===============================TRAINING========================================
 class TrainingListTest(TestCase):
 
     def test_list_trainings(self):
-
         program = TrainingProgram.objects.create(
             name="Excel", description="Test description.", startDate="2019-01-28 14:30:00", endDate="2019-01-28 15:30:00", maxEnrollment=1)
-
         response = TrainingProgram.objects.get(pk=1)
         self.assertEqual(program, response)
 
@@ -89,7 +88,6 @@ class TrainingListTest(TestCase):
 class TrainingWithAttendeesTest(TestCase):
 
     def test_trainings_with_attendees(self):
-
         program = TrainingProgram.objects.create(
             name="Excel", description="Test description.", startDate="2019-01-28 14:30:00", endDate="2019-01-28 15:30:00", maxEnrollment=1)
         department = Department.objects.create(budget=1, name="IT")
@@ -97,19 +95,15 @@ class TrainingWithAttendeesTest(TestCase):
             firstName="Brad", lastName="Davis", startDate="2019-01-01 08:00", isSupervisor=0, department_id=1)
         training = EmployeeTrainingProgram.objects.create(
             status="Pending", employee_id=1, trainingProgram_id=1)
-
         training_attendees = EmployeeTrainingProgram.objects.filter(
             trainingProgram_id=1)
-
         response = EmployeeTrainingProgram.objects.get(pk=1)
         self.assertEqual(training, response)
-
         response = self.client.get(reverse('Bangazon:past_training_programs'))
         self.assertEqual(response.status_code, 200)
 
 
 class SaveTrainingProgramTest(TestCase):
-
     # Valid Form Data
     def test_add_training_validform_view(self):
         response = self.client.post(reverse('Bangazon:save_program'), {"training_name": "Test Name",
@@ -121,21 +115,17 @@ class SaveTrainingProgramTest(TestCase):
             broken_function()
         self.assertFalse(
             'ValueError: invalid literal for int() with base 10:' in str(context.exception))
-
     def test_new_training_save(self):
-
         response = self.client.post(reverse('Bangazon:save_program'), {"training_name": "Test Name", "training_description": "Class description", "training_startDate": "2010-01-01 12:00:00", "training_endDate": "2011-01-01 12:00:00", "training_maxEnrollment": 5})
-
         self.assertEqual(response.status_code, 302)
+
 
 
 class TrainingEditTest(TestCase):
 
     def test_edit_trainings(self):
-
         program = TrainingProgram.objects.create(
             name="Excel", description="Test description.", startDate="2019-01-28 14:30:00", endDate="2019-01-28 15:30:00", maxEnrollment=1)
-
         details = TrainingProgram.objects.get(pk=1)
         self.assertEqual(program, details)
 
@@ -153,13 +143,10 @@ class TrainingEditTest(TestCase):
 
 
 class AddingDepartmentTest(TestCase):
-
     def test_add_department(self):
         response = self.client.post(reverse('Bangazon:save_department'), {
                                     "department_name": "Broccoli Sales", "department_budget": 100000})
-
         self.assertEqual(response.status_code, 302)
-
     def test_add_department_form(self):
         response = self.client.get(reverse('Bangazon:new_department'))
         self.assertIn(
@@ -169,14 +156,11 @@ class AddingDepartmentTest(TestCase):
 
 
 class AddingEmployeeTest(TestCase):
-
     def new_employee_status(self):
         department = Department.objects.create(name="Sadness", budget=5000)
         employee = Employee.objects.create(
             firstName="Joel", lastName="Shepdog", startDate="1996-07-01", isSupervisor=0, department=department)
-
         response = self.client.post(employee)
-
         self.assertEqual(response.status_code, 302)
 
 
