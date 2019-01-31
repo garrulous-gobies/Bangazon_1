@@ -1,14 +1,28 @@
 <!-- Basic block for navbar -->
 {% block nav %}
+<nav class="=navbar navbar-expand-lg navbar-light bg-light">
 
-<div class="navbar">
-  <h1 class="nav_title">BANGAZON</h1>
-  <section class="navbar_links">
-    <a class="nav_button" href="{% url 'Bangazon:employees' %}">Employees</a>
-    <a class="nav_button" href="{% url 'Bangazon:departments' %}">Departments</a>
-    <a class="nav_button" href="{% url 'Bangazon:computers' %}">Computers</a>
-    <a class="nav_button" href="{% url 'Bangazon:training_programs' %}">Training Programs</a>
-  </section>
-</div>
+    <div class="">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="navbar-brand" hhref="#">Bangazon</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'Bangazon:employees' %}">Employees</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'Bangazon:departments' %}">Departments</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'Bangazon:computers' %}">Computers</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'Bangazon:training_programs' %}">Training Programs</a>
+            </li>
+            <a class="nav-link" href="{% url 'Bangazon:employees' %}">Employees</a>
+        </ul>
+    </div>
+
+</nav>
 
 {% endblock %}

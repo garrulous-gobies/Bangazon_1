@@ -3,22 +3,22 @@
 
 {% block content %}
 
-  <div id="main_container">
+<div class="delete_div">
     <h1 class="main_title">Delete Computer</h1>
     {% if assigned == True %}
-        <p>Computer is assigned to an employee and cannot be deleted.<p>
-        <a href="{% url 'Bangazon:computer_details' computer.id %}">Back</a>
+    <p>Computer is assigned to an employee and cannot be deleted.<p>
+            <button class="btn btn_margin"><a href="{% url 'Bangazon:computer_details' computer.id %}">Back</a></button>
 
-    {% else %}
-        <p>Are you sure you want to delete {{computer.model}}?</p>
-        <form method="post" action="{% url 'Bangazon:computer_delete'%}">
-            {% csrf_token %}
-            <input type="hidden" value="{{computer.id}}" name="computer_id">
-            <a href="{% url 'Bangazon:computer_details' computer.id %}">No</a>
-            <input type="submit" value="Delete">
-        </from>
-    {% endif %}
+            {% else %}
+            <p>Are you sure you want to delete {{computer.model}}?</p>
+            <form method="post" action="{% url 'Bangazon:computer_delete'%}">
+                {% csrf_token %}
+                <input type="hidden" value="{{computer.id}}" name="computer_id">
+                <button class="btn btn_margin"><a href="{% url 'Bangazon:computer_details' computer.id %}">No</a></button>
+                <input type="submit" class="btn" value="Delete">
+                </from>
+                {% endif %}
 
-  </div>
+</div>
 
 {% endblock content %}

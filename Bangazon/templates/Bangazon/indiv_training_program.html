@@ -6,7 +6,7 @@
 <div id="main_container">
     <h1 class="main_title">Training Programs</h1>
     {% if training_program_details %}
-    <section class="bangazon_list_item">
+    <section class="bangazon_list_item detail_div">
         <p class="training_title">{{training_program_details.name}}</p>
         <p class="training_description">Description: {{training_program_details.description}}</p>
         <p class="training_start">Start Date: {{training_program_details.startDate}}</p>
@@ -14,21 +14,21 @@
         <p class="training_max">Max Enrollment: {{training_program_details.maxEnrollment}}</p>
         <p class="training_max">Attendees: </p>
         {% if attendees %}
-            {% for person in attendees %}
-            <p class="indiv_trainee">{{person.firstName}} {{person.lastName}}</p>
-            {% endfor %}
+        {% for person in attendees %}
+        <p class="indiv_trainee">{{person.firstName}} {{person.lastName}}</p>
+        {% endfor %}
         {% else %}
         <p class="indiv_no_trainee">No trainees assigned.</p>
         {% endif %}
     </section>
-    <section class="training_nav_button">
-        <a class="past_link" href="{% url 'Bangazon:edit_training_details' training_program_details.id %}">
-            <p class="past_program_btn">Edit Training Details</p>
-        </a>
+    <section class="computer_btns">
+        <button class="btn btn_margin"><a class="past_link" href="{% url 'Bangazon:edit_training_details' training_program_details.id %}">
+                Edit Training Details
+            </a></button>
         <form class="past_link" action="{% url 'Bangazon:training_delete' %}" method="POST">
-                {% csrf_token %}
+            {% csrf_token %}
             <input type="hidden" value="{{training_program_details.id}}" name="trainingprogram_id">
-            <input class="form_button" type="submit" value="Delete Training Class">
+            <input class="btn" type="submit" value="Delete Training Class">
         </form>
     </section>
     {% endif %}

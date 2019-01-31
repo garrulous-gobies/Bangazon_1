@@ -3,21 +3,22 @@
 
 {% block content %}
 
-  <div id="main_container">
+<div id="main_container">
     <h1 class="main_title">Employees</h1>
-    <a href = "{% url 'Bangazon:employee_form' %}">New Employee</a>
+    <button class="btn btn_margin"><a href="{% url 'Bangazon:employee_form' %}">New Employee</a></button>
     {% if employee_list %}
-      <ul class="bangazon_list">
+    <ul class="list-group list-group-flush dept_list">
         {% for employee in employee_list %}
-        <li class="bangazon_list_item">
-          <a href="{% url 'Bangazon:employee_details' employee.id %}">{{employee.firstName}} {{employee.lastName}}, {{employee.department.name}}
-          </a>
+        <li class="list-group-item">
+            <a href="{% url 'Bangazon:employee_details' employee.id %}">{{employee.firstName}} {{employee.lastName}},
+                {{employee.department.name}}
+            </a>
         </li>
         {% endfor %}
-      </ul>
+    </ul>
     {% else %}
-      <p class="no_items_found">No employees in system.</p>
+    <p class="no_items_found">No employees in system.</p>
     {% endif %}
-  </div>
+</div>
 
 {% endblock content %}

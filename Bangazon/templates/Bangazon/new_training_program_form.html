@@ -4,17 +4,17 @@
 {% block content %}
 
 <div id="main_container">
-  <h1 class="main_title">Create New Training Program</h1>
-  <form class="add_training" action="{% url 'Bangazon:save_program' %}" method="POST">
-    {% csrf_token %}
-    {{ form }}
-    <input class="form_button" type="submit" value="Save Training">
-  </form>
-  <section class="training_nav_button">
-    <a class="past_link" href="{% url 'Bangazon:training_programs' %}">
-      <p class="past_program_btn">View Upcoming Classes</p>
-    </a>
-  </section>
+    <h1 class="main_title">Create New Training Program</h1>
+    <form class="training_form" action="{% url 'Bangazon:save_program' %}" method="POST">
+        {% csrf_token %}
+        {{ form }}
+        <input class="form_button" type="submit" value="Save Training">
+    </form>
+    <section class="training_nav_button">
+        <button class="btn btn_margin"> <a class="past_link" href="{% url 'Bangazon:training_programs' %}">
+                View Upcoming Classes
+            </a></button>
+    </section>
 </div>
 
 {% endblock content %}

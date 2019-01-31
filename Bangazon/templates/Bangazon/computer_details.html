@@ -3,36 +3,39 @@
 
 {% block content %}
 
-  <div id="main_container">
+<div id="main_container detail_div">
     <h1 class="main_title">{{computer.model}}</h1>
     <ul>
-      <li>
-        Manufacturer: {{computer.manufacturer}}
-      </li>
-      <li>
-        Model: {{computer.model}}
-      </li>
-      <li>
-        Purchase Date: {{computer.purchaseDate}}
-      </li>
-      <li>
-        Decommission Date{{computer.decommissionDate}}
-      </li>
-      {% if computer.employee_set.all|length > 0 %}
+        <li>
+            Manufacturer: {{computer.manufacturer}}
+        </li>
+        <li>
+            Model: {{computer.model}}
+        </li>
+        <li>
+            Purchase Date: {{computer.purchaseDate}}
+        </li>
+        <li>
+            Decommission Date{{computer.decommissionDate}}
+        </li>
+        {% if computer.employee_set.all|length > 0 %}
         {% for employee in computer.employee_set.all %}
         <li>
             Assigned To: {{employee.firstName}} {{employee.lastName}}
         </li>
         {% endfor %}
-      {% endif %}
+        {% endif %}
     </ul>
-    <form method="post" action="{% url 'Bangazon:computer_delete_confirm' %}">
-    {% csrf_token %}
-    <input type="hidden" value="{{computer.id}}" name="computer_id">
-    <input type="submit" value="Delete">
-    </form>
-    <a href="{% url 'Bangazon:computers' %}">Back</a>
+    <div class="computer_btns">
 
-  </div>
+        <form method="post" action="{% url 'Bangazon:computer_delete_confirm' %}">
+            {% csrf_token %}
+            <input type="hidden" value="{{computer.id}}" name="computer_id">
+            <input type="submit" class="btn" value="Delete">
+        </form>
+        <button class="btn btn_margin"><a href="{% url 'Bangazon:computers' %}">Back</a></button>
+    </div>
+
+</div>
 
 {% endblock content %}

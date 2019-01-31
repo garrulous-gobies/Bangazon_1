@@ -4,17 +4,20 @@
 
 {% if department_details %}
 <h1 class="main_title">{{department_details.name}} Department Details</h1>
-<p>Budget: ${{department_details.budget}}</p>
-<P>Employees:</P>
-<ul>
-    {% for emp in department_details.employee_set.all %}
-    <li> {{emp.firstName}} {{emp.lastName}} </li>
-    {% endfor %}
-</ul>
+<div class="detail_div">
 
-{% else %}
-<p class="no_items_found">No Employees in this Department.</p>
-{% endif %}
+    <p>Budget: ${{department_details.budget}}</p>
+    <P>Employees:</P>
+    <ul>
+        {% for emp in department_details.employee_set.all %}
+        <li> {{emp.firstName}} {{emp.lastName}} </li>
+        {% endfor %}
+    </ul>
+
+    {% else %}
+    <p class="no_items_found">No Employees in this Department.</p>
+    {% endif %}
+    <button class="btn btn_margin"><a href="{% url 'Bangazon:departments' %}">See All Departments</a></button>
 </div>
 
 {% endblock content %}
