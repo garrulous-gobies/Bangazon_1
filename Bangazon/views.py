@@ -68,18 +68,43 @@ def employee_edit(request, pk):
 
 
 def departments(request):
+    """Returns a list of all departments
+    
+    Model:Department
+    
+    Template:departments.html
+
+    Author(s): Austin Zoradi
+    """
+
     department_list = Department.objects.all()
     context = {'department_list': department_list}
     return render(request, 'Bangazon/departments.html', context)
 
 
 def new_department(request):
+    """Generates a form to add a new department to the db
+    
+    Model:Department
+    
+    Template:new_department_form.html
+
+    Author(s): Austin Zoradi
+    """
     department_list = Department.objects.all()
     context = {'department_list': department_list}
     return render(request, 'Bangazon/new_department_form.html', context)
 
 
 def save_department(request):
+    """Saves a new instance department via POST to the db, redirects to the list of all instances of department
+    
+    Model:Department
+    
+    Template: redirects back to departments.html
+
+    Author(s): Austin Zoradi
+    """
     name = request.POST['department_name']
     budget = request.POST['department_budget']
     dep = Department(name=name, budget=budget)
@@ -87,9 +112,19 @@ def save_department(request):
     return HttpResponseRedirect(reverse('Bangazon:departments'))
 
 def department_details(request, department_id):
+    """Returns a list of the details of an instance of a single department and the employee instances associated with it
+    
+    Model:Department
+    
+    Template:departments_details.html
+
+    Author(s): Austin Zoradi
+    """
     department_details = Department.objects.get(pk=department_id)
     context = {'department_details': department_details}
     return render(request, 'Bangazon/department_details.html', context)
+
+    
 
 # ==========================COMPUTERS=================================
 
@@ -101,7 +136,7 @@ def computers(request):
         computer_list = Computer.objects.all()
 
     context = {'computer_list': computer_list}
-    return render(request, 'Bangazon/computer1.html', context)
+    return render(request, 'Bangazon/computers.html', context)
 
 
 def computer_details(request, computer_id):

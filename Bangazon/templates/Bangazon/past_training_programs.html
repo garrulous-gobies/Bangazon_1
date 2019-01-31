@@ -3,26 +3,26 @@
 
 {% block content %}
 
-  <div id="main_container">
+<div id="main_container">
     <h1 class="main_title">Past Training Programs</h1>
     <section class="training_nav_button">
-      <a class="past_link" href="../Training">
-          <p class="past_program_btn">Upcoming Training Classes</p>
-      </a>
+        <button class="btn btn_margin"> <a class="past_link" href="../Training">
+                Upcoming Training Classes
+            </a></button>
     </section>
     {% if training_program_list %}
-      <ul class="bangazon_list">
+    <ul class="list-group list-group-flush dept_list">
         {% for program in training_program_list %}
-        <li class="bangazon_list_item">
-          <a class="training_name_list" href="{% url 'Bangazon:past_training_details' program.id %}">
-            <p class="program_name">{{ program.name }}</p>
-          </a>
+        <li class="list-group-item">
+            <a class="training_name_list" href="{% url 'Bangazon:past_training_details' program.id %}">
+                <p class="program_name">{{ program.name }}</p>
+            </a>
         </li>
         {% endfor %}
-      </ul>
+    </ul>
     {% else %}
-      <p class="no_items_found">No training programs from the past are in system.</p>
+    <p class="no_items_found">No training programs from the past are in system.</p>
     {% endif %}
-  </div>
+</div>
 
 {% endblock content %}

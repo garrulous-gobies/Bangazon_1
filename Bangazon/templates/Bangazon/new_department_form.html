@@ -2,13 +2,13 @@
 
 {% block content %}
 
-<div class="new_department_form">
-    <h2> Add A Department</h2>
+<div class="new_form">
+    <h2 class="main_title"> Add A Department</h2>
     <form class="add_department" action="{% url 'Bangazon:save_department' %}" method="POST">
         {% csrf_token %}
         <input name="department_name" type="text" placeholder="Department Name" required=True>
         <input name="department_budget" type="number" placeholder="Department Budget" required=True>
-        <input type="submit">
+        <input type="submit" class="btn">
     </form>
 </div>
 
