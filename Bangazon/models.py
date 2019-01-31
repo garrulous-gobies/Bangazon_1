@@ -72,8 +72,8 @@ class Employee_Computer(models.Model):
 
 # Create Training Enrollment join table
 class EmployeeTrainingProgram(models.Model):
-  employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
-  trainingProgram = models.ForeignKey(TrainingProgram, on_delete=models.CASCADE)
+  employee = models.ForeignKey('Employee', on_delete=models.CASCADE)
+  trainingProgram = models.ForeignKey('TrainingProgram', on_delete=models.CASCADE)
   status = models.CharField(max_length = 50)
   def __str__(self):
     return self

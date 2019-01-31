@@ -59,19 +59,78 @@ def employee_update(request, pk):
     return HttpResponseRedirect(reverse('Bangazon:employees'))
 
 def employee_edit(request, pk):
-  employee = get_object_or_404(Employee, id=pk)
-  department = Department.objects.get(employee=pk)
-  form = EmployeeEditForm(initial={'firstName': employee.firstName, 'lastName': employee.lastName, 'Start Date': employee.startDate, 'supervisor': employee.isSupervisor, 'department': department.id})
-  return render(request, 'Bangazon/employee_edit.html', {'form': form, 'employee': employee})
+    employee = get_object_or_404(Employee, id=pk)
+    now = timezone.now()
+
+
+
+
+    all_computers = Computer.objects.filter(decommissionDate = None)
+    comp_relationships = Employee_Computer.objects.filter(removeDate= None)
+    comp_list = list()
+    # appends to comp_list only computers that are currently in commission and are not assigned to an employee
+    for unassigned_comp in comp_relationships:
+        for computer in all_computers:
+            if unassigned_comp.id == computer.id:
+                comp_list.append((computer.id, f'{computer.manufacturer} {computer.model}'))
+    # inserts the employees currently assigned employee to the dropdown
+    if len(employee.computer.all()) > 0:
+        current_computer = employee.computer.all()[0]
+        comp_list.insert(0, (current_computer.id, f'{current_computer.manufacturer} {current_computer.model}'))
+        initial_comp_id = current_computer.id
+    else:
+        initial_comp_id = 0
+
+
+    comp_list.insert(0, (0, 'None Assigned'))
+
+
+    dept_list = list()
+    departments = Department.objects.all()
+    for department in departments:
+        dept = (department.id, department.name)
+        dept_list.append(dept)
+
+    train_list = list()
+    training_program_list = TrainingProgram.objects.filter(startDate__gte=now)
+    for program in training_program_list:
+        train_list.append((program.id, f'{program.name} \n beginning:{program.startDate}'))
+
+
+    current_enrollment = list()
+    for program in employee.trainingprogram_set.all():
+        current_enrollment.append(program.id)
+
+
+    # convert list of choice tuples into a tuple for passing to form class
+    computer_list = tuple(comp_list)
+    department_list = tuple(dept_list)
+    training_list = tuple(train_list)
+
+    department = Department.objects.get(employee=pk)
+    form = EmployeeEditForm(dept_choices = department_list,
+                            comp_choices = computer_list,
+                            train_choices = training_list,
+                            initial={
+                                'firstName': employee.firstName,
+                                'lastName': employee.lastName,
+                                'Start Date': employee.startDate,
+                                'supervisor': employee.isSupervisor,
+                                'department': department.id,
+                                'computer': initial_comp_id,
+                                'training': current_enrollment
+                                }
+                            )
+    return render(request, 'Bangazon/employee_edit.html', {'form': form, 'employee': employee})
 
 # ========================DEPARTMENTS================
 
 
 def departments(request):
     """Returns a list of all departments
-    
+
     Model:Department
-    
+
     Template:departments.html
 
     Author(s): Austin Zoradi
@@ -84,9 +143,9 @@ def departments(request):
 
 def new_department(request):
     """Generates a form to add a new department to the db
-    
+
     Model:Department
-    
+
     Template:new_department_form.html
 
     Author(s): Austin Zoradi
@@ -98,9 +157,9 @@ def new_department(request):
 
 def save_department(request):
     """Saves a new instance department via POST to the db, redirects to the list of all instances of department
-    
+
     Model:Department
-    
+
     Template: redirects back to departments.html
 
     Author(s): Austin Zoradi
@@ -113,9 +172,9 @@ def save_department(request):
 
 def department_details(request, department_id):
     """Returns a list of the details of an instance of a single department and the employee instances associated with it
-    
+
     Model:Department
-    
+
     Template:departments_details.html
 
     Author(s): Austin Zoradi
@@ -124,7 +183,7 @@ def department_details(request, department_id):
     context = {'department_details': department_details}
     return render(request, 'Bangazon/department_details.html', context)
 
-    
+
 
 # ==========================COMPUTERS=================================
 

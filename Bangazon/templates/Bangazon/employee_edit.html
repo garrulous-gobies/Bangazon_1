@@ -8,7 +8,7 @@
     <form method="post" class="new_form" action="{% url 'Bangazon:employee_update' employee.id %}" required=True>
         {% csrf_token %}
 
-        {{ form }}
+        {{ form.as_p }}
 
         <input type="submit" value="Submit">
 

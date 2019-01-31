@@ -51,8 +51,6 @@ class Command(BaseCommand):
     })
 
 
-
-
     seeder.add_entity(EmployeeTrainingProgram, 10)
 
     seeder.execute()
