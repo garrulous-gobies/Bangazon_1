@@ -61,3 +61,12 @@ a {
   font-weight: bolder;
   font-size: 20px;
 }
+.nav_flex{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.nav_flex li {
+    padding: 0px 5px;
+}
