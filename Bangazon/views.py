@@ -196,7 +196,7 @@ def new_training_program_form(request):
 def save_program(request):
     training_program_details = TrainingProgram(name=request.POST['training_name'], description=request.POST['training_description'], startDate=request.POST['training_startDate'], endDate=request.POST['training_endDate'], maxEnrollment=request.POST['training_maxEnrollment'])
     if training_program_details.startDate > training_program_details.endDate:
-        form = NewTrainingForm(initial={'training_name': training_program_details.name, 'training_description': training_program_details.description, 'training_startDate': training_program_details.startDate, 'training_endDate': training_program_details.endDate})
+        form = NewTrainingForm(initial={'training_name': training_program_details.name, 'training_description': training_program_details.description, 'training_startDate': training_program_details.startDate, 'training_endDate': training_program_details.endDate, })
         return render(request, 'Bangazon/new_training_program_form_error.html', {'form': form})
     else:
         training_program_details.save()
@@ -210,12 +210,15 @@ def edit_training_details(request, trainingprogram_id):
 
 # Saves updated training details from edit_training_details form
 def update_program(request):
-    newStartDate = request.POST['training_startDate']
-    newEndDate = request.POST['training_endDate']
-    if newStartDate > newEndDate:
-        newEndDate = newStartDate
-    TrainingProgram.objects.filter(id=request.POST['trainingprogram_id']).update(name = request.POST['training_name'], description = request.POST['training_description'], startDate = newStartDate, endDate = newEndDate, maxEnrollment = request.POST['training_maxEnrollment'])
-    return HttpResponseRedirect(reverse('Bangazon:training_programs'))
+    training_program_details = TrainingProgram(name=request.POST['training_name'], description=request.POST['training_description'], startDate=request.POST['training_startDate'], endDate=request.POST['training_endDate'], maxEnrollment=request.POST['training_maxEnrollment'])
+    if training_program_details.startDate > training_program_details.endDate:
+        newId = request.POST['trainingprogram_id']
+        form = NewTrainingForm(initial={'training_name': training_program_details.name, 'training_description': training_program_details.description, 'training_startDate': training_program_details.startDate, 'training_endDate': training_program_details.endDate})
+        return render(request, 'Bangazon/edit_training_error.html', {'form': form, 'id': newId})
+    else:
+        TrainingProgram.objects.filter(id=request.POST['trainingprogram_id']).update(name = request.POST['training_name'], description = request.POST['training_description'], startDate = request.POST['training_startDate'], endDate = request.POST['training_endDate'], maxEnrollment = request.POST['training_maxEnrollment'])
+        return HttpResponseRedirect(reverse('Bangazon:training_programs'))
+
 
 # Deletes upcoming training event
 def training_delete(request):
