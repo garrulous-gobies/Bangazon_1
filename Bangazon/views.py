@@ -3,13 +3,16 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.utils import timezone
 from .models import *
+import math
 from .forms import *
 import datetime
 import pytz
 from django.db.models import Q
 
 
-
+# ======================== Landing Page ================
+def landing_page(request):
+    return render(request, 'Bangazon/main.html')
 
 
 # ======================== EMPLOYEES ================
@@ -51,7 +54,7 @@ def employee_new(request):
 def employee_update(request, pk):
     department = Department.objects.get(pk=request.POST['department'])
     employee_edited = Employee(id=pk, firstName = request.POST['firstName'], lastName = request.POST['lastName'], startDate = request.POST['startDate'], isSupervisor = request.POST['supervisor'], department = department)
-    
+
     employee_edited.save()
     return HttpResponseRedirect(reverse('Bangazon:employees'))
 
@@ -129,26 +132,30 @@ def department_details(request, department_id):
 def computers(request):
     if request.POST:
         computer_list = Computer.objects.filter(Q(manufacturer__icontains=request.POST['computer_search']) | Q(model__icontains=request.POST['computer_search']))
-        print("IM INSIDE THE IF===========================")
     else:
         computer_list = Computer.objects.all()
-        print("IM INSIDE THE ELSE===========================")
-        print(request.POST)
 
     context = {'computer_list': computer_list}
-
-    return render(request, 'Bangazon/computers.html', context)
+    return render(request, 'Bangazon/computer1.html', context)
 
 
 def computer_details(request, computer_id):
   computer = get_object_or_404(Computer, pk=computer_id)
-  print("id", computer.id)
   context = {'computer': computer}
   return render(request, 'Bangazon/computer_details.html', context)
 
 def computer_form(request):
-    employees = Employee.objects.all
-    context = {"employees": employees}
+    employees = Employee.objects.all()
+    employee_computer = Employee_Computer.objects.all()
+    employee_computer_have_computer = list()
+    for rel in employee_computer:
+        if rel.removeDate == None:
+            employee_computer_have_computer.append(rel.employee_id)
+    employee_filterd_list = list()
+    for employee in employees:
+        if employee.id not in employee_computer_have_computer:
+            employee_filterd_list.append(employee)
+    context = {"employees": employee_filterd_list}
     return render(request, "Bangazon/computer_form.html", context)
 
 
@@ -156,9 +163,10 @@ def computer_new(request):
     computer = Computer(
         purchaseDate=request.POST['purchase'], model=request.POST['model'], manufacturer=request.POST['manufacturer'])
     computer.save()
-    employee = Employee.objects.all(pk=request.POST['assignment'])
-    relationship = Employee_Computer(employee=employee, computer=computer)
-    relationship.save()
+    if request.POST['assignment'] != 'null':
+        employee = Employee.objects.get(pk=request.POST['assignment'])
+        relationship = Employee_Computer(employee=employee, computer=computer, assignDate=datetime.datetime.now())
+        relationship.save()
     return HttpResponseRedirect(reverse('Bangazon:computers'))
 
 def computer_delete_confirm(request):
@@ -169,7 +177,6 @@ def computer_delete_confirm(request):
         assigned = True
     context = {'computer': computer,
                 'assigned': assigned}
-    print("context", context)
     return render(request, "Bangazon/computer_delete_confirm.html", context)
 
 def computer_delete(request):
