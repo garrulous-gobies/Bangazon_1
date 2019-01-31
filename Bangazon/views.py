@@ -101,7 +101,7 @@ def computers(request):
         computer_list = Computer.objects.all()
 
     context = {'computer_list': computer_list}
-    return render(request, 'Bangazon/computer1.html', context)
+    return render(request, 'Bangazon/computers.html', context)
 
 
 def computer_details(request, computer_id):

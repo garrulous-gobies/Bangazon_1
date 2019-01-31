@@ -5,8 +5,8 @@
 
   <div id="main_container">
     <h1 class="main_title">Computers</h1>
-    <a href = "{% url 'Bangazon:computer_form' %}">Add Computer</a>
     <a   href="{% url 'Bangazon:computers' %}">View All Computers</a>
+    <a href = "{% url 'Bangazon:computer_form' %}">Add Computer</a>
     {% if computer_list %}
         <form action="{% url 'Bangazon:computers' %}" method="POST">
             {% csrf_token %}
@@ -18,10 +18,15 @@
         {% for computer in computer_list %}
         <li class="bangazon_list_item d-flex">
           <a href="{% url 'Bangazon:computer_details' computer.id %}">Make:{{computer.manufacturer}} --Model: {{computer.model}}</a>
-          {% for employee in computer.employee_set.all %}
-
-            <p>Assigned To: {{employee.firstName}} {{employee.lastName}}</p>
-          {% endfor %}
+            {% for employeerel in computer.employee_computer_set.all %}
+                {% if employeerel.removeDate == NULL %}
+                 {% for employee in computer.employee_set.all %}
+                    {% if employeerel.employee_id == employee.id %}
+                        <p>Assigned To: {{employee.firstName}} {{employee.lastName}}</p>
+                    {% endif %}
+                {% endfor %}
+                {% endif %}
+            {% endfor %}
         </li>
         {% endfor %}
       </ul>
