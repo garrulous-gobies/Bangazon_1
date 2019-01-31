@@ -1,4 +1,5 @@
 {% extends "Bangazon/index.html" %}
+{% load humanize %}
 
 {% block content %}
 
@@ -6,7 +7,7 @@
 <h1 class="main_title">{{department_details.name}} Department Details</h1>
 <div class="detail_div">
 
-    <p>Budget: ${{department_details.budget}}</p>
+    <p>Budget: ${{department_details.budget|intcomma}}</p>
     <P>Employees:</P>
     <ul>
         {% for emp in department_details.employee_set.all %}
