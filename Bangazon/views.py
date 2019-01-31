@@ -148,7 +148,7 @@ def computers(request):
 
 
 def computer_details(request, computer_id):
-     """Renders computer details page
+    """Renders computer details page
 
     Model:Computer
 
@@ -156,12 +156,12 @@ def computer_details(request, computer_id):
 
     Author(s): Jase Hackman
     """
-  computer = get_object_or_404(Computer, pk=computer_id)
-  context = {'computer': computer}
-  return render(request, 'Bangazon/computer_details.html', context)
+    computer = get_object_or_404(Computer, pk=computer_id)
+    context = {'computer': computer}
+    return render(request, 'Bangazon/computer_details.html', context)
 
 def computer_form(request):
-     """Calls new computer form and filters data so only employees without computers appear in dropdown.
+    """Calls new computer form and filters data so only employees without computers appear in dropdown.
 
     Model:Employee, Employe_Computer
 
@@ -184,7 +184,7 @@ def computer_form(request):
 
 
 def computer_new(request):
-     """Creates new computer in data base and redirects to main computer page.
+    """Creates new computer in data base and redirects to main computer page.
 
     Model:Computer, Employee, Employe_Computer
 
@@ -202,7 +202,7 @@ def computer_new(request):
     return HttpResponseRedirect(reverse('Bangazon:computers'))
 
 def computer_delete_confirm(request):
-     """Gets computer object for the computer you want to delete
+    """Gets computer object for the computer you want to delete
 
     Model:Computer
 
@@ -220,7 +220,7 @@ def computer_delete_confirm(request):
     return render(request, "Bangazon/computer_delete_confirm.html", context)
 
 def computer_delete(request):
-      """Deletes computer, calls main computer function.
+    """Deletes computer, calls main computer function.
 
     Model:Computer
 
