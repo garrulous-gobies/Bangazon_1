@@ -96,7 +96,11 @@ def employee_edit(request, pk):
     for program in training_program_list:
         train_list.append((program.id, f'{program.name}-beginning:{program.startDate}'))
 
-    print(train_list)
+
+    current_enrollment = list()
+    for program in employee.trainingprogram_set.all():
+        current_enrollment.append(program.id)
+
 
     # convert list of choice tuples into a tuple for passing to form class
     computer_list = tuple(comp_list)
@@ -113,7 +117,8 @@ def employee_edit(request, pk):
                                 'Start Date': employee.startDate,
                                 'supervisor': employee.isSupervisor,
                                 'department': department.id,
-                                'computer': initial_comp_id
+                                'computer': initial_comp_id,
+                                'training': current_enrollment
                                 }
                             )
     return render(request, 'Bangazon/employee_edit.html', {'form': form, 'employee': employee})
