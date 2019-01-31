@@ -291,6 +291,20 @@ def computer_delete(request):
     computer.delete()
     return HttpResponseRedirect(reverse('Bangazon:computers'))
 
+def computer_decommission(request):
+    """Decomissions a computer
+
+    Model: Computer
+
+    template: None
+
+    Author: Jase Hackman
+    """
+
+    computer= Computer.objects.get(pk=request.POST['computer_id'])
+    computer.update(decommissionDate=datetime.datetime.now())
+    return HttpResponseRedirect(reverse('Bangazon:computers_details', args=(request.POST['computer_id'])))
+
 # ===========================TRAINING================================
 
 # Lists all training programs for future classes
