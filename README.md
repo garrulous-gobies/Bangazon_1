@@ -12,7 +12,7 @@
 <h1></h1>
 <h3>Development Tools</h3>
 
-<img src="images/lucid.png"/>______<img src="images/slack.jpg"/>______<img src="images/vs.jpg"/>______<img src="images/github.jpg"/>
+<img src="images/lucid.png"/>______<img src="images/slack.png"/>______<img src="images/vs.png"/>______<img src="images/github.jpg"/>
 
 
 <h2>Instructions for Installing Bangazon</h2>
