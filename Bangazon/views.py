@@ -12,7 +12,7 @@ from django.db.models import Q
 
 # ======================== Landing Page ================
 def landing_page(request):
-    return render(request, 'Bangazon/main.html')
+    return render(request, 'Bangazon/index.html')
 
 
 # ======================== EMPLOYEES ================
@@ -166,7 +166,9 @@ def save_department(request):
     """
     name = request.POST['department_name']
     budget = request.POST['department_budget']
-    dep = Department(name=name, budget=budget)
+    handleIntBudget = int(str(budget).split(".")[0])
+    print("========================================================",int(str(budget).split(".")[0]))
+    dep = Department(name=name, budget=handleIntBudget)
     dep.save()
     return HttpResponseRedirect(reverse('Bangazon:departments'))
 
