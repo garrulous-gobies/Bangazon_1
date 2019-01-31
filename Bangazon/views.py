@@ -69,9 +69,9 @@ def employee_edit(request, pk):
 
 def departments(request):
     """Returns a list of all departments
-    
+
     Model:Department
-    
+
     Template:departments.html
 
     Author(s): Austin Zoradi
@@ -84,9 +84,9 @@ def departments(request):
 
 def new_department(request):
     """Generates a form to add a new department to the db
-    
+
     Model:Department
-    
+
     Template:new_department_form.html
 
     Author(s): Austin Zoradi
@@ -98,9 +98,9 @@ def new_department(request):
 
 def save_department(request):
     """Saves a new instance department via POST to the db, redirects to the list of all instances of department
-    
+
     Model:Department
-    
+
     Template: redirects back to departments.html
 
     Author(s): Austin Zoradi
@@ -113,9 +113,9 @@ def save_department(request):
 
 def department_details(request, department_id):
     """Returns a list of the details of an instance of a single department and the employee instances associated with it
-    
+
     Model:Department
-    
+
     Template:departments_details.html
 
     Author(s): Austin Zoradi
@@ -124,12 +124,20 @@ def department_details(request, department_id):
     context = {'department_details': department_details}
     return render(request, 'Bangazon/department_details.html', context)
 
-    
+
 
 # ==========================COMPUTERS=================================
 
 
 def computers(request):
+    """Calls in main computer page and has function for filters
+
+    Model:Computer
+
+    Template:computers.html
+
+    Author(s): Jase Hackman, Nolen Little, Austin Zoradi
+    """
     if request.POST:
         computer_list = Computer.objects.filter(Q(manufacturer__icontains=request.POST['computer_search']) | Q(model__icontains=request.POST['computer_search']))
     else:
@@ -140,11 +148,27 @@ def computers(request):
 
 
 def computer_details(request, computer_id):
+     """Renders computer details page
+
+    Model:Computer
+
+    Template:computers_details.html
+
+    Author(s): Jase Hackman
+    """
   computer = get_object_or_404(Computer, pk=computer_id)
   context = {'computer': computer}
   return render(request, 'Bangazon/computer_details.html', context)
 
 def computer_form(request):
+     """Calls new computer form and filters data so only employees without computers appear in dropdown.
+
+    Model:Employee, Employe_Computer
+
+    Template:computers_form.html
+
+    Author(s): Jase Hackman
+    """
     employees = Employee.objects.all()
     employee_computer = Employee_Computer.objects.all()
     employee_computer_have_computer = list()
@@ -160,6 +184,14 @@ def computer_form(request):
 
 
 def computer_new(request):
+     """Creates new computer in data base and redirects to main computer page.
+
+    Model:Computer, Employee, Employe_Computer
+
+    Template:none
+
+    Author(s): Jase Hackman
+    """
     computer = Computer(
         purchaseDate=request.POST['purchase'], model=request.POST['model'], manufacturer=request.POST['manufacturer'])
     computer.save()
@@ -170,6 +202,14 @@ def computer_new(request):
     return HttpResponseRedirect(reverse('Bangazon:computers'))
 
 def computer_delete_confirm(request):
+     """Gets computer object for the computer you want to delete
+
+    Model:Computer
+
+    Template:computer_delete_confirm.html
+
+    Author(s): Jase Hackman
+    """
     computer= Computer.objects.get(pk=request.POST['computer_id'])
     is_assigned=computer.employee_set.all()
     assigned = False
@@ -180,6 +220,14 @@ def computer_delete_confirm(request):
     return render(request, "Bangazon/computer_delete_confirm.html", context)
 
 def computer_delete(request):
+      """Deletes computer, calls main computer function.
+
+    Model:Computer
+
+    Template:none
+
+    Author(s): Jase Hackman
+    """
     computer= Computer.objects.get(pk=request.POST['computer_id'])
     computer.delete()
     return HttpResponseRedirect(reverse('Bangazon:computers'))
