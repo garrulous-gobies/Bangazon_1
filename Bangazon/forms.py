@@ -4,11 +4,14 @@ from .models import *
 
 
 class EmployeeEditForm(forms.Form):
+<<<<<<< HEAD
     def __init__(self, **kwargs):
         self.choices = kwargs.pop('dept_choices')
         super(EmployeeEditForm, self).__init__(**kwargs)
         self.fields['department'] = forms.ChoiceField(label='Department', choices=(self.choices))
 
+=======
+>>>>>>> master
     firstName = forms.CharField(label='First Name', max_length=35, required=True)
     lastName = forms.CharField(label='Last Name', max_length=35, required=True)
     startDate = forms.DateTimeField(initial=datetime.now(), required=True, label='Start Date')

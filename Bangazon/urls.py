@@ -26,7 +26,7 @@ urlpatterns = [
 # ===============================================================================================
 
 
-
+    path('Bangazon', views.landing_page, name='landing_page'),
     path('Bangazon/Training', views.training_programs, name='training_programs'),
     path('Bangazon/Training/<int:trainingprogram_id>/', views.training_details, name='training_details'),
     path('Bangazon/Training/Past/<int:trainingprogram_id>/', views.past_training_details, name='past_training_details'),
