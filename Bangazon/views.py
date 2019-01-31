@@ -190,6 +190,8 @@ def new_training_program_form(request):
 # Saves new program to database and forwards to training_programs
 def save_program(request):
     training = TrainingProgram(name=request.POST['training_name'], description=request.POST['training_description'], startDate=request.POST['training_startDate'], endDate=request.POST['training_endDate'], maxEnrollment=request.POST['training_maxEnrollment'])
+    if training.startDate >= training.endDate:
+        training.endDate = training.startDate
     training.save()
     return HttpResponseRedirect(reverse('Bangazon:training_programs'))
 
