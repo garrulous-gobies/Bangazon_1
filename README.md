@@ -7,12 +7,12 @@
 <h2 style="font-weight: bold;"> Technologies Used
 <h3>Development Languages and Libraries</h3>
 
-<img src="./images/python.png"/>______<img src="./images/django.jpeg"/>______<img src="./images/django_seed.png"/>______<img src="./images/dbbrowser.png"/>______<img src="./images/html5.jpg"/>______<img src="./images/css3.jpg"/>
+<img src="images/python.png"/>______<img src="images/django.jpeg"/>______<img src="images/django_seed.png"/>______<img src="images/dbbrowser.png"/>______<img src="images/html5.jpg"/>______<img src="./images/css3.jpg"/>
 
 <h1></h1>
 <h3>Development Tools</h3>
 
-<img src="./images/lucid.png"/>______<img src="./images/slack.jpg"/>______<img src="./images/vs.jpg"/>______<img src="./images/github.jpg"/>
+<img src="images/lucid.png"/>______<img src="images/slack.jpg"/>______<img src="images/vs.jpg"/>______<img src="images/github.jpg"/>
 
 
 <h2>Instructions for Installing Bangazon</h2>
@@ -91,7 +91,7 @@ python manage.py runserver 8080
 
 <h2 style="text-align: center">Entity Relationship Diagrams</h2>
 
-<img src="./images/ERD.png" />
+<img src="images/ERD.png" />
 
 <h2 style="text-align: center; font-weight: bold"> Visual Feature List</h2>
 
