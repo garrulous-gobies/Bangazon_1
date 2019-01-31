@@ -4,7 +4,7 @@
 {% block content %}
     <div id="main_container">
     <h1 class="main_title">Edit Details</h1>
-    <h1 class="error_alert">The End Date for the class must be greater than the Start Date.</h1>
+    <h1 class="error_alert">The End Date for the class must be after the Start Date.</h1>
     <form class="add_training" action="{% url 'Bangazon:update_program' %}" method="POST">
         {% csrf_token %}
         {{ form }}
