@@ -21,15 +21,15 @@
         </li>
         {% endfor %}
     </ul>
-    <section class="training_nav_buttons">
-        <button class="btn btn_margin">
-            <a class="past_link" href="{% url 'Bangazon:past_training_programs' %}">
-            Past Training Classes</a>
-        </button>
-    </section>
     {% else %}
     <p class="no_items_found">No future training programs in system.</p>
     {% endif %}
+    <section class="training_nav_buttons">
+        <button class="btn btn_margin">
+            <a class="past_link" href="{% url 'Bangazon:past_training_programs' %}">
+                Past Training Classes</a>
+        </button>
+    </section>
 
 </div>
 
