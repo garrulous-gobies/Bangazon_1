@@ -190,7 +190,7 @@ def new_training_program_form(request):
 # Saves new program to database and forwards to training_programs
 def save_program(request):
     training = TrainingProgram(name=request.POST['training_name'], description=request.POST['training_description'], startDate=request.POST['training_startDate'], endDate=request.POST['training_endDate'], maxEnrollment=request.POST['training_maxEnrollment'])
-    if training.startDate >= training.endDate:
+    if training.startDate > training.endDate:
         training.endDate = training.startDate
     training.save()
     return HttpResponseRedirect(reverse('Bangazon:training_programs'))
@@ -203,7 +203,11 @@ def edit_training_details(request, trainingprogram_id):
 
 # Saves updated training details from edit_training_details form
 def update_program(request):
-    TrainingProgram.objects.filter(id=request.POST['trainingprogram_id']).update(name = request.POST['training_name'], description = request.POST['training_description'], startDate = request.POST['training_startDate'], endDate = request.POST['training_endDate'], maxEnrollment = request.POST['training_maxEnrollment'])
+    newStartDate = request.POST['training_startDate']
+    newEndDate = request.POST['training_endDate']
+    if newStartDate > newEndDate:
+        newEndDate = newStartDate
+    TrainingProgram.objects.filter(id=request.POST['trainingprogram_id']).update(name = request.POST['training_name'], description = request.POST['training_description'], startDate = newStartDate, endDate = newEndDate, maxEnrollment = request.POST['training_maxEnrollment'])
     return HttpResponseRedirect(reverse('Bangazon:training_programs'))
 
 # Deletes upcoming training event
