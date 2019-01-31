@@ -55,4 +55,9 @@ class Command(BaseCommand):
 
     seeder.add_entity(EmployeeTrainingProgram, 10)
 
+    seeder.add_entity(Employee_Computer, 15, {
+        'assignDate': lambda x: seeder.faker.date_time_between(start_date='-5y', end_date='now'),
+        'removeDate': lambda x: random.choice([timezone.now(), None, None, None, None])
+    })
+
     seeder.execute()

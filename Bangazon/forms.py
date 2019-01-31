@@ -6,9 +6,13 @@ from .models import *
 class EmployeeEditForm(forms.Form):
 <<<<<<< HEAD
     def __init__(self, **kwargs):
-        self.choices = kwargs.pop('dept_choices')
+        self.department_choices = kwargs.pop('dept_choices')
+        # self.computer_choices = kwargs.pop('comp_choices')
+        # self.training_choices = kwargs.pop('train_choices')
         super(EmployeeEditForm, self).__init__(**kwargs)
-        self.fields['department'] = forms.ChoiceField(label='Department', choices=(self.choices))
+        self.fields['department'] = forms.ChoiceField(label='Department', choices=(self.department_choices))
+        # self.fields['computer'] = forms.ChoiceField(label='Computer', choices = self.computer_choices)
+        # self.fields['training'] = forms.Select(label="Training Enrollment", choices = self.training_choices)
 
 =======
 >>>>>>> master

@@ -59,15 +59,31 @@ def employee_update(request, pk):
     return HttpResponseRedirect(reverse('Bangazon:employees'))
 
 def employee_edit(request, pk):
-    departments = Department.objects.all()
-    dept_list = list()
+    employee = get_object_or_404(Employee, id=pk)
 
+    training_program_list = TrainingProgram.objects.filter(startDate__gte=now)
+
+    all_computers = Computers.objects.filter(decommissionDate == 'NULL')
+    # get all relationships, find nulls in remove date. loop through all computers,
+    # if computer.id != computer id in list add to dropdown
+
+
+    if len(employee.computer.all) > 0:
+        computer_id = employee.computer.all()[0].id
+    else:
+        computer_id = 0
+
+    dept_list = list()
+    comp_list = list()
+    train_list = list()
+
+
+    departments = Department.objects.all()
     for department in departments:
         dept = (department.id, department.name)
         dept_list.append(dept)
 
     department_list = tuple(dept_list)
-    employee = get_object_or_404(Employee, id=pk)
     department = Department.objects.get(employee=pk)
     form = EmployeeEditForm(dept_choices = department_list, initial={'firstName': employee.firstName, 'lastName': employee.lastName, 'Start Date': employee.startDate, 'supervisor': employee.isSupervisor, 'department': department.id})
     return render(request, 'Bangazon/employee_edit.html', {'form': form, 'employee': employee})
