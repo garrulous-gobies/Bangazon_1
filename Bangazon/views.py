@@ -194,11 +194,13 @@ def new_training_program_form(request):
 
 # Saves new program to database and forwards to training_programs
 def save_program(request):
-    training = TrainingProgram(name=request.POST['training_name'], description=request.POST['training_description'], startDate=request.POST['training_startDate'], endDate=request.POST['training_endDate'], maxEnrollment=request.POST['training_maxEnrollment'])
-    if training.startDate > training.endDate:
-        training.endDate = training.startDate
-    training.save()
-    return HttpResponseRedirect(reverse('Bangazon:training_programs'))
+    training_program_details = TrainingProgram(name=request.POST['training_name'], description=request.POST['training_description'], startDate=request.POST['training_startDate'], endDate=request.POST['training_endDate'], maxEnrollment=request.POST['training_maxEnrollment'])
+    if training_program_details.startDate > training_program_details.endDate:
+        form = NewTrainingForm(initial={'training_name': training_program_details.name, 'training_description': training_program_details.description, 'training_startDate': training_program_details.startDate, 'training_endDate': training_program_details.endDate})
+        return render(request, 'Bangazon/new_training_program_form_error.html', {'form': form})
+    else:
+        training_program_details.save()
+        return HttpResponseRedirect(reverse('Bangazon:training_programs'))
 
 # Displays form with existing data prepopulated and allows user to edit details
 def edit_training_details(request, trainingprogram_id):
