@@ -13,13 +13,15 @@
             <li class="bangazon_list_item">Department:{{employee_details.department.name}}</li>
 
             {% if employee_details.computer.all|length == 0 %}
-            <li class="bangazon_list_item">Computer: No computer assigned.
-                {% endif %}
-
-                {% for computer in employee_details.computer.all %}
+                <li class="bangazon_list_item">Computer: No computer assigned. </li>
+            {% endif %}
+                 
+            {% if computer != "None" %}
                 <a href={% url 'Bangazon:computer_details' computer.id %}>
-            <li>Computer: {{computer.manufacturer}} {{computer.model}} , ID#: {{computer.id}}</li></a>
-            {% endfor %}
+                    <li>Computer: {{computer.manufacturer}} {{computer.model}} , ID#: {{computer.id}}</li>
+                </a>
+            {% endif %}
+            
         </ul>
         <h4>Upcoming Training Enrollment</h4>
         <ul>
