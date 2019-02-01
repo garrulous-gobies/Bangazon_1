@@ -29,7 +29,7 @@ class TrainingListTest(TestCase):
 
 # Tests creation of training program, saving of department, saving of new employee, and saving of training program assignment. as well as redirect to past training page
 class TrainingWithAttendeesTest(TestCase):
-     """Tests creation of training program, saving of department, saving of new employee, and saving of training program assignment. as well as redirect to past training page
+    """Tests creation of training program, saving of department, saving of new employee, and saving of training program assignment. as well as redirect to past training page
 
     Model:TrainingProgram
 
@@ -245,11 +245,11 @@ class EmployeeDetailsTests(TestCase):
                       response.context['upcoming_training_programs'])
 
 class EmployeeFormTest(TestCase):
-        """Tests the new Employee form for expected fields
+    """Tests the new Employee form for expected fields
 
-        Author(s): Zac Jones
-        """
-    
+    Author(s): Zac Jones
+    """
+
     def test_employee_form(self):
         response = self.client.get(reverse('Bangazon:employee_form'))
         self.assertIn(
@@ -270,11 +270,11 @@ class EmployeeFormTest(TestCase):
 
 
 class EmployeeListTest(TestCase):
-        """Tests ability to list employee
+    """Tests ability to list employee
 
-        Author(s): Zac Jones
-        """
-    
+    Author(s): Zac Jones
+    """
+
     def test_employee_list(self):
         department = Department.objects.create(name="Fun", budget=100001)
         employee = Employee.objects.create(
@@ -327,7 +327,7 @@ class EditEmployeeTest(TestCase):
 
 
 class EmployeeEditFormTest(TestCase):
-    def test_employee_edit_form(self):        
+    def test_employee_edit_form(self):
         """Tests the edit Employee form for expected fields
 
         * note that this test will fail at this time - building edit form is still in progress *
@@ -403,16 +403,16 @@ class ComputerDetailsTests(TestCase):
 
         response= self.client.get(reverse('Bangazon:computer_form'))
         self.assertIn(
-            '<input type="text" name="model" id="computer_new_model">'.encode(), response.content
+            '<input type="text" name="model" id="computer_new_model" required>'.encode(), response.content
         )
         self.assertIn(
-            '<input type="text" name="manufacturer" id="computer_new_manufacturer">'.encode(), response.content
+            '<input type="text" name="manufacturer" id="computer_new_manufacturer" required>'.encode(), response.content
         )
         self.assertIn(
-            '<input type="datetime-local" name="purchase" id="computer_new_purchase">'.encode(), response.content
+            '<input type="datetime-local" name="purchase" id="computer_new_purchase" required>'.encode(), response.content
         )
         self.assertIn(
-            '<input type="datetime-local" name="purchase" id="computer_new_purchase">'.encode(), response.content
+            '<input type="datetime-local" name="purchase" id="computer_new_purchase" required>'.encode(), response.content
         )
 
     def test_comp_add(self):
