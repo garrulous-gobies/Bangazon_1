@@ -9,7 +9,7 @@
   <form class="add_training" action="{% url 'Bangazon:save_program' %}" method="POST">
     {% csrf_token %}
     {{ form }}
-    <input class="form_button" type="submit" value="Save Training">
+    <input class="btn btn-primary" type="submit" value="Save Training">
   </form>
   <section class="training_nav_button">
     <a class="past_link" href="{% url 'Bangazon:training_programs' %}">
