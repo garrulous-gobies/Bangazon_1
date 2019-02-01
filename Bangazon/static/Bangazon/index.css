@@ -51,6 +51,9 @@ text-decoration: none;
 a {
     color:black;
 }
+button a {
+    color: white;
+}
 
 .delete_div{
     margin:15px;
@@ -60,4 +63,21 @@ a {
   margin-bottom: 5px;
   font-weight: bolder;
   font-size: 20px;
+}
+.nav_flex{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.nav_flex li {
+    padding: 0px 5px;
+}
+
+.summary {
+    margin: 25px 50px;
+}
+.bold{
+    font-weight: 600; 
+    font-size: 2.5em; 
 }

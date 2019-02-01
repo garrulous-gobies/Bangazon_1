@@ -11,11 +11,15 @@ from django.db.models import Q
 
 
 # ======================== Landing Page ================
+
+
 def landing_page(request):
-    return render(request, 'Bangazon/main.html')
+    return render(request, 'Bangazon/index.html')
 
 
 # ======================== EMPLOYEES ================
+
+
 def employees(request):
     employee_list = Employee.objects.all()
     context = {'employee_list': employee_list}
@@ -49,10 +53,12 @@ def employee_details(request, employee_id):
     }
     return render(request, 'Bangazon/employee_details.html', context)
 
+
 def employee_form(request):
     departments = Department.objects.all()
     context = {"departments": departments}
     return render(request, "Bangazon/employees_form.html", context)
+
 
 def employee_new(request):
     department = Department.objects.get(pk=request.POST['department'])
@@ -60,6 +66,7 @@ def employee_new(request):
 
     employee.save()
     return HttpResponseRedirect(reverse('Bangazon:employees'))
+
 
 def employee_update(request, pk):
     department = Department.objects.get(pk=request.POST['department'])
@@ -103,12 +110,10 @@ def employee_update(request, pk):
     employee_edited.save()
     return HttpResponseRedirect(reverse('Bangazon:employees'))
 
+
 def employee_edit(request, pk):
     employee = get_object_or_404(Employee, id=pk)
     now = timezone.now()
-
-
-
 
     all_computers = Computer.objects.filter(decommissionDate = None)
     comp_relationships = Employee_Computer.objects.filter(removeDate= None)
@@ -168,6 +173,7 @@ def employee_edit(request, pk):
                             )
     return render(request, 'Bangazon/employee_edit.html', {'form': form, 'employee': employee})
 
+
 # ========================DEPARTMENTS================
 
 
@@ -181,7 +187,7 @@ def departments(request):
     Author(s): Austin Zoradi
     """
 
-    department_list = Department.objects.all()
+    department_list = Department.objects.all().order_by('name')
     context = {'department_list': department_list}
     return render(request, 'Bangazon/departments.html', context)
 
@@ -211,9 +217,11 @@ def save_department(request):
     """
     name = request.POST['department_name']
     budget = request.POST['department_budget']
-    dep = Department(name=name, budget=budget)
+    handleIntBudget = int(str(budget).split(".")[0])
+    dep = Department(name=name, budget=handleIntBudget)
     dep.save()
     return HttpResponseRedirect(reverse('Bangazon:departments'))
+
 
 def department_details(request, department_id):
     """Returns a list of the details of an instance of a single department and the employee instances associated with it
@@ -228,12 +236,46 @@ def department_details(request, department_id):
     context = {'department_details': department_details}
     return render(request, 'Bangazon/department_details.html', context)
 
+def department_edit(request, department_id):
+    """Returns an edit form prepopulated with data of the department that is going to be edited
+    
+    Arguments: department_id {[pk]} -- id of the department that is to be edited
 
+    Model:Department
+
+    Template:edit_department_form.html        
+    """
+    department = Department.objects.get(id=department_id)
+    context = {"department": department}
+    return render(request, 'Bangazon/edit_department_form.html', context)
+
+def department_update(request, department_id):
+    """Updates the instance of department with id department_id with the new input values from the form in the db, rerenders department list
+    
+    Arguments: department_id {[pk]} -- id of the department that is to be edited
+
+    Model:Department
+
+    Template:edit_department_form.html        
+    """
+    budget=request.POST['department_budget']
+    handleIntBudget = int(str(budget).split(".")[0])
+    edited_dept = Department(id=department_id, name=request.POST['department_name'], budget=handleIntBudget)
+    edited_dept.save()
+    return HttpResponseRedirect(reverse('Bangazon:departments'))
 
 # ==========================COMPUTERS=================================
 
 
 def computers(request):
+    """Calls in main computer page and has function for filters
+
+    Model:Computer
+
+    Template:computers.html
+
+    Author(s): Jase Hackman, Nolen Little, Austin Zoradi
+    """
     if request.POST:
         computer_list = Computer.objects.filter(Q(manufacturer__icontains=request.POST['computer_search']) | Q(model__icontains=request.POST['computer_search']))
     else:
@@ -244,11 +286,34 @@ def computers(request):
 
 
 def computer_details(request, computer_id):
-  computer = get_object_or_404(Computer, pk=computer_id)
-  context = {'computer': computer}
-  return render(request, 'Bangazon/computer_details.html', context)
+    """Renders computer details page
+
+    Model:Computer
+
+    Template:computers_details.html
+
+    Author(s): Jase Hackman
+    """
+    computer = get_object_or_404(Computer, pk=computer_id)
+    current_assignment_list = list()
+    for rel in computer.employee_computer_set.all():
+        current_assignment_list.append(rel.removeDate)
+    print(current_assignment_list)
+    context = {'computer': computer,
+                'relationships': current_assignment_list
+    }
+    return render(request, 'Bangazon/computer_details.html', context)
+
 
 def computer_form(request):
+    """Calls new computer form and filters data so only employees without computers appear in dropdown.
+
+    Model:Employee, Employe_Computer
+
+    Template:computers_form.html
+
+    Author(s): Jase Hackman
+    """
     employees = Employee.objects.all()
     employee_computer = Employee_Computer.objects.all()
     employee_computer_have_computer = list()
@@ -264,6 +329,14 @@ def computer_form(request):
 
 
 def computer_new(request):
+    """Creates new computer in data base and redirects to main computer page.
+
+    Model:Computer, Employee, Employe_Computer
+
+    Template:none
+
+    Author(s): Jase Hackman
+    """
     computer = Computer(
         purchaseDate=request.POST['purchase'], model=request.POST['model'], manufacturer=request.POST['manufacturer'])
     computer.save()
@@ -273,7 +346,16 @@ def computer_new(request):
         relationship.save()
     return HttpResponseRedirect(reverse('Bangazon:computers'))
 
+
 def computer_delete_confirm(request):
+    """Gets computer object for the computer you want to delete
+
+    Model:Computer
+
+    Template:computer_delete_confirm.html
+
+    Author(s): Jase Hackman
+    """
     computer= Computer.objects.get(pk=request.POST['computer_id'])
     is_assigned=computer.employee_set.all()
     assigned = False
@@ -283,12 +365,36 @@ def computer_delete_confirm(request):
                 'assigned': assigned}
     return render(request, "Bangazon/computer_delete_confirm.html", context)
 
+
 def computer_delete(request):
+    """Deletes computer, calls main computer function.
+
+    Model:Computer
+
+    Template:none
+
+    Author(s): Jase Hackman
+    """
     computer= Computer.objects.get(pk=request.POST['computer_id'])
     computer.delete()
     return HttpResponseRedirect(reverse('Bangazon:computers'))
 
+def computer_decommision(request):
+    """Decomissions a computer
+
+    Model: Computer
+
+    template: None
+
+    Author: Jase Hackman
+    """
+
+    computer= Computer.objects.filter(pk=request.POST['computer_id'])
+    computer.update(decommissionDate=datetime.datetime.now())
+    return HttpResponseRedirect(reverse('Bangazon:computer_details', args=(request.POST['computer_id'],)))
+
 # ===========================TRAINING================================
+
 
 # Lists all training programs for future classes
 def training_programs(request):

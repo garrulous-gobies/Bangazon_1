@@ -1,0 +1,16 @@
+{% extends "Bangazon/index.html" %}
+
+{% block content %}
+
+<div class="new_form">
+    <h2 class="main_title"> Edit The {{department.name|capfirst}} Department</h2>
+    <form class="add_department" action="{% url 'Bangazon:department_update' department.id %}" method="POST">
+        {% csrf_token %}
+        <input type="hidden" value="{{department.id}}" name="department_id">
+        <input name="department_name" type="text" placeholder="Department Name" required=True value={{department.name}} >
+        <input name="department_budget" type="number" placeholder="Department Budget" required=True value={{department.budget}}>
+        <input type="submit" class="btn btn-primary">
+    </form>
+</div>
+
+{% endblock content%}

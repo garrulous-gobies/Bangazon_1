@@ -14,6 +14,8 @@ urlpatterns = [
     path('Bangazon/Departments/NewDepartment', views.new_department, name='new_department'),
     path('Bangazon/Departments/SaveDepartment', views.save_department, name='save_department'),
     path('Bangazon/Departments/<int:department_id>', views.department_details, name='department_details'),
+    path('Bangazon/Departments/<int:department_id>/EditDepartment', views.department_edit, name='department_edit'),
+    path('Bangazon/Departments/<int:department_id>/update', views.department_update, name='department_update'),
 
 # ==================Computers==================================================
     path('Bangazon/Computers', views.computers, name='computers'),
@@ -22,6 +24,7 @@ urlpatterns = [
     path('Bangazon/Computers/form', views.computer_form, name='computer_form'),
     path('Bangazon/Computers/delete_confirm', views.computer_delete_confirm, name='computer_delete_confirm'),
     path('Bangazon/Computers/delete', views.computer_delete, name='computer_delete'),
+    path('Bangazon/Computers/decommission', views.computer_decommision, name='computer_decommision'),
 # ===============================================================================================
 
 
