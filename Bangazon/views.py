@@ -21,7 +21,16 @@ def landing_page(request):
 
 
 def employees(request):
-    employee_list = Employee.objects.all().order_by('lastName')
+    """Lists all employees in the database
+
+    Model:Employee
+
+    Template:employees.html
+
+    Author(s): Zac Jones
+    """
+
+    employee_list = Employee.objects.all()
     context = {'employee_list': employee_list}
     return render(request, 'Bangazon/employees.html', context)
 
@@ -61,12 +70,30 @@ def employee_details(request, employee_id):
 
 
 def employee_form(request):
+    """Calls new employee form, populates dropdown with list of departments
+
+    Model:Employee, Department
+
+    Template:employee_form.html
+
+    Author(s): Zac Jones
+    """
+
     departments = Department.objects.all()
     context = {"departments": departments}
     return render(request, "Bangazon/employees_form.html", context)
 
 
 def employee_new(request):
+    """Saves a new instance of Employee via POST to the db, redirects to the list of all instances of employee
+
+    Model:Employee, Department
+
+    Template: redirects back to employees.html
+
+    Author(s): Zac Jones
+    """
+
     department = Department.objects.get(pk=request.POST['department'])
     employee = Employee(firstName = request.POST['firstName'], lastName = request.POST['lastName'], startDate = request.POST['startDate'], isSupervisor = request.POST['supervisor'], department = department)
 
@@ -75,6 +102,15 @@ def employee_new(request):
 
 
 def employee_update(request, pk):
+    """Saves an edited instance of Employee via POST to the db, redirects to the list of all instances of employee
+
+    Model:Employee, Department, Computers, Training
+
+    Template: redirects back to employees.html
+
+    Author(s): Zac Jones, Nolan Little
+    """
+
     department = Department.objects.get(pk=request.POST['department'])
     employee_edited = Employee(id=pk, firstName = request.POST['firstName'], lastName = request.POST['lastName'], startDate = request.POST['startDate'], isSupervisor = request.POST['supervisor'], department = department)
 
@@ -83,6 +119,17 @@ def employee_update(request, pk):
 
 
 def employee_edit(request, pk):
+    """Saves a new instance department via POST to the db, redirects to the list of all instances of department
+
+    Model:Employee, Department, Computers, Training
+
+    Template: redirects back to departments.html
+
+    * Module is currently incomplete - still needs training assignments fix *
+
+    Author(s): Zac Jones, Nolan Little
+    """
+
     employee = get_object_or_404(Employee, id=pk)
     now = timezone.now()
 
