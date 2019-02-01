@@ -216,7 +216,13 @@ def computer_details(request, computer_id):
     Author(s): Jase Hackman
     """
     computer = get_object_or_404(Computer, pk=computer_id)
-    context = {'computer': computer}
+    current_assignment_list = list()
+    for rel in computer.employee_computer_set.all():
+        current_assignment_list.append(rel.removeDate)
+    print(current_assignment_list)
+    context = {'computer': computer,
+                'relationships': current_assignment_list
+    }
     return render(request, 'Bangazon/computer_details.html', context)
 
 def computer_form(request):
