@@ -8,7 +8,7 @@
 <h2 style="font-weight: bold;"> Technologies Used
 <h3>Development Languages and Libraries</h3>
 
-<img src="Bangazon/static/Bangazon/bangazonIcon.png"/>______<img src="images/django.jpeg"/>______<img src="images/django_seed.png"/>______<img src="images/dbbrowser.png"/>______<img src="images/html5.jpg"/>______<img src="./images/css3.jpg"/>
+<img src="./Bangazon/static/Bangazon/bangazonIcon.png"/>______<img src="images/django.jpeg"/>______<img src="images/django_seed.png"/>______<img src="images/dbbrowser.png"/>______<img src="images/html5.jpg"/>______<img src="./images/css3.jpg"/>
 
 <h1></h1>
 <h3>Development Tools</h3>
