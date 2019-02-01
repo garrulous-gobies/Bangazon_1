@@ -142,7 +142,7 @@ def departments(request):
     Author(s): Austin Zoradi
     """
 
-    department_list = Department.objects.all()
+    department_list = Department.objects.all().order_by('name')
     context = {'department_list': department_list}
     return render(request, 'Bangazon/departments.html', context)
 
@@ -173,7 +173,6 @@ def save_department(request):
     name = request.POST['department_name']
     budget = request.POST['department_budget']
     handleIntBudget = int(str(budget).split(".")[0])
-    print("========================================================",int(str(budget).split(".")[0]))
     dep = Department(name=name, budget=handleIntBudget)
     dep.save()
     return HttpResponseRedirect(reverse('Bangazon:departments'))
@@ -214,7 +213,9 @@ def department_update(request, department_id):
 
     Template:edit_department_form.html        
     """
-    edited_dept = Department(id=department_id, name=request.POST['department_name'], budget=request.POST['department_budget'])
+    budget=request.POST['department_budget']
+    handleIntBudget = int(str(budget).split(".")[0])
+    edited_dept = Department(id=department_id, name=request.POST['department_name'], budget=handleIntBudget)
     edited_dept.save()
     return HttpResponseRedirect(reverse('Bangazon:departments'))
 
