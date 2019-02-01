@@ -51,6 +51,9 @@ text-decoration: none;
 a {
     color:black;
 }
+button a {
+    color: white;
+}
 
 .delete_div{
     margin:15px;

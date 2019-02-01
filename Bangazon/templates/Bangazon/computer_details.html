@@ -37,7 +37,7 @@
         <form method="post" action="{% url 'Bangazon:computer_delete_confirm' %}">
             {% csrf_token %}
             <input type="hidden" value="{{computer.id}}" name="computer_id">
-            <input type="submit" class="btn" value="Delete">
+            <input type="submit" class="btn btn-primary" value="Delete">
         </form>
         <button class="btn btn_margin btn-primary"><a href="{% url 'Bangazon:computers' %}">Back</a></button>
     </div>

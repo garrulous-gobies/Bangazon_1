@@ -12,7 +12,7 @@
             {% csrf_token %}
             <p>Filter Computers By Make or Manufacturer</p>
             <input placeholder="make or manufacturer" type="text" name="computer_search" id="computer_search">
-            <input type="submit" value="Search">
+            <input type="submit" value="Search" class="btn btn-primary">
         </form>
       <ul class="list-group list-group-flush dept_list">
         {% for computer in computer_list %}
