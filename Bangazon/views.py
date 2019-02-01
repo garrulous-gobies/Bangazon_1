@@ -11,11 +11,15 @@ from django.db.models import Q
 
 
 # ======================== Landing Page ================
+
+
 def landing_page(request):
-    return render(request, 'Bangazon/main.html')
+    return render(request, 'Bangazon/index.html')
 
 
 # ======================== EMPLOYEES ================
+
+
 def employees(request):
     employee_list = Employee.objects.all()
     context = {'employee_list': employee_list}
@@ -39,10 +43,12 @@ def employee_details(request, employee_id):
     }
     return render(request, 'Bangazon/employee_details.html', context)
 
+
 def employee_form(request):
     departments = Department.objects.all()
     context = {"departments": departments}
     return render(request, "Bangazon/employees_form.html", context)
+
 
 def employee_new(request):
     department = Department.objects.get(pk=request.POST['department'])
@@ -51,6 +57,7 @@ def employee_new(request):
     employee.save()
     return HttpResponseRedirect(reverse('Bangazon:employees'))
 
+
 def employee_update(request, pk):
     department = Department.objects.get(pk=request.POST['department'])
     employee_edited = Employee(id=pk, firstName = request.POST['firstName'], lastName = request.POST['lastName'], startDate = request.POST['startDate'], isSupervisor = request.POST['supervisor'], department = department)
@@ -58,12 +65,10 @@ def employee_update(request, pk):
     employee_edited.save()
     return HttpResponseRedirect(reverse('Bangazon:employees'))
 
+
 def employee_edit(request, pk):
     employee = get_object_or_404(Employee, id=pk)
     now = timezone.now()
-
-
-
 
     all_computers = Computer.objects.filter(decommissionDate = None)
     comp_relationships = Employee_Computer.objects.filter(removeDate= None)
@@ -123,6 +128,7 @@ def employee_edit(request, pk):
                             )
     return render(request, 'Bangazon/employee_edit.html', {'form': form, 'employee': employee})
 
+
 # ========================DEPARTMENTS================
 
 
@@ -166,9 +172,12 @@ def save_department(request):
     """
     name = request.POST['department_name']
     budget = request.POST['department_budget']
-    dep = Department(name=name, budget=budget)
+    handleIntBudget = int(str(budget).split(".")[0])
+    print("========================================================",int(str(budget).split(".")[0]))
+    dep = Department(name=name, budget=handleIntBudget)
     dep.save()
     return HttpResponseRedirect(reverse('Bangazon:departments'))
+
 
 def department_details(request, department_id):
     """Returns a list of the details of an instance of a single department and the employee instances associated with it
@@ -182,7 +191,6 @@ def department_details(request, department_id):
     department_details = Department.objects.get(pk=department_id)
     context = {'department_details': department_details}
     return render(request, 'Bangazon/department_details.html', context)
-
 
 
 # ==========================COMPUTERS=================================
@@ -225,6 +233,7 @@ def computer_details(request, computer_id):
     }
     return render(request, 'Bangazon/computer_details.html', context)
 
+
 def computer_form(request):
     """Calls new computer form and filters data so only employees without computers appear in dropdown.
 
@@ -266,6 +275,7 @@ def computer_new(request):
         relationship.save()
     return HttpResponseRedirect(reverse('Bangazon:computers'))
 
+
 def computer_delete_confirm(request):
     """Gets computer object for the computer you want to delete
 
@@ -283,6 +293,7 @@ def computer_delete_confirm(request):
     context = {'computer': computer,
                 'assigned': assigned}
     return render(request, "Bangazon/computer_delete_confirm.html", context)
+
 
 def computer_delete(request):
     """Deletes computer, calls main computer function.
@@ -312,6 +323,7 @@ def computer_decommision(request):
     return HttpResponseRedirect(reverse('Bangazon:computer_details', args=(request.POST['computer_id'],)))
 
 # ===========================TRAINING================================
+
 
 # Lists all training programs for future classes
 def training_programs(request):
