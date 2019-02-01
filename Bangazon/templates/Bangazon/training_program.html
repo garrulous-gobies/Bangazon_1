@@ -6,7 +6,7 @@
 <div id="main_container">
     <h1 class="main_title">Training Programs</h1>
     <section class="training_nav_buttons">
-        <button class="btn btn_margin"><a class="past_link" href="{% url 'Bangazon:new_training_program_form' %}">
+        <button class="btn btn_margin btn-primary"><a class="past_link" href="{% url 'Bangazon:new_training_program_form' %}">
                 Add Training Class
             </a></button>
 
@@ -25,7 +25,7 @@
     <p class="no_items_found">No future training programs in system.</p>
     {% endif %}
     <section class="training_nav_buttons">
-        <button class="btn btn_margin">
+        <button class="btn btn_margin btn-primary">
             <a class="past_link" href="{% url 'Bangazon:past_training_programs' %}">
                 Past Training Classes</a>
         </button>

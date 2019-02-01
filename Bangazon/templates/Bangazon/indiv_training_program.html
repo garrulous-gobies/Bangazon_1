@@ -22,13 +22,13 @@
         {% endif %}
     </section>
     <section class="computer_btns">
-        <button class="btn btn_margin"><a class="past_link" href="{% url 'Bangazon:edit_training_details' training_program_details.id %}">
+        <button class="btn btn_margin btn-primary"><a class="past_link" href="{% url 'Bangazon:edit_training_details' training_program_details.id %}">
                 Edit Training Details
             </a></button>
         <form class="past_link" action="{% url 'Bangazon:training_delete' %}" method="POST">
             {% csrf_token %}
             <input type="hidden" value="{{training_program_details.id}}" name="trainingprogram_id">
-            <input class="btn" type="submit" value="Delete Training Class">
+            <input class="btn btn-primary" type="submit" value="Delete Training Class">
         </form>
     </section>
     {% endif %}

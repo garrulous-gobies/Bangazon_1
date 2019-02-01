@@ -5,7 +5,7 @@
 
 <div id="main_container">
     <h1 class="main_title">Employees</h1>
-    <button class="btn btn_margin"><a href="{% url 'Bangazon:employee_form' %}">New Employee</a></button>
+    <button class="btn btn_margin btn-primary"><a href="{% url 'Bangazon:employee_form' %}">New Employee</a></button>
     {% if employee_list %}
     <ul class="list-group list-group-flush dept_list">
         {% for employee in employee_list %}
