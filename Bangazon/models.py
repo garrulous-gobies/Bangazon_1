@@ -7,16 +7,20 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 
 # Create Department table
 class Department(models.Model):
-  budget = models.IntegerField(
+    '''This is the representation of an instance of Department. A department has a name (a string) and budget (an interger) and an id.
+    
+    Author(s): Brad Davis, Jase Hackman, Zac Jones, Nolan Little, Austin Zoradi
+    '''
+    budget = models.IntegerField(
     default = 0,
     validators = [
       MaxValueValidator(1000000),
       MinValueValidator(0)
     ]
   )
-  name = models.CharField(max_length = 50)
-  def __str__(self):
-    return self
+    name = models.CharField(max_length = 50)
+    def __str__(self):
+        return self
 
 # Create Computer table
 class Computer(models.Model):

@@ -87,6 +87,11 @@ class TrainingEditTest(TestCase):
 
 # ===============================DEPARTMENT========================================
 class AddingDepartmentTest(TestCase):
+    '''Tests the addition of a new instance of Department to the DB. Tests both the response code after the post and tests the content of the form rendered on the new_department_form.html template.
+    
+    Author(s): Austin Zoadi
+    '''
+
     def test_add_department(self):
         response = self.client.post(reverse('Bangazon:save_department'), {
                                     "department_name": "Broccoli Sales", "department_budget": 100000})
@@ -100,7 +105,11 @@ class AddingDepartmentTest(TestCase):
 
 
 class DepartmentDetails(TestCase):
-    def test_department_details(self):
+    '''Tests the context of the Department details template.
+    
+    Author(s): Austin Zoadi
+    '''
+    def test_department_details(self):        
 
         department = Department.objects.create(name="Heavy Metals", budget=2)
         employee = Employee.objects.create(
@@ -121,6 +130,10 @@ class DepartmentDetails(TestCase):
 
 
 class DepartmentListTest(TestCase):
+    '''Tests the display of intances of Department on the departments.html template
+    
+    Author(s): Austin Zoadi
+    '''
 
     def test_department(self):
         def test_list_departments(self):
