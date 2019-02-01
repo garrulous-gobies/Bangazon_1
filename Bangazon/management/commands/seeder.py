@@ -45,7 +45,7 @@ class Command(BaseCommand):
       'endDate': lambda x: seeder.faker.date_time_between(start_date='-3y', end_date='now')
     })
 
-    seeder.add_entity(Employee_Computer, 15, {
+    seeder.add_entity(Employee_Computer, 5, {
         'assignDate': lambda x: seeder.faker.date_time_between(start_date='-5y', end_date='now'),
         'removeDate': lambda x: random.choice([timezone.now(), None, None, None, None])
     })

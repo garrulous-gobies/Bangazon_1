@@ -11,18 +11,55 @@ from django.db.models import Q
 
 
 # ======================== Landing Page ================
+
+
 def landing_page(request):
-    return render(request, 'Bangazon/main.html')
+    """Renders main landing page for Bangazon
+
+    Model:None
+
+    Template:index.html
+
+    Author(s): Brad Davis
+    """
+    return render(request, 'Bangazon/index.html')
 
 
 # ======================== EMPLOYEES ================
+
+
 def employees(request):
-    employee_list = Employee.objects.all()
+    """Lists all employees in the database
+
+    Model:Employee
+
+    Template:employees.html
+
+    Author(s): Zac Jones
+    """
+
+    employee_list = Employee.objects.all().order_by('lastName')
     context = {'employee_list': employee_list}
     return render(request, 'Bangazon/employees.html', context)
 
 
 def employee_details(request, employee_id):
+    """view method for an employee's details
+
+    model(s): Employee, Computer, TrainingProgram
+
+    template: employee_details.html
+
+    Arguments:
+        request {httprequest}
+        employee_id {int} -- id of employee reversed from url path
+
+    Returns:
+        render -- html with the employee_details, past_training_programs, and upcoming_training_programs as context
+
+    Author(s): Nolan Little
+    """
+
     now = timezone.now()
     employee_details = Employee.objects.get(pk=employee_id)
     past_training_programs = list()
@@ -39,31 +76,70 @@ def employee_details(request, employee_id):
     }
     return render(request, 'Bangazon/employee_details.html', context)
 
+
 def employee_form(request):
+    """Calls new employee form, populates dropdown with list of departments
+
+    Model:Employee, Department
+
+    Template:employee_form.html
+
+    Author(s): Zac Jones
+    """
+
     departments = Department.objects.all()
     context = {"departments": departments}
     return render(request, "Bangazon/employees_form.html", context)
 
+
 def employee_new(request):
+    """Saves a new instance of Employee via POST to the db, redirects to the list of all instances of employee
+
+    Model:Employee, Department
+
+    Template: redirects back to employees.html
+
+    Author(s): Zac Jones
+    """
+
     department = Department.objects.get(pk=request.POST['department'])
     employee = Employee(firstName = request.POST['firstName'], lastName = request.POST['lastName'], startDate = request.POST['startDate'], isSupervisor = request.POST['supervisor'], department = department)
 
     employee.save()
     return HttpResponseRedirect(reverse('Bangazon:employees'))
 
+
 def employee_update(request, pk):
+    """Saves an edited instance of Employee via POST to the db, redirects to the list of all instances of employee
+
+    Model:Employee, Department, Computers, Training
+
+    Template: redirects back to employees.html
+
+    Author(s): Zac Jones, Nolan Little
+    """
+
     department = Department.objects.get(pk=request.POST['department'])
     employee_edited = Employee(id=pk, firstName = request.POST['firstName'], lastName = request.POST['lastName'], startDate = request.POST['startDate'], isSupervisor = request.POST['supervisor'], department = department)
 
     employee_edited.save()
     return HttpResponseRedirect(reverse('Bangazon:employees'))
 
+
 def employee_edit(request, pk):
+    """Saves a new instance department via POST to the db, redirects to the list of all instances of department
+
+    Model:Employee, Department, Computers, Training
+
+    Template: redirects back to departments.html
+
+    * Module is currently incomplete - still needs training assignments fix *
+
+    Author(s): Zac Jones, Nolan Little
+    """
+
     employee = get_object_or_404(Employee, id=pk)
     now = timezone.now()
-
-
-
 
     all_computers = Computer.objects.filter(decommissionDate = None)
     comp_relationships = Employee_Computer.objects.filter(removeDate= None)
@@ -123,6 +199,7 @@ def employee_edit(request, pk):
                             )
     return render(request, 'Bangazon/employee_edit.html', {'form': form, 'employee': employee})
 
+
 # ========================DEPARTMENTS================
 
 
@@ -136,7 +213,7 @@ def departments(request):
     Author(s): Austin Zoradi
     """
 
-    department_list = Department.objects.all()
+    department_list = Department.objects.all().order_by('name')
     context = {'department_list': department_list}
     return render(request, 'Bangazon/departments.html', context)
 
@@ -166,9 +243,11 @@ def save_department(request):
     """
     name = request.POST['department_name']
     budget = request.POST['department_budget']
-    dep = Department(name=name, budget=budget)
+    handleIntBudget = int(str(budget).split(".")[0])
+    dep = Department(name=name, budget=handleIntBudget)
     dep.save()
     return HttpResponseRedirect(reverse('Bangazon:departments'))
+
 
 def department_details(request, department_id):
     """Returns a list of the details of an instance of a single department and the employee instances associated with it
@@ -183,7 +262,33 @@ def department_details(request, department_id):
     context = {'department_details': department_details}
     return render(request, 'Bangazon/department_details.html', context)
 
+def department_edit(request, department_id):
+    """Returns an edit form prepopulated with data of the department that is going to be edited
 
+    Arguments: department_id {[pk]} -- id of the department that is to be edited
+
+    Model:Department
+
+    Template:edit_department_form.html
+    """
+    department = Department.objects.get(id=department_id)
+    context = {"department": department}
+    return render(request, 'Bangazon/edit_department_form.html', context)
+
+def department_update(request, department_id):
+    """Updates the instance of department with id department_id with the new input values from the form in the db, rerenders department list
+
+    Arguments: department_id {[pk]} -- id of the department that is to be edited
+
+    Model:Department
+
+    Template:edit_department_form.html
+    """
+    budget=request.POST['department_budget']
+    handleIntBudget = int(str(budget).split(".")[0])
+    edited_dept = Department(id=department_id, name=request.POST['department_name'], budget=handleIntBudget)
+    edited_dept.save()
+    return HttpResponseRedirect(reverse('Bangazon:departments'))
 
 # ==========================COMPUTERS=================================
 
@@ -216,8 +321,15 @@ def computer_details(request, computer_id):
     Author(s): Jase Hackman
     """
     computer = get_object_or_404(Computer, pk=computer_id)
-    context = {'computer': computer}
+    current_assignment_list = list()
+    for rel in computer.employee_computer_set.all():
+        current_assignment_list.append(rel.removeDate)
+    print(current_assignment_list)
+    context = {'computer': computer,
+                'relationships': current_assignment_list
+    }
     return render(request, 'Bangazon/computer_details.html', context)
+
 
 def computer_form(request):
     """Calls new computer form and filters data so only employees without computers appear in dropdown.
@@ -260,6 +372,7 @@ def computer_new(request):
         relationship.save()
     return HttpResponseRedirect(reverse('Bangazon:computers'))
 
+
 def computer_delete_confirm(request):
     """Gets computer object for the computer you want to delete
 
@@ -278,6 +391,7 @@ def computer_delete_confirm(request):
                 'assigned': assigned}
     return render(request, "Bangazon/computer_delete_confirm.html", context)
 
+
 def computer_delete(request):
     """Deletes computer, calls main computer function.
 
@@ -291,10 +405,33 @@ def computer_delete(request):
     computer.delete()
     return HttpResponseRedirect(reverse('Bangazon:computers'))
 
+def computer_decommision(request):
+    """Decomissions a computer
+
+    Model: Computer
+
+    template: None
+
+    Author: Jase Hackman
+    """
+
+    computer= Computer.objects.filter(pk=request.POST['computer_id'])
+    computer.update(decommissionDate=datetime.datetime.now())
+    return HttpResponseRedirect(reverse('Bangazon:computer_details', args=(request.POST['computer_id'],)))
+
 # ===========================TRAINING================================
+
 
 # Lists all training programs for future classes
 def training_programs(request):
+    """Returns a list of all future training programs
+
+    Model:TrainingProgram
+
+    Template:training_program.html
+
+    Author(s): Brad Davis
+    """
     now = timezone.now()
     training_program_list = TrainingProgram.objects.filter(startDate__gte=now)
     context = {'training_program_list': training_program_list}
@@ -302,6 +439,14 @@ def training_programs(request):
 
 # List past training programs that have taken place
 def past_training_programs(request):
+    """Returns a list of all past training programs
+
+    Model:TrainingProgram
+
+    Template:past_training_program.html
+
+    Author(s): Brad Davis
+    """
     now = timezone.now()
     training_program_list = TrainingProgram.objects.filter(startDate__lte=now)
     context = {'training_program_list': training_program_list}
@@ -309,6 +454,14 @@ def past_training_programs(request):
 
 # Show specific details for upcoming training classes with options to edit or delete
 def training_details(request, trainingprogram_id):
+    """Returns a detailed view of future training program and options to edit or deleted
+
+    Model:TrainingProgram
+
+    Template:indiv_training_program.html
+
+    Author(s): Brad Davis
+    """
     training_program_details = get_object_or_404(TrainingProgram, id=trainingprogram_id)
     assignees = EmployeeTrainingProgram.objects.filter(trainingProgram_id=training_program_details.id)
     attendees = []
@@ -320,6 +473,14 @@ def training_details(request, trainingprogram_id):
 
 # Show specific details for past training classes without the option to alter data
 def past_training_details(request, trainingprogram_id):
+    """Returns a detailed view of past training program and options to edit or deleted
+
+    Model:TrainingProgram
+
+    Template:past_indiv_training_program.html
+
+    Author(s): Brad Davis
+    """
     training_program_details = get_object_or_404(TrainingProgram, id=trainingprogram_id)
     assignees = EmployeeTrainingProgram.objects.filter(trainingProgram_id=training_program_details.id)
     attendees = []
@@ -331,11 +492,27 @@ def past_training_details(request, trainingprogram_id):
 
 # Displays form that creates a new training program
 def new_training_program_form(request):
+    """Returns a form to create a new training program
+
+    Model:TrainingProgram
+
+    Template:new_training_program_form.html
+
+    Author(s): Brad Davis
+    """
     form = NewTrainingForm()
     return render(request, 'Bangazon/new_training_program_form.html', {'form': form})
 
 # Saves new program to database and forwards to training_programs
 def save_program(request):
+    """Performs check on start and end dates and either saves data and returns to main training page or alerts user and redisplays form
+
+    Model:TrainingProgram
+
+    Template:training_program.html or new_training_program_form_error.html
+
+    Author(s): Brad Davis
+    """
     training_program_details = TrainingProgram(name=request.POST['training_name'], description=request.POST['training_description'], startDate=request.POST['training_startDate'], endDate=request.POST['training_endDate'], maxEnrollment=request.POST['training_maxEnrollment'])
     if training_program_details.startDate > training_program_details.endDate:
         form = NewTrainingForm(initial={'training_name': training_program_details.name, 'training_description': training_program_details.description, 'training_startDate': training_program_details.startDate, 'training_endDate': training_program_details.endDate, })
@@ -346,12 +523,28 @@ def save_program(request):
 
 # Displays form with existing data prepopulated and allows user to edit details
 def edit_training_details(request, trainingprogram_id):
+    """Returns a form view with future training data prepopulated for editing
+
+    Model:TrainingProgram
+
+    Template:edit_training.html
+
+    Author(s): Brad Davis
+    """
     training_program_details = TrainingProgram.objects.get(id=trainingprogram_id)
     form = NewTrainingForm(initial={'training_name': training_program_details.name, 'training_description': training_program_details.description, 'training_startDate': training_program_details.startDate, 'training_endDate': training_program_details.endDate, 'training_maxEnrollment': training_program_details.maxEnrollment})
     return render(request, 'Bangazon/edit_training.html', {'form': form, "id": trainingprogram_id})
 
 # Saves updated training details from edit_training_details form
 def update_program(request):
+    """Returns a detailed view of future training program and options to edit or deleted
+
+    Model:TrainingProgram
+
+    Template:trainging_programs.html or edit_training_error.html
+
+    Author(s): Brad Davis
+    """
     training_program_details = TrainingProgram(name=request.POST['training_name'], description=request.POST['training_description'], startDate=request.POST['training_startDate'], endDate=request.POST['training_endDate'], maxEnrollment=request.POST['training_maxEnrollment'])
     if training_program_details.startDate > training_program_details.endDate:
         newId = request.POST['trainingprogram_id']
@@ -364,6 +557,14 @@ def update_program(request):
 
 # Deletes upcoming training event
 def training_delete(request):
+    """Deletes a future training program and returns to main training page
+
+    Model:TrainingProgram
+
+    Template:training_program.html
+
+    Author(s): Brad Davis
+    """
     training = TrainingProgram.objects.get(id=request.POST['trainingprogram_id'])
     training.delete()
     return HttpResponseRedirect(reverse('Bangazon:training_programs'))

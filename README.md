@@ -1,4 +1,7 @@
+<div style="text-align:center">
 <h1 style="font-weight: bold">Bangazon</h1>
+<img src="images/bangazonIcon.png" width="200"/>
+</div>
 
 <h2 style="font-weight: bold">Career Resource Management Application</h2>
 
@@ -78,7 +81,16 @@ python manage.py runserver 8080
 
 1. When user clicks Employees in the navigation bar, a list will appear showing all employees.
 1. When user clicks Departments in the navigation bar, a list will appear showing all departments.
+1. When user clicks on the department's name, the department's details will appear on a new page, showing the budget and the employees in the department.
+1. When the user clicks See All Departments, the list of departments will appear.
+1. When the user clicks Edit Department, a form pre-populated with the department information will apear.
+1. When the user clicks Submit, the department is edited with the information in the input fields, and the list of all departments will be shown.
+1. When the user clicks Add a New Department, a form to add a new department is shown.
+1. When the user clicks Submit, the department is saved to the database with the information in the input fields, and the list of all departments will be shown.
 1. When user clicks Computers in the navigation bar, a list will appear showing all computers.
+1. When user clicks Add Computer button, a form appears allowing a user to add a computer and assign it to an employee.
+1. From the Computers main page a user can click on a computer to view a computer's details
+1. From the Computer Details page, a user can delete a computer if it has never been assigned to an employee and a user can decomission a computer if it is not currently assigned.
 1. When user clicks Training Programs in the navigation bar, a list will appear showing all future training programs.
 1. When user clicks a specific Training Program while on the Training Programs page, details will appear displaying the Title, Description, Start Date, End Date, Max Enrollment, and Employees that are scheduled to attend.
 1. When user is on a specific Training Program page and user clicks Edit Training, a form will appear with the current details displaying the Title, Description, Start Date, End Date, and Max Enrollment with a Save button and a Cancel Edits button.

@@ -4,15 +4,195 @@ from django.urls import reverse
 import unittest
 
 
-# Create your tests here.
-# What we should test
-# context: what we send the template
-# content: the rendered html
-# resonse_codes
+
+
+
+# ===============================TRAINING========================================
+
+# Tests creation of training program and the redirect after the save
+class TrainingListTest(TestCase):
+    """Tests creation of training program and the redirect after the save
+
+    Model:TrainingProgram
+
+    Template:training_program.html
+
+    Author(s): Brad Davis
+    """
+    def test_list_trainings(self):
+        response = self.client.post(reverse('Bangazon:save_program'), {"training_name": "Test Name", "training_description": "Class description", "training_startDate": "2010-01-01 12:00:00", "training_endDate": "2011-01-01 12:00:00", "training_maxEnrollment": 5})
+        self.assertEqual(response.status_code, 302)
+
+        response = self.client.get(reverse('Bangazon:training_programs'))
+        self.assertEqual(response.status_code, 200)
+
+
+# Tests creation of training program, saving of department, saving of new employee, and saving of training program assignment. as well as redirect to past training page
+class TrainingWithAttendeesTest(TestCase):
+     """Tests creation of training program, saving of department, saving of new employee, and saving of training program assignment. as well as redirect to past training page
+
+    Model:TrainingProgram
+
+    Template:indiv_training_program.html
+
+    Author(s): Brad Davis
+    """
+    def test_trainings_with_attendees(self):
+        response = self.client.post(reverse('Bangazon:save_program'), {"training_name": "Test Name", "training_description": "Class description", "training_startDate": "2010-01-01 12:00:00", "training_endDate": "2011-01-01 12:00:00", "training_maxEnrollment": 5})
+        self.assertEqual(response.status_code, 302)
+
+        response = self.client.post(reverse('Bangazon:save_department'), {
+                                    "department_name": "IT", "department_budget": 100000})
+        self.assertEqual(response.status_code, 302)
+
+        response = self.client.post(reverse('Bangazon:employee_new'), {"firstName":"Brad", "lastName":"Davis", "startDate":"2019-01-01 08:00", "supervisor":0, "department":1})
+        self.assertEqual(response.status_code, 302)
+
+        training = EmployeeTrainingProgram.objects.create(
+            status="Pending", employee_id=1, trainingProgram_id=1)
+
+        training_attendees = EmployeeTrainingProgram.objects.filter(
+            trainingProgram_id=1)
+        response = EmployeeTrainingProgram.objects.get(pk=1)
+        self.assertEqual(training, response)
+
+        response = self.client.get(reverse('Bangazon:past_training_programs'))
+        self.assertEqual(response.status_code, 200)
+
+
+
+# Tests the validity of the data that is sent from the form as well as program saving
+class SaveTrainingProgramTest(TestCase):
+    """Tests the validity of the data that is sent from the form as well as program saving
+
+    Model:TrainingProgram
+
+    Template:new_training_program.html
+
+    Author(s): Brad Davis
+    """
+    def test_add_training_validform_view(self):
+        response = self.client.post(reverse('Bangazon:save_program'), {"training_name": "Test Name", "training_description": "Class description", "training_startDate": "2010-01-01 12:00:00", "training_endDate": "2011-01-01 12:00:00", "training_maxEnrollment": 5})
+        with self.assertRaises(Exception) as context:
+            broken_function()
+        self.assertFalse(
+            'ValueError: Error with add training valid form test:' in str(context.exception))
+        self.assertEqual(response.status_code, 302)
+
+    def test_new_training_save(self):
+        response = self.client.post(reverse('Bangazon:save_program'), {"training_name": "Test Name", "training_description": "Class description", "training_startDate": "2010-01-01 12:00:00", "training_endDate": "2011-01-01 12:00:00", "training_maxEnrollment": 5})
+        self.assertEqual(response.status_code, 302)
+
+
+
+# Tests the saving of a training class as well as the edit of a training class
+class TrainingEditTest(TestCase):
+    """Tests the saving of a training class as well as the edit of a training class
+
+    Model:TrainingProgram
+
+    Template:edit_training_error.html or edit_training.html, new_training_program_form.html, new_training_profram_form_error.html
+
+    Author(s): Brad Davis
+    """
+    def test_edit_trainings(self):
+        program = {'training_name': "Test Name", 'training_description': "Class description", 'training_startDate': "2010-01-01 12:00:00", 'training_endDate': "2011-01-01 12:00:00", 'training_maxEnrollment': 5}
+        response = self.client.post(reverse('Bangazon:save_program'), program)
+
+        self.assertEqual(response.status_code, 302)
+
+        details = TrainingProgram.objects.get(pk=1)
+        self.assertEqual(program['training_name'], details.name)
+
+        pk = 1
+        response = TrainingProgram.objects.filter(id=pk).update(name="Excel", description="Test description.", startDate="2019-01-28 14:30:00", endDate="2019-01-28 15:30:00", maxEnrollment=0)
+        secondDetails = TrainingProgram.objects.get(pk=1)
+        self.assertEqual(secondDetails.name, "Excel")
+
+
+        self.assertEqual(response, 1)
+
+
+
+
+
+
+# ===============================DEPARTMENT========================================
+class AddingDepartmentTest(TestCase):
+    def test_add_department(self):
+        response = self.client.post(reverse('Bangazon:save_department'), {
+                                    "department_name": "Broccoli Sales", "department_budget": 100000})
+        self.assertEqual(response.status_code, 302)
+    def test_add_department_form(self):
+        response = self.client.get(reverse('Bangazon:new_department'))
+        self.assertIn(
+          '<input name="department_name" type="text" placeholder="Department Name" required=True>'.encode(), response.content)
+        self.assertIn(
+          '<input name="department_budget" type="number" placeholder="Department Budget" required=True>'.encode(), response.content)
+
+
+class DepartmentDetails(TestCase):
+    def test_department_details(self):
+
+        department = Department.objects.create(name="Heavy Metals", budget=2)
+        employee = Employee.objects.create(
+            firstName="Bryan", lastName="Nilsen", startDate="1971-01-02", isSupervisor=1, department=department)
+
+        response = self.client.get(
+            reverse('Bangazon:department_details', args=(1,)))
+        self.assertEqual(
+            response.context['department_details'].name, department.name)
+        self.assertEqual(
+            response.context['department_details'].budget, department.budget)
+
+
+        for emp in response.context['department_details'].employee_set.all():
+            self.assertEqual(emp.firstName, employee.firstName)
+            self.assertEqual(emp.lastName, employee.lastName)
+            self.assertEqual(emp.department, employee.department)
+
+
+class DepartmentListTest(TestCase):
+
+    def test_department(self):
+        def test_list_departments(self):
+
+            department = Department.objects.create(name="Sales", budget=1999)
+            employee = Employee.objects.create(
+                firstName="Joe", lastName="Shep", startDate="1776-07-04", isSupervisor=1, department=department)
+            response = Department.objects.get(pk=1)
+
+            self.assertEqual(department.name, response.name)
+            self.assertEqual(department.budget, response.budget)
+
+            self.assertEqual(len(response.context['department']), 1)
+            self.assertIn(department.name.encode(), response.content)
+
+            for emp in response.employee_set.all():
+                self.assertEqual(employee.firstName, emp.firstName)
+
+
+
+
+
+
+# ===============================EMPLOYEE========================================
+class AddingEmployeeTest(TestCase):
+    def new_employee_status(self):
+        department = Department.objects.create(name="Sadness", budget=5000)
+        employee = Employee.objects.create(
+            firstName="Joel", lastName="Shepdog", startDate="1996-07-01", isSupervisor=0, department=department)
+        response = self.client.post(employee)
+        self.assertEqual(response.status_code, 302)
 
 class EmployeeDetailsTests(TestCase):
 
     def test_emp_model(self):
+        """Tests the Employee model for expected columns and values
+
+        Author(s): Nolan Little
+        """
+
         department = Department.objects.create(name="HR", budget=10)
         employee = Employee.objects.create(
             firstName="Fred", lastName="Frederickson", startDate="1991-02-13", isSupervisor=0, department=department)
@@ -23,7 +203,13 @@ class EmployeeDetailsTests(TestCase):
         self.assertEqual(response.lastName, employee.lastName)
         self.assertEqual(response.department_id, department.id)
 
-    def test_emp_detail_template(self):
+    def test_emp_detail_view(self):
+
+        """Tests context of the employee detail view for expected contents
+
+        Author(s): Nolan Little
+         """
+
         past_program = TrainingProgram.objects.create(
             name="Excel", description="Test description.", startDate="2012-01-28 14:30:00", endDate="2019-01-28 15:30:00", maxEnrollment=1)
         future_program = TrainingProgram.objects.create(
@@ -53,116 +239,6 @@ class EmployeeDetailsTests(TestCase):
         self.assertIn(past_program, response.context['past_training_programs'])
         self.assertIn(future_program,
                       response.context['upcoming_training_programs'])
-
-
-class DepartmentListTest(TestCase):
-
-    def test_department(self):
-        def test_list_departments(self):
-
-            department = Department.objects.create(name="Sales", budget=1999)
-            employee = Employee.objects.create(
-                firstName="Joe", lastName="Shep", startDate="1776-07-04", isSupervisor=1, department=department)
-            response = Department.objects.get(pk=1)
-
-            self.assertEqual(department.name, response.name)
-            self.assertEqual(department.budget, response.budget)
-
-            self.assertEqual(len(response.context['department']), 1)
-            self.assertIn(department.name.encode(), response.content)
-
-            for emp in response.employee_set.all():
-                self.assertEqual(employee.firstName, emp.firstName)
-
-
-# ===============================TRAINING========================================
-class TrainingListTest(TestCase):
-
-    def test_list_trainings(self):
-        program = TrainingProgram.objects.create(
-            name="Excel", description="Test description.", startDate="2019-01-28 14:30:00", endDate="2019-01-28 15:30:00", maxEnrollment=1)
-        response = TrainingProgram.objects.get(pk=1)
-        self.assertEqual(program, response)
-
-
-class TrainingWithAttendeesTest(TestCase):
-
-    def test_trainings_with_attendees(self):
-        program = TrainingProgram.objects.create(
-            name="Excel", description="Test description.", startDate="2019-01-28 14:30:00", endDate="2019-01-28 15:30:00", maxEnrollment=1)
-        department = Department.objects.create(budget=1, name="IT")
-        employee = Employee.objects.create(
-            firstName="Brad", lastName="Davis", startDate="2019-01-01 08:00", isSupervisor=0, department_id=1)
-        training = EmployeeTrainingProgram.objects.create(
-            status="Pending", employee_id=1, trainingProgram_id=1)
-        training_attendees = EmployeeTrainingProgram.objects.filter(
-            trainingProgram_id=1)
-        response = EmployeeTrainingProgram.objects.get(pk=1)
-        self.assertEqual(training, response)
-        response = self.client.get(reverse('Bangazon:past_training_programs'))
-        self.assertEqual(response.status_code, 200)
-
-
-class SaveTrainingProgramTest(TestCase):
-    # Valid Form Data
-    def test_add_training_validform_view(self):
-        response = self.client.post(reverse('Bangazon:save_program'), {"training_name": "Test Name",
-                                                                       "training_description": "Class description",
-                                                                       "training_startDate": "2010-01-01 12:00:00",
-                                                                       "training_endDate": "2011-01-01 12:00:00",
-                                                                       "training_maxEnrollment": 5})
-        with self.assertRaises(Exception) as context:
-            broken_function()
-        self.assertFalse(
-            'ValueError: invalid literal for int() with base 10:' in str(context.exception))
-    def test_new_training_save(self):
-        response = self.client.post(reverse('Bangazon:save_program'), {"training_name": "Test Name", "training_description": "Class description", "training_startDate": "2010-01-01 12:00:00", "training_endDate": "2011-01-01 12:00:00", "training_maxEnrollment": 5})
-        self.assertEqual(response.status_code, 302)
-
-
-
-class TrainingEditTest(TestCase):
-
-    def test_edit_trainings(self):
-        program = TrainingProgram.objects.create(
-            name="Excel", description="Test description.", startDate="2019-01-28 14:30:00", endDate="2019-01-28 15:30:00", maxEnrollment=1)
-        details = TrainingProgram.objects.get(pk=1)
-        self.assertEqual(program, details)
-
-        pk = 1
-
-        secondDetails = TrainingProgram.objects.get(pk=1)
-        self.assertEqual(secondDetails.name, "Excel")
-
-        response = TrainingProgram.objects.filter(id=pk).update(name="TestName", description="Test description.", startDate="2019-01-28 14:30:00", endDate="2019-01-28 15:30:00", maxEnrollment=0)
-
-        self.assertEqual(response, 1)
-
-        secondDetails = TrainingProgram.objects.get(pk=1)
-        self.assertEqual(secondDetails.name, "TestName")
-
-
-class AddingDepartmentTest(TestCase):
-    def test_add_department(self):
-        response = self.client.post(reverse('Bangazon:save_department'), {
-                                    "department_name": "Broccoli Sales", "department_budget": 100000})
-        self.assertEqual(response.status_code, 302)
-    def test_add_department_form(self):
-        response = self.client.get(reverse('Bangazon:new_department'))
-        self.assertIn(
-          '<input name="department_name" type="text" placeholder="Department Name" required=True>'.encode(), response.content)
-        self.assertIn(
-          '<input name="department_budget" type="number" placeholder="Department Budget" required=True>'.encode(), response.content)
-
-
-class AddingEmployeeTest(TestCase):
-    def new_employee_status(self):
-        department = Department.objects.create(name="Sadness", budget=5000)
-        employee = Employee.objects.create(
-            firstName="Joel", lastName="Shepdog", startDate="1996-07-01", isSupervisor=0, department=department)
-        response = self.client.post(employee)
-        self.assertEqual(response.status_code, 302)
-
 
 class EmployeeFormTest(TestCase):
     def test_employee_form(self):
@@ -194,26 +270,6 @@ class EmployeeListTest(TestCase):
         self.assertEqual(employee.firstName, response.firstName)
         self.assertEqual(department.name, response.department.name)
 
-
-class DepartmentDetails(TestCase):
-    def test_department_details(self):
-
-        department = Department.objects.create(name="Heavy Metals", budget=2)
-        employee = Employee.objects.create(
-            firstName="Bryan", lastName="Nilsen", startDate="1971-01-02", isSupervisor=1, department=department)
-
-        response = self.client.get(
-            reverse('Bangazon:department_details', args=(1,)))
-        self.assertEqual(
-            response.context['department_details'].name, department.name)
-        self.assertEqual(
-            response.context['department_details'].budget, department.budget)
-
-
-        for emp in response.context['department_details'].employee_set.all():
-            self.assertEqual(emp.firstName, employee.firstName)
-            self.assertEqual(emp.lastName, employee.lastName)
-            self.assertEqual(emp.department, employee.department)
 
 class EditEmployeeTest(TestCase):
     def test_emp_edit(self):
@@ -260,6 +316,10 @@ class EmployeeEditFormTest(TestCase):
         self.assertIn(
             'input type="text" name="lastName" value="Combs" maxlength="35" required id="id_lastName">'.encode(), response.content
         )
+
+
+
+
 
 
 # ===============================COMPUTERS========================================
