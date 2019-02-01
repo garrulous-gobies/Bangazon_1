@@ -30,7 +30,7 @@ def employees(request):
     Author(s): Zac Jones
     """
 
-    employee_list = Employee.objects.all()
+    employee_list = Employee.objects.all().order_by('lastName')
     context = {'employee_list': employee_list}
     return render(request, 'Bangazon/employees.html', context)
 
