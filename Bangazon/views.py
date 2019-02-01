@@ -64,14 +64,26 @@ def employee_new(request):
 def employee_update(request, pk):
     department = Department.objects.get(pk=request.POST['department'])
     employee_edited = Employee(id=pk, firstName = request.POST['firstName'], lastName = request.POST['lastName'], startDate = request.POST['startDate'], isSupervisor = request.POST['supervisor'], department = department)
-    current_computer = Employee_Computer.objects.get(employee_id=pk)
+    
+    relationships = Employee_Computer.objects.filter(employee_id=pk)
 
-    # computer_relationship = Employee_Computer(id = "", assignDate = , computer = request.POST[], employee = request.POST[])
+    if len(relationships) > 0:
+        for rel in relationships:
+            if rel.removeDate == None:
+                current_computer = rel
+
 
     if request.POST['computer'] == '0':
         current_computer.removeDate = timezone.now()
         current_computer.save()
-    # elif request.POST['computer']
+    else:
+        if current_computer:
+            current_computer.removeDate = timezone.now()
+            current_computer.save()
+        curr_employee = Employee.objects.get(id=pk)
+        new_computer_to_assign = Computer.objects.get(id=request.POST['computer'])
+        computer_relationship = Employee_Computer(assignDate = timezone.now(), computer = new_computer_to_assign, employee = curr_employee)
+        computer_relationship.save()
 
 
 
