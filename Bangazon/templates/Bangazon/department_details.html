@@ -19,7 +19,7 @@
     <p class="no_items_found">No Employees in this Department.</p>
     {% endif %}
     <button class="btn btn-primary btn_margin"><a href="{% url 'Bangazon:departments' %}">See All Departments</a></button>
-    <button class="btn btn-primary btn_margin"><a href="#">Edit Department</a></button>
+    <button class="btn btn-primary btn_margin"><a href="{% url 'Bangazon:department_edit' department_details.id %} ">Edit Department</a></button>
 </div>
 
 {% endblock content %}

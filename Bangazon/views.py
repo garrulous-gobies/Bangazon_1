@@ -183,6 +183,31 @@ def department_details(request, department_id):
     context = {'department_details': department_details}
     return render(request, 'Bangazon/department_details.html', context)
 
+def department_edit(request, department_id):
+    """Returns an edit form prepopulated with data of the department that is going to be edited
+    
+    Arguments: department_id {[pk]} -- id of the department that is to be edited
+
+    Model:Department
+
+    Template:edit_department_form.html        
+    """
+    department = Department.objects.get(id=department_id)
+    context = {"department": department}
+    return render(request, 'Bangazon/edit_department_form.html', context)
+
+def department_update(request, department_id):
+    """Updates the instance of department with id department_id with the new input values from the form in the db, rerenders department list
+    
+    Arguments: department_id {[pk]} -- id of the department that is to be edited
+
+    Model:Department
+
+    Template:edit_department_form.html        
+    """
+    edited_dept = Department(id=department_id, name=request.POST['department_name'], budget=request.POST['department_budget'])
+    edited_dept.save()
+    return HttpResponseRedirect(reverse('Bangazon:departments'))
 
 
 # ==========================COMPUTERS=================================
