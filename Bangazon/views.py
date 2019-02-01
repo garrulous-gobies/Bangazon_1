@@ -21,12 +21,28 @@ def landing_page(request):
 
 
 def employees(request):
-    employee_list = Employee.objects.all()
+    employee_list = Employee.objects.all().order_by('lastName')
     context = {'employee_list': employee_list}
     return render(request, 'Bangazon/employees.html', context)
 
 
 def employee_details(request, employee_id):
+    """view method for an employee's details
+
+    model(s): Employee, Computer, TrainingProgram
+
+    template: employee_details.html
+
+    Arguments:
+        request {httprequest}
+        employee_id {int} -- id of employee reversed from url path
+
+    Returns:
+        render -- html with the employee_details, past_training_programs, and upcoming_training_programs as context
+
+    Author(s): Nolan Little
+    """
+
     now = timezone.now()
     employee_details = Employee.objects.get(pk=employee_id)
     past_training_programs = list()
@@ -193,12 +209,12 @@ def department_details(request, department_id):
 
 def department_edit(request, department_id):
     """Returns an edit form prepopulated with data of the department that is going to be edited
-    
+
     Arguments: department_id {[pk]} -- id of the department that is to be edited
 
     Model:Department
 
-    Template:edit_department_form.html        
+    Template:edit_department_form.html
     """
     department = Department.objects.get(id=department_id)
     context = {"department": department}
@@ -206,12 +222,12 @@ def department_edit(request, department_id):
 
 def department_update(request, department_id):
     """Updates the instance of department with id department_id with the new input values from the form in the db, rerenders department list
-    
+
     Arguments: department_id {[pk]} -- id of the department that is to be edited
 
     Model:Department
 
-    Template:edit_department_form.html        
+    Template:edit_department_form.html
     """
     budget=request.POST['department_budget']
     handleIntBudget = int(str(budget).split(".")[0])
