@@ -241,7 +241,7 @@ class EmployeeDetailsTests(TestCase):
         computer = Computer.objects.create(
             purchaseDate='2018-12-25 01:50:04', decommissionDate='2017-04-03 17:01:33', manufacturer='Micron', model='Chunk')
         employee_computer = Employee_Computer.objects.create(
-            computer=computer, employee=employee)
+            computer=computer, employee=employee, assignDate='2017-04-03 17:01:33')
 
         response = self.client.get(
             reverse('Bangazon:employee_details', args=(1,)))
@@ -262,7 +262,7 @@ class EmployeeFormTest(TestCase):
 
     Author(s): Zac Jones
     """
-    
+
     def test_employee_form(self):
         response = self.client.get(reverse('Bangazon:employee_form'))
         self.assertIn(
@@ -287,7 +287,7 @@ class EmployeeListTest(TestCase):
 
     Author(s): Zac Jones
     """
-    
+
     def test_employee_list(self):
         department = Department.objects.create(name="Fun", budget=100001)
         employee = Employee.objects.create(
@@ -340,7 +340,7 @@ class EditEmployeeTest(TestCase):
 
 
 class EmployeeEditFormTest(TestCase):
-    def test_employee_edit_form(self):        
+    def test_employee_edit_form(self):
         """Tests the edit Employee form for expected fields
 
         * note that this test will fail at this time - building edit form is still in progress *
@@ -363,50 +363,117 @@ class EmployeeEditFormTest(TestCase):
 # ===============================COMPUTERS========================================
 
 class ComputerDetailsTests(TestCase):
+    """Test computer details page
 
+        Model: Computer, Employee, Department
+
+        Template: all of the computer templates
+
+        Author(s): Jase Hackman
+        """
 
     def test_comp_model(self):
+        """
+        Purpose:Test that the computer model can save a new computer
+
+        Arguments: Self
+
+        Author(s): Jase Hackman
+
+        """
+
         computer = Computer(purchaseDate = "2016-01-20 08:00:00", decommissionDate= "2016-01-20 08:00:00", manufacturer="dell", model="xps15")
         computer.save()
         response = Computer.objects.get(pk=1)
         self.assertEqual(response, computer)
 
     def test_comp_detail(self):
+
+        """
+        Purpose:Test that the details page gets the correct response code and the correct information is sent to it.
+
+        Arguments: Self
+
+        Author(s): Jase Hackman
+
+        """
         computer = Computer(purchaseDate = "2016-01-20 08:00:00", decommissionDate= "2016-01-20 08:00:00", manufacturer="dell", model="xps15")
         computer.save()
         response = self.client.get(reverse('Bangazon:computer_details', args=(1,)))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context["computer"], computer)
 
-def test_comp_form(self):
-    response= self.client.get(reverse('Bangazon:computer_form'))
-    self.assertIn(
-        '<input type="text" name="model" id="computer_new_model">'.encode(), response.content
-    )
-    self.assertIn(
-        '<input type="text" name="manufacturer" id="computer_new_manufacturer">'.encode(), response.content
-    )
-    self.assertIn(
-        '<input type="datetime-local" name="purchase" id="computer_new_purchase">'.encode(), response.content
-    )
-    self.assertIn(
-        '<input type="datetime-local" name="purchase" id="computer_new_purchase">'.encode(), response.content
-    )
+    def test_comp_form(self):
 
-def test_comp_add(self):
-    department = Department.objects.create(name="HR", budget=10)
-    Employee.objects.create(firstName="Fred", lastName="Frederickson", startDate="1991-02-13", isSupervisor=0, department=department)
-    response = self.client.post(reverse('Bangazon:computer_new'),
-    {
-    "purchase": "2010-01-01 12:00:00",
-    "model": "XPS15",
-    "manufacturer": "Dell",
-    "assignment": 1})
+        """
+        Purpose:Test that the form populates the correct fields
 
-    self.assertEqual(response.status_code, 302)
+        Arguments: Self
+
+        Author(s): Jase Hackman
+
+        """
+
+        response= self.client.get(reverse('Bangazon:computer_form'))
+        self.assertIn(
+            '<input type="text" name="model" id="computer_new_model" required>'.encode(), response.content
+        )
+        self.assertIn(
+            '<input type="text" name="manufacturer" id="computer_new_manufacturer" required>'.encode(), response.content
+        )
+        self.assertIn(
+            '<input type="datetime-local" name="purchase" id="computer_new_purchase" required>'.encode(), response.content
+        )
+        self.assertIn(
+            '<input type="datetime-local" name="purchase" id="computer_new_purchase" required>'.encode(), response.content
+        )
+
+    def test_comp_add(self):
+
+        """
+        Purpose:Test that the add computer to an emmployee works correctly and gets back the correct status code.
+
+        Arguments: Self
+
+        Author(s): Jase Hackman
+
+        """
+
+        department = Department.objects.create(name="HR", budget=10)
+        Employee.objects.create(firstName="Fred", lastName="Frederickson", startDate="1991-02-13", isSupervisor=0, department=department)
+        response = self.client.post(reverse('Bangazon:computer_new'),
+        {
+        "purchase": "2010-01-01 12:00:00",
+        "model": "XPS15",
+        "manufacturer": "Dell",
+        "assignment": 1})
+
+        self.assertEqual(response.status_code, 302)
 
 class ComputerDelete(TestCase):
+
+
+    """Test computer Delete
+
+        Model: Computer
+
+        Template: redirects to computers.html
+
+
+
+        Author(s): Jase Hackman
+        """
+
     def test_comp_delete(self):
+
+        """
+        Purpose:Test that a computer deletes properly
+
+        Arguments: Self
+
+        Author(s): Jase Hackman
+
+        """
         computer = Computer(purchaseDate = "2016-01-20 08:00:00", decommissionDate= "2016-01-20 08:00:00", manufacturer="dell", model="xps15")
         computer.save()
         response = Computer.objects.get(pk=1)

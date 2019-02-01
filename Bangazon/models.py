@@ -24,6 +24,18 @@ class Department(models.Model):
 
 # Create Computer table
 class Computer(models.Model):
+    """Create computers in the database with the needed fields
+
+        Model:Its self
+
+        Template: all of the computer templates
+
+
+
+        Author(s): Jase Hackman, Brad Davis
+        """
+
+
     purchaseDate = models.DateTimeField()
     decommissionDate = models.DateTimeField(null=True)
     manufacturer = models.CharField(max_length = 50)
@@ -77,6 +89,18 @@ class TrainingProgram(models.Model):
         return self
 
 class Employee_Computer(models.Model):
+
+    """Creates join table between Employees and Computers
+
+        Model: Employees and Computers
+
+        Template: all of the computer templates
+
+
+
+        Author(s): Jase Hackman, Brad Davis
+        """
+
     employee=models.ForeignKey('Employee', on_delete=models.CASCADE)
     computer=models.ForeignKey('Computer', on_delete=models.CASCADE)
     assignDate=models.DateTimeField()
