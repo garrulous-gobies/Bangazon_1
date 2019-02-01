@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Author - Zac Jones
+# This bash script cleans out migrations, reruns them, and runs seeder file to fill database with fake data
+
 find ./$1/migrations/ -type f -name "*.py" -delete; #deletes all of the .py files in the migrations directory except for the __init__.py file.
 find ./$1/migrations/ -type f -name "*.pyc" -delete; #deletes all of the .pyc files in the migrations directory.
 rm db.sqlite3; #deletes the database file.
