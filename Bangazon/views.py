@@ -142,7 +142,7 @@ def departments(request):
     Author(s): Austin Zoradi
     """
 
-    department_list = Department.objects.all()
+    department_list = Department.objects.all().order_by('name')
     context = {'department_list': department_list}
     return render(request, 'Bangazon/departments.html', context)
 
@@ -173,7 +173,6 @@ def save_department(request):
     name = request.POST['department_name']
     budget = request.POST['department_budget']
     handleIntBudget = int(str(budget).split(".")[0])
-    print("========================================================",int(str(budget).split(".")[0]))
     dep = Department(name=name, budget=handleIntBudget)
     dep.save()
     return HttpResponseRedirect(reverse('Bangazon:departments'))
@@ -192,6 +191,33 @@ def department_details(request, department_id):
     context = {'department_details': department_details}
     return render(request, 'Bangazon/department_details.html', context)
 
+def department_edit(request, department_id):
+    """Returns an edit form prepopulated with data of the department that is going to be edited
+    
+    Arguments: department_id {[pk]} -- id of the department that is to be edited
+
+    Model:Department
+
+    Template:edit_department_form.html        
+    """
+    department = Department.objects.get(id=department_id)
+    context = {"department": department}
+    return render(request, 'Bangazon/edit_department_form.html', context)
+
+def department_update(request, department_id):
+    """Updates the instance of department with id department_id with the new input values from the form in the db, rerenders department list
+    
+    Arguments: department_id {[pk]} -- id of the department that is to be edited
+
+    Model:Department
+
+    Template:edit_department_form.html        
+    """
+    budget=request.POST['department_budget']
+    handleIntBudget = int(str(budget).split(".")[0])
+    edited_dept = Department(id=department_id, name=request.POST['department_name'], budget=handleIntBudget)
+    edited_dept.save()
+    return HttpResponseRedirect(reverse('Bangazon:departments'))
 
 # ==========================COMPUTERS=================================
 
@@ -224,7 +250,13 @@ def computer_details(request, computer_id):
     Author(s): Jase Hackman
     """
     computer = get_object_or_404(Computer, pk=computer_id)
-    context = {'computer': computer}
+    current_assignment_list = list()
+    for rel in computer.employee_computer_set.all():
+        current_assignment_list.append(rel.removeDate)
+    print(current_assignment_list)
+    context = {'computer': computer,
+                'relationships': current_assignment_list
+    }
     return render(request, 'Bangazon/computer_details.html', context)
 
 
@@ -302,6 +334,19 @@ def computer_delete(request):
     computer.delete()
     return HttpResponseRedirect(reverse('Bangazon:computers'))
 
+def computer_decommision(request):
+    """Decomissions a computer
+
+    Model: Computer
+
+    template: None
+
+    Author: Jase Hackman
+    """
+
+    computer= Computer.objects.filter(pk=request.POST['computer_id'])
+    computer.update(decommissionDate=datetime.datetime.now())
+    return HttpResponseRedirect(reverse('Bangazon:computer_details', args=(request.POST['computer_id'],)))
 
 # ===========================TRAINING================================
 
