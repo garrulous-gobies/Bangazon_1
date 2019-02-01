@@ -6,23 +6,29 @@
 <div id="main_container detail_div">
     <h1 class="main_title">{{computer.model}}</h1>
     <ul>
-        <li>
-            Manufacturer: {{computer.manufacturer}}
-        </li>
-        <li>
-            Model: {{computer.model}}
-        </li>
-        <li>
-            Purchase Date: {{computer.purchaseDate}}
-        </li>
-        <li>
-            Decommission Date{{computer.decommissionDate}}
-        </li>
-        {% if computer.employee_set.all|length > 0 %}
-        {% for employee in computer.employee_set.all %}
-        <li>
-            Assigned To: {{employee.firstName}} {{employee.lastName}}
-        </li>
+      <li>
+        Manufacturer: {{computer.manufacturer}}
+      </li>
+      <li>
+        Model: {{computer.model}}
+      </li>
+      <li>
+        Purchase Date: {{computer.purchaseDate}}
+      </li>
+      <li>
+        Decommission Date: {{computer.decommissionDate}}
+      </li>
+        {% if computer.employee_computer_set.all|length > 0 %}
+         {% for rel in computer.employee_computer_set.all %}
+            {% if rel.removeDate == NULL %}
+                <li>
+                    Assigned To: {{rel.employee.firstName}} {{rel.employee.lastName}}
+                </li>
+            {% else %}
+                <li>
+                    Past Assignment: {{rel.employee.firstName}} {{rel.employee.lastName}}
+                </li>
+            {% endif %}
         {% endfor %}
         {% endif %}
     </ul>
