@@ -228,7 +228,7 @@ class EmployeeDetailsTests(TestCase):
         computer = Computer.objects.create(
             purchaseDate='2018-12-25 01:50:04', decommissionDate='2017-04-03 17:01:33', manufacturer='Micron', model='Chunk')
         employee_computer = Employee_Computer.objects.create(
-            computer=computer, employee=employee)
+            computer=computer, employee=employee, assignDate='2017-04-03 17:01:33')
 
         response = self.client.get(
             reverse('Bangazon:employee_details', args=(1,)))
