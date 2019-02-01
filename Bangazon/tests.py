@@ -29,7 +29,7 @@ class TrainingListTest(TestCase):
 
 # Tests creation of training program, saving of department, saving of new employee, and saving of training program assignment. as well as redirect to past training page
 class TrainingWithAttendeesTest(TestCase):
-     """Tests creation of training program, saving of department, saving of new employee, and saving of training program assignment. as well as redirect to past training page
+    """Tests creation of training program, saving of department, saving of new employee, and saving of training program assignment. as well as redirect to past training page
 
     Model:TrainingProgram
 
@@ -258,10 +258,10 @@ class EmployeeDetailsTests(TestCase):
                       response.context['upcoming_training_programs'])
 
 class EmployeeFormTest(TestCase):
-        """Tests the new Employee form for expected fields
+    """Tests the new Employee form for expected fields
 
-        Author(s): Zac Jones
-        """
+    Author(s): Zac Jones
+    """
     
     def test_employee_form(self):
         response = self.client.get(reverse('Bangazon:employee_form'))
@@ -283,10 +283,10 @@ class EmployeeFormTest(TestCase):
 
 
 class EmployeeListTest(TestCase):
-        """Tests ability to list employee
+    """Tests ability to list employee
 
-        Author(s): Zac Jones
-        """
+    Author(s): Zac Jones
+    """
     
     def test_employee_list(self):
         department = Department.objects.create(name="Fun", budget=100001)
