@@ -25,6 +25,7 @@ urlpatterns = [
     path('Bangazon/Computers/form', views.computer_form, name='computer_form'),
     path('Bangazon/Computers/delete_confirm', views.computer_delete_confirm, name='computer_delete_confirm'),
     path('Bangazon/Computers/delete', views.computer_delete, name='computer_delete'),
+    path('Bangazon/Computers/decommission', views.computer_decommision, name='computer_decommision'),
 # ===============================================================================================
 
 

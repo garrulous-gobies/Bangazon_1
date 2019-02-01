@@ -250,7 +250,13 @@ def computer_details(request, computer_id):
     Author(s): Jase Hackman
     """
     computer = get_object_or_404(Computer, pk=computer_id)
-    context = {'computer': computer}
+    current_assignment_list = list()
+    for rel in computer.employee_computer_set.all():
+        current_assignment_list.append(rel.removeDate)
+    print(current_assignment_list)
+    context = {'computer': computer,
+                'relationships': current_assignment_list
+    }
     return render(request, 'Bangazon/computer_details.html', context)
 
 
@@ -328,6 +334,19 @@ def computer_delete(request):
     computer.delete()
     return HttpResponseRedirect(reverse('Bangazon:computers'))
 
+def computer_decommision(request):
+    """Decomissions a computer
+
+    Model: Computer
+
+    template: None
+
+    Author: Jase Hackman
+    """
+
+    computer= Computer.objects.filter(pk=request.POST['computer_id'])
+    computer.update(decommissionDate=datetime.datetime.now())
+    return HttpResponseRedirect(reverse('Bangazon:computer_details', args=(request.POST['computer_id'],)))
 
 # ===========================TRAINING================================
 
