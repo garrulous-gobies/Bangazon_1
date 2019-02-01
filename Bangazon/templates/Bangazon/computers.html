@@ -5,8 +5,8 @@
 
   <div id="main_container">
     <h1 class="main_title">Computers</h1>
-    <button class="btn btn_margin"><a href="{% url 'Bangazon:computers' %}">View All Computers</a></button>
-    <button class="btn btn_margin"><a href ="{% url 'Bangazon:computer_form' %}">Add Computer</a></button>
+    <button class="btn btn_margin btn-primary"><a href="{% url 'Bangazon:computers' %}">View All Computers</a></button>
+    <button class="btn btn_margin btn-primary"><a href ="{% url 'Bangazon:computer_form' %}">Add Computer</a></button>
     {% if computer_list %}
         <form class="filter_form" action="{% url 'Bangazon:computers' %}" method="POST">
             {% csrf_token %}

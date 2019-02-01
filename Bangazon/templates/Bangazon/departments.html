@@ -5,7 +5,7 @@
 {% block content %}
 <h1 class="main_title">Departments</h1>
 <div class="add_department">
-    <button class="btn btn_margin"><a class="no_dec" href="{% url 'Bangazon:new_department' %}">Add a new department</a></button>
+    <button class="btn btn_margin btn-primary"><a class="no_dec" href="{% url 'Bangazon:new_department' %}">Add a new department</a></button>
 </div>
 <section class="department_list">
     <div>
@@ -20,6 +20,7 @@
                     {{ department.employee_set.all|length}} </p>
             </li>
             {% endfor %}
+            
         </ul>
         {% else %}
         <p class="no_items_found">No departments in system.</p>
