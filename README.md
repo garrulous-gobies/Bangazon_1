@@ -1,5 +1,5 @@
 <h1 style="font-weight: bold">Bangazon</h1>
-<img src="images/bangazonIcon.png"/>
+<img src="images/bangazonIcon.png" width="200"/>
 
 <h2 style="font-weight: bold">Career Resource Management Application</h2>
 
