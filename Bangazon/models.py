@@ -49,20 +49,28 @@ class Employee(models.Model):
 
 # Create Training Course table
 class TrainingProgram(models.Model):
-  name = models.CharField(max_length = 50)
-  description = models.CharField(max_length = 250)
-  startDate = models.DateTimeField()
-  endDate = models.DateTimeField()
-  maxEnrollment = models.IntegerField(
-    default = 0,
-    validators = [
-      MaxValueValidator(100),
-      MinValueValidator(0)
-    ]
-  )
-  employee = models.ManyToManyField(Employee, through="EmployeeTrainingProgram")
-  def __str__(self):
-    return self
+    """Creates Training Program Class and sets parameters
+
+    Model: Itself
+
+    Template: A Bunch
+
+    Author(s): Brad Davis
+    """
+    name = models.CharField(max_length = 50)
+    description = models.CharField(max_length = 250)
+    startDate = models.DateTimeField()
+    endDate = models.DateTimeField()
+    maxEnrollment = models.IntegerField(
+        default = 0,
+        validators = [
+        MaxValueValidator(100),
+        MinValueValidator(0)
+        ]
+    )
+    employee = models.ManyToManyField(Employee, through="EmployeeTrainingProgram")
+    def __str__(self):
+        return self
 
 class Employee_Computer(models.Model):
     employee=models.ForeignKey('Employee', on_delete=models.CASCADE)
@@ -72,8 +80,16 @@ class Employee_Computer(models.Model):
 
 # Create Training Enrollment join table
 class EmployeeTrainingProgram(models.Model):
-  employee = models.ForeignKey('Employee', on_delete=models.CASCADE)
-  trainingProgram = models.ForeignKey('TrainingProgram', on_delete=models.CASCADE)
-  status = models.CharField(max_length = 50)
-  def __str__(self):
-    return self
+    """Creates relationship between employee and training program
+
+    Model: Itself, Employee, TrainingProgram
+
+    Template: A bunch
+
+    Author(s): Jase Hackman, Brad Davis
+    """
+    employee = models.ForeignKey('Employee', on_delete=models.CASCADE)
+    trainingProgram = models.ForeignKey('TrainingProgram', on_delete=models.CASCADE)
+    status = models.CharField(max_length = 50)
+    def __str__(self):
+        return self

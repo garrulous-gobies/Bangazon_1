@@ -11,6 +11,14 @@ import unittest
 
 # Tests creation of training program and the redirect after the save
 class TrainingListTest(TestCase):
+    """Tests creation of training program and the redirect after the save
+
+    Model:TrainingProgram
+
+    Template:training_program.html
+
+    Author(s): Brad Davis
+    """
     def test_list_trainings(self):
         response = self.client.post(reverse('Bangazon:save_program'), {"training_name": "Test Name", "training_description": "Class description", "training_startDate": "2010-01-01 12:00:00", "training_endDate": "2011-01-01 12:00:00", "training_maxEnrollment": 5})
         self.assertEqual(response.status_code, 302)
@@ -21,6 +29,14 @@ class TrainingListTest(TestCase):
 
 # Tests creation of training program, saving of department, saving of new employee, and saving of training program assignment. as well as redirect to past training page
 class TrainingWithAttendeesTest(TestCase):
+     """Tests creation of training program, saving of department, saving of new employee, and saving of training program assignment. as well as redirect to past training page
+
+    Model:TrainingProgram
+
+    Template:indiv_training_program.html
+
+    Author(s): Brad Davis
+    """
     def test_trainings_with_attendees(self):
         response = self.client.post(reverse('Bangazon:save_program'), {"training_name": "Test Name", "training_description": "Class description", "training_startDate": "2010-01-01 12:00:00", "training_endDate": "2011-01-01 12:00:00", "training_maxEnrollment": 5})
         self.assertEqual(response.status_code, 302)
@@ -47,6 +63,14 @@ class TrainingWithAttendeesTest(TestCase):
 
 # Tests the validity of the data that is sent from the form as well as program saving
 class SaveTrainingProgramTest(TestCase):
+    """Tests the validity of the data that is sent from the form as well as program saving
+
+    Model:TrainingProgram
+
+    Template:new_training_program.html
+
+    Author(s): Brad Davis
+    """
     def test_add_training_validform_view(self):
         response = self.client.post(reverse('Bangazon:save_program'), {"training_name": "Test Name", "training_description": "Class description", "training_startDate": "2010-01-01 12:00:00", "training_endDate": "2011-01-01 12:00:00", "training_maxEnrollment": 5})
         with self.assertRaises(Exception) as context:
@@ -63,6 +87,14 @@ class SaveTrainingProgramTest(TestCase):
 
 # Tests the saving of a training class as well as the edit of a training class
 class TrainingEditTest(TestCase):
+    """Tests the saving of a training class as well as the edit of a training class
+
+    Model:TrainingProgram
+
+    Template:edit_training_error.html or edit_training.html, new_training_program_form.html, new_training_profram_form_error.html
+
+    Author(s): Brad Davis
+    """
     def test_edit_trainings(self):
         program = {'training_name': "Test Name", 'training_description': "Class description", 'training_startDate': "2010-01-01 12:00:00", 'training_endDate': "2011-01-01 12:00:00", 'training_maxEnrollment': 5}
         response = self.client.post(reverse('Bangazon:save_program'), program)
