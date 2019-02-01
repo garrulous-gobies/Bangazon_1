@@ -23,6 +23,14 @@ class EmployeeEditForm(forms.Form):
 
 
 class NewTrainingForm(forms.Form):
+    """Provides form for adding or editing new training program
+
+    Model: TrainingProgram, EmployeeTrainingProgram
+
+    Template:edit_training_error.html, edit_department_form.html, new_department_form.
+
+    Author(s): Brad Davis
+    """
     training_name = forms.CharField(label='Training Title', max_length=100, required=True)
     training_description = forms.CharField(label='Training Description', max_length=250, required=True)
     training_startDate = forms.DateTimeField(initial=datetime.now(), required=True)
