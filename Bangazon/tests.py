@@ -179,6 +179,10 @@ class DepartmentListTest(TestCase):
 # ===============================EMPLOYEE========================================
 class AddingEmployeeTest(TestCase):
     def new_employee_status(self):
+        """Tests ability to save a new employee to the database
+
+        Author(s): Zac Jones
+        """
         department = Department.objects.create(name="Sadness", budget=5000)
         employee = Employee.objects.create(
             firstName="Joel", lastName="Shepdog", startDate="1996-07-01", isSupervisor=0, department=department)
@@ -241,6 +245,11 @@ class EmployeeDetailsTests(TestCase):
                       response.context['upcoming_training_programs'])
 
 class EmployeeFormTest(TestCase):
+        """Tests the new Employee form for expected fields
+
+        Author(s): Zac Jones
+        """
+    
     def test_employee_form(self):
         response = self.client.get(reverse('Bangazon:employee_form'))
         self.assertIn(
@@ -261,6 +270,11 @@ class EmployeeFormTest(TestCase):
 
 
 class EmployeeListTest(TestCase):
+        """Tests ability to list employee
+
+        Author(s): Zac Jones
+        """
+    
     def test_employee_list(self):
         department = Department.objects.create(name="Fun", budget=100001)
         employee = Employee.objects.create(
@@ -273,6 +287,10 @@ class EmployeeListTest(TestCase):
 
 class EditEmployeeTest(TestCase):
     def test_emp_edit(self):
+        """Tests ability to edit employee, using only database interactions
+
+        Author(s): Zac Jones
+        """
 
         department = Department.objects.create(name="Chicago", budget=1500000)
         employee = Employee.objects.create(firstName="Elyse", lastName="Dawson", startDate="1999-04-10", isSupervisor=1, department=department)
@@ -290,6 +308,10 @@ class EditEmployeeTest(TestCase):
         self.assertEqual(secondDetails.firstName, "Big E")
 
     def test_emp_edit_via_form_submit(self):
+        """Tests ability to edit an employee via form submit
+
+        Author(s): Zac Jones
+        """
 
         department = Department.objects.create(name="Kentucky", budget=5)
         employee = Employee.objects.create(firstName="Brendan", lastName="McCray", startDate="1999-04-10", isSupervisor=1, department=department)
@@ -305,7 +327,13 @@ class EditEmployeeTest(TestCase):
 
 
 class EmployeeEditFormTest(TestCase):
-    def test_employee_edit_form(self):
+    def test_employee_edit_form(self):        
+        """Tests the edit Employee form for expected fields
+
+        * note that this test will fail at this time - building edit form is still in progress *
+
+        Author(s): Zac Jones
+        """
         department = Department.objects.create(name="Hydroflask", budget=1500000)
         employee = Employee.objects.create(firstName="Daniel", lastName="Combs", startDate="1999-04-10", isSupervisor=1, department=department)
 
@@ -316,9 +344,6 @@ class EmployeeEditFormTest(TestCase):
         self.assertIn(
             'input type="text" name="lastName" value="Combs" maxlength="35" required id="id_lastName">'.encode(), response.content
         )
-
-
-
 
 
 

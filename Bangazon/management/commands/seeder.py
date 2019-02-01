@@ -7,6 +7,10 @@ from django.utils import timezone
 
 
 class Command(BaseCommand):
+  """This class runs the operation of seeding the database with fake data. This will create a DB that is for testing purposes only.
+
+  Author(s): Zac Jones
+  """
 
   # this is where the magic happens
   def handle(self, *args, **options):
