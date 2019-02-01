@@ -97,6 +97,9 @@ python manage.py runserver 8080
 
 <h3 style="text-align: center">To help you along, here is a visualization of the features, and behaviors of the application to get you started.</h3>
 
+## Viewing the employee list and adding a new employee
+![new computer gif](https://github.com/garrulous-gobies/Bangazon_1/blob/nl-readme-gifs/images/employees.gif)
+
 ### Viewing the department list and adding a new department
 ![new departments gif](https://github.com/garrulous-gobies/Bangazon_1/blob/nl-readme-gifs/images/newdepartment.gif)
 
@@ -108,3 +111,5 @@ python manage.py runserver 8080
 
 ### Viewing the computer list and adding a new computer
 ![new computer gif](https://github.com/garrulous-gobies/Bangazon_1/blob/nl-readme-gifs/images/newcomputer.gif)
+
+
