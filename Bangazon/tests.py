@@ -156,6 +156,11 @@ class AddingEmployeeTest(TestCase):
 class EmployeeDetailsTests(TestCase):
 
     def test_emp_model(self):
+        """Tests the Employee model for expected columns and values
+
+        Author(s): Nolan Little
+        """
+
         department = Department.objects.create(name="HR", budget=10)
         employee = Employee.objects.create(
             firstName="Fred", lastName="Frederickson", startDate="1991-02-13", isSupervisor=0, department=department)
@@ -166,7 +171,13 @@ class EmployeeDetailsTests(TestCase):
         self.assertEqual(response.lastName, employee.lastName)
         self.assertEqual(response.department_id, department.id)
 
-    def test_emp_detail_template(self):
+    def test_emp_detail_view(self):
+
+        """Tests context of the employee detail view for expected contents
+
+        Author(s): Nolan Little
+         """
+
         past_program = TrainingProgram.objects.create(
             name="Excel", description="Test description.", startDate="2012-01-28 14:30:00", endDate="2019-01-28 15:30:00", maxEnrollment=1)
         future_program = TrainingProgram.objects.create(
