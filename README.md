@@ -83,7 +83,7 @@ python manage.py runserver 8080
 1. When user clicks Departments in the navigation bar, a list will appear showing all departments.
 1. When user clicks on the department's name, the department's details will appear on a new page, showing the budget and the employees in the department.
 1. When the user clicks See All Departments, the list of departments will appear.
-1. When the user clicks Edit Department, a form pre-populated with the department information will apear. 
+1. When the user clicks Edit Department, a form pre-populated with the department information will apear.
 1. When the user clicks Submit, the department is edited with the information in the input fields, and the list of all departments will be shown.
 1. When the user clicks Add a New Department, a form to add a new department is shown.
 1. When the user clicks Submit, the department is saved to the database with the information in the input fields, and the list of all departments will be shown.
@@ -109,4 +109,19 @@ python manage.py runserver 8080
 
 <h3 style="text-align: center">To help you along, here is a visualization of the features, and behaviors of the application to get you started.</h3>
 
-<!-- ____________________________![](./public/video/MissionControl.gif)____________________________ -->
+## Viewing the employee list and adding a new employee
+![new computer gif](https://github.com/garrulous-gobies/Bangazon_1/blob/nl-readme-gifs/images/employees.gif)
+
+### Viewing the department list and adding a new department
+![new departments gif](https://github.com/garrulous-gobies/Bangazon_1/blob/nl-readme-gifs/images/newdepartment.gif)
+
+### Viewing the training programs list and adding a new training program
+![new training gif](https://github.com/garrulous-gobies/Bangazon_1/blob/nl-readme-gifs/images/newtraining.gif)
+
+### Editing an existing training programs. Past programs may not be edited.
+![edit training gif](https://github.com/garrulous-gobies/Bangazon_1/blob/nl-readme-gifs/images/edittraining.gif)
+
+### Viewing the computer list and adding a new computer
+![new computer gif](https://github.com/garrulous-gobies/Bangazon_1/blob/nl-readme-gifs/images/newcomputer.gif)
+
+
