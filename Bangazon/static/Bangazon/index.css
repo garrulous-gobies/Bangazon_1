@@ -1,12 +1,7 @@
-
 .main_title {
   text-align: center;
   margin-bottom: 20px;
   font-size: 25px;
-}
-
-a {
-text-decoration: none;
 }
 
 .no_items_found {
@@ -50,6 +45,7 @@ text-decoration: none;
 
 a {
     color:black;
+    text-decoration: none;
 }
 button a {
     color: white;
@@ -78,6 +74,13 @@ button a {
     margin: 25px 50px;
 }
 .bold{
-    font-weight: 600; 
-    font-size: 2.5em; 
+    font-weight: 600;
+    font-size: 2.5em;
+}
+
+.bangazon_logo {
+    width: 20vw;
+    margin-left: 40vw;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
