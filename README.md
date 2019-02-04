@@ -110,18 +110,18 @@ python manage.py runserver 8080
 <h3 style="text-align: center">To help you along, here is a visualization of the features, and behaviors of the application to get you started.</h3>
 
 ## Viewing the employee list and adding a new employee
-![new computer gif](https://github.com/garrulous-gobies/Bangazon_1/blob/nl-readme-gifs/images/employees.gif)
+![new computer gif](https://github.com/garrulous-gobies/Bangazon_1/blob/master/images/employees.gif)
 
 ### Viewing the department list and adding a new department
-![new departments gif](https://github.com/garrulous-gobies/Bangazon_1/blob/nl-readme-gifs/images/newdepartment.gif)
+![new departments gif](https://github.com/garrulous-gobies/Bangazon_1/blob/master/images/newdepartment.gif)
 
 ### Viewing the training programs list and adding a new training program
-![new training gif](https://github.com/garrulous-gobies/Bangazon_1/blob/nl-readme-gifs/images/newtraining.gif)
+![new training gif](https://github.com/garrulous-gobies/Bangazon_1/blob/master/images/newtraining.gif)
 
 ### Editing an existing training programs. Past programs may not be edited.
-![edit training gif](https://github.com/garrulous-gobies/Bangazon_1/blob/nl-readme-gifs/images/edittraining.gif)
+![edit training gif](https://github.com/garrulous-gobies/Bangazon_1/blob/master/images/edittraining.gif)
 
 ### Viewing the computer list and adding a new computer
-![new computer gif](https://github.com/garrulous-gobies/Bangazon_1/blob/nl-readme-gifs/images/newcomputer.gif)
+![new computer gif](https://github.com/garrulous-gobies/Bangazon_1/blob/master/images/newcomputer.gif)
 
 
